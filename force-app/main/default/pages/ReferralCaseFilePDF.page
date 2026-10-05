@@ -1,0 +1,444 @@
+<apex:page controller="ClinicalEncounterController2" renderAs="pdf" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" showHeader="false" standardStylesheets="false">
+    <html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Patient Referral Summary</title>
+        <style>
+        /* PDF-compatible styles */
+        @page {
+            margin: 0.5in;
+            size: A4;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .case-file-container {
+           
+            width: 100%;
+        }
+        
+        .document {
+            /*   border: 1px solid #888; */
+            padding: 10px;
+             margin: 5px;
+        }
+
+        .component-header {
+            background: #fff;
+            padding: 0 10px 10px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 10px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom:0px;
+        }
+        
+        .document-logo {
+            height: 75px;
+            width: auto;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #284b63;
+            
+        }
+        
+        /* Use table layout instead of flexbox/grid */
+        .top-header-row {
+            width: 100%;
+            margin-bottom: 6px;
+			
+        }
+        
+.top-header-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.top-header-table td {
+    padding: 4px  8px  4px 8 px;
+    font-size: 14px;
+    font-weight: bold;
+    
+    vertical-align: middle;
+    text-align: center;
+}
+
+    .divider {
+            height: 1px;
+            background-color: #d0d0d0;
+            margin: 2px 0;
+            border: none;
+            width: 100%;
+        }
+        
+        /* Patient info using table layout */
+        .patient-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        
+        .patient-info-table td {
+            padding: 4px 2px;
+            vertical-align: top;
+            border: none;
+        }
+        
+        .patient-info-table .label {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.patient-info-table .value {
+    
+    text-align: left;
+}
+
+.patient-info-table .info-cell {
+    width: 50%;
+    padding: 4px 4px;
+    
+    vertical-align: top;
+}
+        /* Section containers - simple headers without borders */
+        .section-container {
+            width: 100%;
+           margin-bottom:15px;
+        }
+        
+        .section-header {
+            font-size:15px; font-weight:bold; color:#000; margin:0 0 8px 0; padding:0;
+        }
+        
+        .section-content {
+            font-size:14px; color:#000; line-height:1.5;  
+        }
+        
+        /* AI confirmation styling */
+        .ai-confirmation {
+            margin: 10px 0;
+            padding: 8px 10px;
+            background: #e8f4f8;
+            border-left: 4px solid #1a759f;
+            font-size: 11px;
+            color: #333;
+        }
+        
+        /* Replace your existing .slds-table styles with this PDF-compatible version */
+
+/* Updated SLDS table styles - matching other text styling */
+table.slds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.slds-table thead th {
+    background-color: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+    font-size: 13px;
+    color: #000;
+    line-height: 1.5;
+}
+
+.slds-table tbody td {
+    border: 1px solid #e8e8e8;
+    padding: 6px 8px;
+    vertical-align: top;
+    font-size: 14px;
+    word-wrap: break-word;
+    color: #000;
+    line-height: 1.5;
+    background-color: #fff;
+}
+
+.slds-table_striped tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.slds-table_striped tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+        
+        /* Declaration styling */
+        .consent-declaration {
+            margin-top: 20px;
+            padding: 12px;
+           background: #e8f4f8;
+            border-left: 4px solid #1a759f;
+        }
+        
+        .consent-heading {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .consent-text {
+            font-size: 12px;
+            color: #000;
+            line-height: 1.4;
+        }
+        
+        /* Remove any problematic properties */
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Ensure proper page breaks */
+        .page-break {
+            page-break-before: always;
+        }
+        
+        .no-break {
+            page-break-inside: avoid;
+        }
+        
+        /* Custom textarea content styling */
+        .custom-textarea-content {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+    <body>
+    <!-- Fetch PDF data in VF page -->
+    
+    
+    <div class="case-file-container">
+        <div class="document">
+            <!-- Logo and Heading -->
+            <div class="component-header">
+                <div class="logo-section">
+                    <img src="{!$Resource.caseFileLogo}" alt="Logo" class="document-logo" />
+                </div>
+                <h1 class="header-title">Patient Referral Summary</h1>
+            </div>
+
+            <!-- Top Header Row using table - Fixed alignment -->
+            <div class="top-header-row">
+                <table class="top-header-table">
+                    <tr>
+                        <td style="color: #1d3557; width: 30%; text-align: left;"><strong>Referral ID:</strong> {!refName}</td>
+                        <td style="color: #1a759f; width: 40%; text-align: center;"><strong>{!patientName}/{!age}Y</strong></td>
+                        <td style="color: #1d3557; width: 30%; text-align: right;"><strong>Mob:</strong> {!mob}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Patient Information using table layout -->
+             
+             <!-- Patient Information Box -->
+        <div style="background-color:#f9f9f9; border:1px solid #e0e0e0; border-radius:8px; padding:15px 20px; font-size:12px; margin-top:15px; margin-bottom:15px;">
+            <table style="width:100%; border-collapse:collapse; border-spacing:0;">
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Gender:</span>
+                        <span style="color:#000; margin-left:4px;">{!gender}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Referring PHWC:</span>
+                        <span style="color:#000; margin-left:4px;">{!referringPHWC}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">PMJAY ID:</span>
+                        <span style="color:#000; margin-left:4px;">{!pmjayId}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Referring Doctor:</span>
+                        <span style="color:#000; margin-left:4px;">{!referringDoctor}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Aadhar Number:</span>
+                        <span style="color:#000; margin-left:8px;">{!aadharNumber}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Doctor's Phone:</span>
+                        <span style="color:#000; margin-left:4px;">{!doctorsPhone}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Attendant Name:</span>
+                        <span style="color:#000; margin-left:4px;">{!attendantName}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Referred Primary Specialty:</span>
+                        <span style="color:#006d77; margin-left:4px; font-weight:bold; ">{!referredPrimarySpecialty}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Attendant Phone:</span>
+                        <span style="color:#000; margin-left:4px;">{!attendantPhone}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Referred Secondary Specialty:</span>
+                        <span style="color:#006d77; margin-left:4px; font-weight:bold;">{!referredSecondarySpecialty}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%; padding:4px 8px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Recommended Visit Before:</span>
+                        <span style="color:#0081a7; margin-left:4px; font-weight:bold; ">{!recommendedVisitBy}</span>
+                    </td>
+                    <td style="width:50%; padding:4px 10px; vertical-align:top;">
+                        <span style="font-weight:bold; color:#000;">Referral Priority:</span>
+                        <span style="color:#000; margin-left:4px;">{!referralPriority}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+			<!-- Reason for Referral - Vertical layout -->
+            <div class="section-container">
+                <div class="section-header">Referral Summary / 
+					<span style="font-family: 'Arial Unicode MS';">रेफ़रल सारांश</span>
+
+                </div>
+                 
+                <div class="section-content section-content-large">
+                    <apex:outputText value="{!referralSummary}" escape="false" />
+                </div>
+            </div>
+
+            <!-- Reason for Referral - Vertical layout -->
+            <div class="section-container">
+                <div class="section-header">Reason for Referral / 
+					<span style="font-family: 'Arial Unicode MS';">रेफरल का कारण</span>
+
+                </div>
+                 
+                <div class="section-content section-content-large">
+                    <apex:outputText value="{!reasonForReferral}" escape="false" />
+                </div>
+            </div>
+
+			
+
+            <!-- Chief Complaints and Presenting Symptoms - Vertical layout -->
+            <div class="section-container">
+                <div class="section-header">Chief Complaints / 
+                    <span style="font-family: 'Arial Unicode MS';">मुख्य  िशकायतें</span>
+                </div>
+                <div class="section-content">
+                    <apex:outputText value="{!careSummary}" escape="false" />
+                </div>
+            </div>
+
+            <!-- Preliminary Diagnosis -->
+            <div class="section-container">
+                <div class="section-header">Diagnosis / 
+				<span style="font-family: 'Arial Unicode MS';">िनदान</span>
+                </div>
+                <div class="section-content">
+                    {!latestDiagnosis}
+                </div>
+            </div>
+
+            <!-- Clinical Encounter Timeline -->
+            <div class="section-container ">
+                <div class="section-header">Consulation Timeline / 
+				<span style="font-family: 'Arial Unicode MS';">अपॉइंटमेंट कालक्रम</span>
+</div>
+                <div class="section-content">
+                    <apex:outputText value="{!$CurrentPage.parameters.timelineDataHTML}" escape="false" />
+                </div>
+            </div>
+
+            <!-- Active Medications -->
+            <div class="section-container no-break">
+                <div class="section-header">Active Medication / 
+				<span style="font-family: 'Arial Unicode MS';">वर्तमान दवाएँ</span>
+				</div>
+                <div class="section-content">
+                    <apex:outputText value="{!$CurrentPage.parameters.activeMedicationsHTML}" escape="false" />
+                </div>
+            </div>
+
+            <!-- Past Medications -->
+            <div class="section-container no-break">
+                <div class="section-header">Past Medication / 
+				<span style="font-family: 'Arial Unicode MS';">पूर्व की दवाएँ</span>
+ 				</div>
+                <div class="section-content">
+                    <apex:outputText value="{!$CurrentPage.parameters.pastMedicationsHTML}" escape="false" />
+                </div>
+            </div>
+
+            <!-- Test Reports -->
+            <div class="section-container no-break">
+                <div class="section-header">Investigations Done / 
+				<span style="font-family: 'Arial Unicode MS';">कराए गए परीक्षण</span>
+                </div>
+                <div class="section-content">
+                    <apex:outputText value="{!$CurrentPage.parameters.testReportsHTML}" escape="false" />
+                </div>
+            </div>
+
+<!-- Signature -->
+<table style="width:100%; margin-top: 40px;">
+        <tr>
+            <td style="text-align: right;">
+                <div style="text-align: center; display: inline-block; position: relative; width: 120px; height: 100%;margin-right:20px; padding-bottom: 0px;" >
+                    <apex:image url="{!signatureImageUrl}" rendered="{!NOT(ISBLANK(signatureImageUrl))}"
+                        alt="Signature"
+                        style="position:absolute;top:20%;left:0;width:100%;height:100%;pointer-events:none;" />
+    
+                        <!-- Stamp Image (reduced size, opacity 0.5) -->
+                        <apex:image url="{!URLFOR($Resource.DoctorLogoWithoutBg)}"
+                                    alt="Stamp"
+                                    style="margin-top: 15px;width: 50%;height:fit-content;" />   
+                        
+                      <p style="font-size: 16px;margin-top:-12px;">
+                           {!referralDate}
+                       </p>
+                </div>
+                <!-- Line and Name -->
+                <div style="margin-top: -20px; padding: 0;">_______________________</div>
+                <p style="margin: 0px 35px 0 0; padding: 0;">{!referringDoctor}</p>
+            </td>
+        </tr>
+    </table>
+ 
+        </div> <!-- Close .document -->
+    </div> <!-- Close .case-file-container -->
+</body>
+    </html>
+</apex:page>

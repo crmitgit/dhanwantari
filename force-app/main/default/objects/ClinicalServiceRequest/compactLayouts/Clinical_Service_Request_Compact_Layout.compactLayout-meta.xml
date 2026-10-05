@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Clinical_Service_Request_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>PatientId</fields>
+    <fields>Requested_By__c</fields>
+    <fields>Status</fields>
+    <fields>Requested_Completion_Date__c</fields>
+    <label>Clinical Service Request Compact Layout</label>
+</CompactLayout>

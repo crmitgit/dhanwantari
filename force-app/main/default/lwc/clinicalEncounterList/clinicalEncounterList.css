@@ -1,0 +1,195 @@
+/* Overall container */
+.main-container {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pmjay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-container {
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 25px;
+    margin-top: 0;
+}
+
+.pmjay-header-left .left-logo,
+.pmjay-header-right .right-logo {
+    height: 50px;
+    vertical-align: middle;
+}
+
+.pmjay-header-center .pmjay-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+/* Table container for list view */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 400px; /* Set a max height to enable scroll */
+    overflow-y: auto; /* Enable vertical scrollbar when content exceeds max-height */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+}
+
+/* Style for the scrollbar itself (Webkit browsers) */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.table-row {
+    display: grid;
+    /* Adjusted grid columns to give more space to Clinical Diagnosis */
+    grid-template-columns: 0.5fr 1.5fr 1.5fr 2.5fr 1fr; /* Increased Clinical Diagnosis from 2fr to 2.5fr */
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+    font-size: 0.95rem;
+    background-color: #fff;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.table-row:hover:not(.table-header) {
+    background-color: #f9f9f9;
+}
+
+.table-row.table-header {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table-row:not(.table-header):last-child {
+    border-bottom: none;
+}
+
+.table-cell {
+    padding-right: 10px; /* Default padding for all cells */
+    color: #444;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Specific styles for number column */
+.table-cell.number {
+    font-weight: bold;
+}
+
+
+/* Spinner Overlay Styles */
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100; /* Ensure spinner is above other content */
+    border-radius: 8px; /* Match card-container border-radius */
+}
+
+/* Styles for Clinical Diagnosis - now with increased right margin */
+.table-cell.clinical-diagnosis {
+    white-space: nowrap;      /* Prevent text from wrapping */
+    overflow: hidden;         /* Hide overflowing text */
+    text-overflow: ellipsis;  /* Add ellipsis (...) for overflow */
+    max-width: 100%;          /* Ensure it respects container width */
+    margin-right: 20px;       /* Added margin to push the button away */
+}
+
+.table-cell.action {
+    justify-content: center;
+}
+
+.accept-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.accept-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.no-records-message,
+.error-message {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-style: italic;
+    background-color: #fdfdfd;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table-row {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+    .table-cell {
+        margin-bottom: 5px;
+    }
+    .table-cell:last-child {
+        margin-bottom: 0;
+    }
+    .pmjay-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .pmjay-header-left, .pmjay-header-right {
+        margin-bottom: 10px;
+    }
+}
+
+.table-cell.patient-name {
+    white-space: normal;       /* allow wrapping */
+    word-break: break-word;    /* break long words */
+    overflow-wrap: anywhere;   /* handle long continuous text */
+}

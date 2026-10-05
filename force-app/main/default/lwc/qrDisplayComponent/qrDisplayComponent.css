@@ -1,0 +1,324 @@
+/* Enhanced CSS Styling */
+.qr-display-container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 15px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.prescription-card {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Header Styling */
+.prescription-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.prescription-title {
+    color: #2c5aa0;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.facility-name {
+    color: #666;
+    margin: 1.5px 0 0 0;
+    font-size: 13px;
+}
+
+/* Section Styling */
+.consultation-detailss {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.section-title {
+    color: #333;
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.details-grid,
+.kendra-grid {
+    display: grid;
+    /* gap: 5px; */
+}
+
+.kendra-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.detail-row p,
+.kendra-col p,
+.kendra-detail {
+    color: #000;
+    margin: 2px 0;
+    font-size: 14px;
+    line-height: 14px;
+     display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-bottom: 5px; */
+    gap: 6px;
+}
+
+
+.address-detail {
+    color: #000;
+    margin: 2px 0;
+    font-size: 13px;
+    line-height: 14px;
+     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    
+}
+
+
+.ownerAndContact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    margin: 5px;
+}
+
+.kendra-info {
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.address-link {
+    color: #2196f3;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+}
+
+.address-link:hover {
+    text-decoration: underline;
+}
+
+
+
+
+/* Patient Greeting */
+.patient-greeting {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.greeting-text {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.greeting-message {
+    color: #01497c;
+    font-size: 16.5px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* QR Code Section */
+.qr-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.qr-instruction-text {
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.qr-container {
+    margin: 20px auto;
+    display: inline-block;
+}
+
+.qr-image {
+    width: 160px;
+    height: 160px;
+    padding: 12px;
+    border: 2px dashed #ccc;
+    background-color: white;
+    display: inline-block;
+}
+
+.qr-error {
+    color: #d32f2f;
+    padding: 20px;
+    background-color: #ffebee;
+    border-radius: 4px;
+    border: 1px solid #f8bbd9;
+}
+
+/* Instructions Box */
+.instructions-box {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px 0;
+    border-left: 3px solid #2196f3;
+}
+
+.instructions-title {
+    color: #1976d2;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.instructions-content {
+    text-align: left;
+}
+
+.instruction-item {
+    color: #555;
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+/* Thank you and signature */
+.thank-you-text {
+    color: #666;
+    font-size: 13px;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.signature-section {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.signature-regards {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.signature-facility {
+    color: #2c5aa0;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 0 0 0;
+}
+
+.powered-by {
+    color: #666;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    margin: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .qr-display-container {
+        padding: 10px;
+    }
+    
+    .prescription-card {
+        padding: 20px;
+        margin: 0;
+    }
+    
+    .kendra-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .qr-image {
+        width: 150px;
+        height: 150px;
+        padding: 10px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .prescription-title {
+        font-size: 20px;
+    }
+    
+    .greeting-text {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .prescription-card {
+        padding: 15px;
+    }
+    
+    .consultation-details,
+    .qr-section,
+    .instructions-box {
+        padding: 12px;
+    }
+     .kendra-detail {
+        padding: 5px;
+     }
+
+     .address-detail {
+        display: flex;
+
+     }
+    
+    .qr-image {
+        width: 150px;
+        height: 150px;
+    }
+}

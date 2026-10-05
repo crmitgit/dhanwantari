@@ -1,0 +1,53 @@
+<template>
+    <div class="main-container">
+        <header class="pmjay-header">
+            <div class="pmjay-header-left">
+                <img src={pmjayLogoUrl} alt="PM-JAY Logo" class="left-logo" />
+            </div>
+            <div class="pmjay-header-center">
+                <h1 class="pmjay-title">Consultations for Approval</h1>
+            </div>
+            <div class="pmjay-header-right">
+                <img src={pmlogo2Url} alt="PMLOGO2" class="right-logo" />
+            </div>
+        </header>
+
+        <div class="card-container">
+            <template if:true={isLoading}>
+                <div class="spinner-overlay">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <div class="table-container">
+                <div class="table-row table-header">
+                    <div class="table-cell header-cell">NO.</div>
+                    <div class="table-cell header-cell">CONSULTATION NAME</div>
+                    <div class="table-cell header-cell">PATIENT NAME</div>
+                    <div class="table-cell header-cell">CLINICAL DIAGNOSIS</div>
+                    <div class="table-cell header-cell">ACTION</div>
+                </div>
+
+                <template if:true={consultations} for:each={consultations} for:item="consultation">
+                    <div key={consultation.Id} class="table-row">
+                        <div class="table-cell number">{consultation.rowNumber}</div>
+                        <div class="table-cell name">{consultation.Name}</div>
+                        <div class="table-cell patient-name">{consultation.Patient.Name}</div>
+                        <div class="table-cell clinical-diagnosis" title={consultation.ClinicalDiagnosisFromRelated}>
+                            {consultation.ClinicalDiagnosisFromRelated}
+                        </div>
+                        <div class="table-cell action">
+                            <button class="accept-button" onclick={handleAccept} data-id={consultation.Id}>Accept To Review</button>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={consultations.length}>
+                    <p class="no-records-message">No consultations with "Approval Pending" status found.</p>
+                </template>
+                <template if:true={error}>
+                    <p class="error-message">Error loading consultations: {error}</p>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

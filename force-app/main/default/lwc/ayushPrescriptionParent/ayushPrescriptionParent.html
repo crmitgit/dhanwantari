@@ -1,0 +1,69 @@
+<template>
+    <template if:true={isLoading}>
+        <div class="spinner-overlay">
+            <lightning-spinner size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <!-- STEP 1: DISCLAIMER -->
+    <template if:true={showDisclaimer}>
+        <div class="ayush-center-wrapper">
+            <div class="ayush-card">
+
+                <!-- HEADER -->
+                <div class="ayush-header">
+                    <div class="ayush-title">
+                        <!-- LEAF ICON FROM STATIC RESOURCE -->
+                        <img
+                        src={leafIcon}
+                        alt="AYUSH Leaf"
+                        class="leaf-img" />
+
+                        <span>Ayurveda Prescription Assistant</span>
+                    </div>
+
+
+                    <lightning-button-icon icon-name="utility:close" variant="bare" alternative-text="Close"
+                        onclick={handleClose}>
+                    </lightning-button-icon>
+                </div>
+
+                <!-- BODY -->
+                <div class="ayush-body">
+                    <div class="warning-box">
+                        <lightning-icon icon-name="utility:warning" size="small" class="warning-icon">
+                        </lightning-icon>
+
+                        <div class="warning-content">
+                            <div class="warning-title">Before you proceed</div>
+                            <div class="warning-text">
+                                Ayurvedic recommendations are intended for non-emergency
+                                and supportive care only. They do not replace modern
+                                medical treatment where clinically required. 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACTION -->
+                    <div class="ayush-action">
+                        <lightning-button variant="brand" label="Proceed" onclick={handleProceed}>
+                        </lightning-button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <!-- STEP 2: ACTIVE MEDICATION -->
+    <template if:true={showActiveModal}>
+        <c-ayush-prescription-modal record-id={recordId} onnext={handleNext} oncancel={handleClose}>
+        </c-ayush-prescription-modal>
+    </template>
+
+    <!-- STEP 3: AI MEDICATION GUIDE -->
+    <template if:true={showAiModal}>
+        <c-ayush-prescription-guide record-id={recordId} is-loading={isLoading} onready={handleChildReady}
+            onclose={handleClose} onback={handleBack}>
+        </c-ayush-prescription-guide>
+    </template>
+</template>

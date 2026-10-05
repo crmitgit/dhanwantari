@@ -1,0 +1,44 @@
+<template>
+    <div class="custom-lookup" onblur={handleBlur}> <div class={containerClass}> 
+            <template if:true={isValueSelected}>
+                <div class="selected-value">
+                    <span class="value">{selectedName}</span>
+                    <button class="clear-btn" onclick={handleRemoveSelection}>
+                        &times;
+                    </button>
+                </div>
+            </template>
+            <template if:false={isValueSelected}>
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder={searchPlaceholder}
+                    value={searchTerm}
+                    oninput={handleInputChange}
+                    onclick={handleClick}
+                />
+            </template>
+        </div>
+        
+        <template if:true={showDropdown}>
+            <ul class="dropdown-list">
+                <template for:each={records} for:item="record">
+                    <li 
+                        key={record.Id}
+                        class="dropdown-item"
+                        data-id={record.Id}
+                        data-name={record.Name}
+                        onclick={handleItemSelect}
+                    >
+                        <lightning-icon
+                            icon-name={iconName}
+                            size="x-small"
+                            class="item-icon"
+                        ></lightning-icon>
+                        <span class="item-name">{record.Name}</span>
+                    </li>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

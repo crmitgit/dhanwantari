@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PMJAY_Verified_Requires_ID</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  PMJAY_Scheme_Verified__c = TRUE,
+  ISBLANK(PM_JAY_ID__c),
+  ISBLANK(PMJAY_Family_ID__c),
+  ISBLANK(Member_ID__c)
+)</errorConditionFormula>
+    <errorMessage>PMJAY Scheme Verified can only be checked when at least one of the following PMJAY details is provided: PMJAY ID, Family ID, or Member ID.</errorMessage>
+</ValidationRule>

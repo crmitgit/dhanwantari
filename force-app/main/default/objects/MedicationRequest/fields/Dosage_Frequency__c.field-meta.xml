@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dosage_Frequency__c</fullName>
+    <label>Dosage Frequency / डोज़ की आवृत्ति</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Morning (Before Breakfast)</fullName>
+                <default>false</default>
+                <label>Morning (Before Breakfast)</label>
+            </value>
+            <value>
+                <fullName>Morning (After Breakfast)</fullName>
+                <default>false</default>
+                <label>Morning (After Breakfast)</label>
+            </value>
+            <value>
+                <fullName>Noon (Before Meal)</fullName>
+                <default>false</default>
+                <label>Noon (Before Meal)</label>
+            </value>
+            <value>
+                <fullName>Noon (After Meal)</fullName>
+                <default>false</default>
+                <label>Noon (After Meal)</label>
+            </value>
+            <value>
+                <fullName>Night (Before Dinner)</fullName>
+                <default>false</default>
+                <label>Night (Before Dinner)</label>
+            </value>
+            <value>
+                <fullName>Night (After Dinner)</fullName>
+                <default>false</default>
+                <label>Night (After Dinner)</label>
+            </value>
+            <value>
+                <fullName>As Needed</fullName>
+                <default>false</default>
+                <label>As Needed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

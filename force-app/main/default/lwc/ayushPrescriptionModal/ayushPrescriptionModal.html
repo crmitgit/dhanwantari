@@ -1,0 +1,358 @@
+<template>
+    <!-- BACKDROP -->
+    <!-- <template if:true={isLoading}>
+        <div class="spinner-overlay">
+            <lightning-spinner alternative-text="Loading" size="sma">
+            </lightning-spinner>
+        </div>
+    </template> -->
+
+    <div class="backdrop"></div>
+        <!-- MODAL -->
+        <section class="modal">
+        <template if:true={isLoading}>
+            <div class="spinner-overlay">
+                <lightning-spinner size="medium"></lightning-spinner>
+                <div class="powered-by floating">
+                    AI is generating medication suggestions…
+                </div>
+                <div class="loading-text">
+                    Powered by CRMIT Solutions
+                </div>
+            </div>
+        </template>
+
+            <!-- HEADER -->
+        <header class="modal-header-ayush">
+            <div class="flex">                 
+            <img
+                src={leafIcon}
+                alt="AYUSH Leaf"
+                class="leaf-img" />
+        <div class="header-left">
+
+            <h1 class="header-title">
+                Ayurveda Prescription Assistant
+            </h1>
+            <p class="header-subtitle">
+                Standards-based | NAMC & AFI aligned
+            </p></div>
+        </div>
+
+        <lightning-button-icon
+            icon-name="utility:close"
+            variant="bare"
+            alternative-text="Close"
+            onclick={cancel}
+            class="close-btn">
+        </lightning-button-icon>
+    </header>
+
+
+        <!-- BODY -->
+        <div class="modal-body">
+            <template if:true={showSavedSection}>
+                <div class="slds-text-align_right">
+                    <lightning-button label="Edit" variant="brand-outline" onclick={handleEdit}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <!-- ================= SAVED SECTION ================= -->
+            <template if:true={showSavedSection}>
+                <div class="section-card">
+                    <div class="section-title">
+                        <h2>Saved Active Medications</h2>
+                    </div>
+                    <div class="saved-list">
+                        <template for:each={savedMedications} for:item="med">
+                            <div key={med.Id} class="saved-med-card">
+                                <lightning-icon icon-name="utility:check" size="x-small" class="check-icon">
+                                </lightning-icon>
+                                <span class="med-name">{med.Name}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="section-title season-header">
+                    <div>
+                        Current Month / Season
+                        <span class="section-subtitle">/ वर्तमान माह / ऋतु</span>
+                    </div>
+
+                    <span class="season-badge">
+                        {selectedSeasonLabel}
+                    </span>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">
+                        Allergies / एलर्जी
+                    </div>
+
+                    <template if:true={hasSavedAllergies}>
+                        <div class="sectionContent">
+                            {allergyDetails}
+                        </div>
+                    </template>
+
+                    <template if:false={hasSavedAllergies}>
+                        <div class="sectionContent">
+                            No known allergies
+                        </div>
+                    </template>
+                </div>
+
+                <template if:true={hasSavedPregnancy}>
+                    <div class="section-card">
+                        <div class="section-title">
+                            Pregnancy / Lactation
+                        </div>
+
+                        <div class="sectionContent">
+                            <lightning-radio-group options={pregnancyOptions} value={savedPregnancyStatus} type="radio"
+                                disabled>
+                            </lightning-radio-group>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- SAVED EXISTING HEALTH CONDITIONS -->
+                <template if:true={hasSavedExistingConditions}>
+                    <div class="section-card">
+                        <div class="section-title">
+                            Existing Health Conditions
+                            <span class="section-subtitle">/ वर्तमान स्वास्थ्य स्थितियाँ</span>
+                        </div>
+
+                        <div class="sectionContent">
+                            {existingConditions}
+                        </div>
+                    </div>
+                </template>
+
+                <!-- SAVED LIFESTYLE HABITS (READ ONLY) -->
+                <template if:true={hasSavedLifestyle}>
+                    <div class="section-card">
+                        <div class="section-title">
+                            Lifestyle Factors / जीवनशैली से जुड़ी आदतें
+                        </div>
+
+                        <div class="sectionContent">
+                            <template for:each={selectedLifestyle} for:item="habit">
+                                <lightning-input
+                                    key={habit}
+                                    type="checkbox"
+                                    label={habit}
+                                    checked
+                                    disabled>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+            </template>
+
+            <template if:false={showSavedSection}>
+                <!-- ================= EDITABLE SECTION ================= -->
+                <template if:true={showEditableAllergies}>
+
+                    <!-- AYURVEDIC MEDICATIONS -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            Ayurvedic Medicines
+                            <span class="section-subtitle">/ आयुर्वेदिक औषधियाँ (यदि लागू हो)</span>
+                        </div>
+
+                        <div class="sectionContent gridRow">
+                            <p class="helper-text">
+                                Add active Ayurvedic medicines, if any.
+                                <span class="hindi">
+                                    / सक्रिय आयुर्वेदिक औषधियाँ (यदि हों)।
+                                </span>
+                            </p>
+
+                            <template for:each={userMeds} for:item="med">
+                                <div key={med.id} class="med-card">
+                                    <lightning-record-picker
+                                        object-api-name="Ayurvedic_Medication__c"
+                                        label="Ayurvedic Medicine / आयुर्वेदिक औषधि"
+                                        placeholder="Search Ayurvedic medicine / आयुर्वेदिक औषधि खोजें"
+                                        variant="label-hidden"
+                                        data-id={med.id}
+                                        value={med.value}
+                                        onchange={handleMedChange}>
+                                    </lightning-record-picker>
+
+                                    <lightning-button-icon
+                                        icon-name="utility:delete"
+                                        alternative-text="Remove medicine"
+                                        data-id={med.id}
+                                        class="delete-btn"
+                                        onclick={deleteMedication}>
+                                    </lightning-button-icon>
+                                </div>
+                            </template>
+
+                            <button
+                                 class="bel-btn bel-btn-primary bel-btn-add"
+                                onclick={addMedication}
+                                disabled={disableAddButton}>Add Ayurvedic Medicine / आयुर्वेदिक औषधि जोड़ें
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-title">
+                            Allopathic Medications
+                            <span class="section-subtitle">/ एलोपैथिक दवाएँ</span>
+                        </div>
+                        <div class="sectionContent gridRow">
+                            <p class="helper-text">
+                                Add active Allopathic medicines, if any.
+                                <span class="hindi">
+                                    यदि कोई एलोपैथिक दवाएँ चल रही हों, तो यहाँ जोड़ें।
+                                </span>
+                            </p>
+                            <template for:each={userAllopathyMeds} for:item="med">
+                                <div key={med.id} class="med-card">
+                                    <lightning-record-picker object-api-name="Medication" label="Medication"
+                                        placeholder="Search Allopathic medication / एलोपैथिक दवा खोजें" variant="label-hidden"
+                                        data-id={med.id} value={med.value} onchange={handleAllopathyMedChange}>
+                                    </lightning-record-picker>
+
+                                    <lightning-button-icon icon-name="utility:delete" alternative-text="Remove"
+                                        data-id={med.id} class="delete-btn" onclick={deleteAllopathyMedication}>
+                                    </lightning-button-icon>
+                                </div>
+                            </template>
+
+                            <button  class="bel-btn bel-btn-primary bel-btn-add"
+                                onclick={addAllopathyMedication} disabled={disableAllopathyAddButton}> Add Allopathic Medicine / एलोपैथिक दवा जोड़ें
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-title season-header">
+                        <div>
+                            Current Month / Season
+                            <span class="section-subtitle">/ वर्तमान माह / ऋतु</span>
+                        </div>
+
+                        <!-- VALUE IN HEADING ITSELF -->
+                        <span class="season-badge">
+                            {selectedSeasonLabel}
+                        </span>
+                    </div>
+
+                    <!-- ALLERGIES -->
+                    <div class="section-card">
+                        <div class="section-title">Allergies/एलर्जी</div>
+
+                        <div class="custom-radio-group">
+                            <label class="custom-radio">
+                                <input
+                                    type="radio"
+                                    name="allergies"
+                                    value="No"
+                                    checked={isNoAllergy}
+                                    onchange={handleAllergyRadioChange}
+                                />
+                                <span class="radio-mark"></span>
+                                <span class="radio-text">No Allergies/कोई एलर्जी नहीं</span>
+                            </label>
+
+                            <label class="custom-radio">
+                            <input
+                                type="radio"
+                                name="allergies"
+                                value="Yes"
+                                checked={isHasAllergy}
+                                onchange={handleAllergyRadioChange}
+                            />
+                            <span class="radio-mark"></span>
+                            <span class="radio-text">Has Allergies/एलर्जी है</span>
+                        </label>
+                        </div>
+
+                        <template if:true={showAllergyTextbox}>
+                            <lightning-input type="text" label="Allergy details/एलर्जी का विवरण" placeholder="e.g. Penicillin"
+                                value={allergyDetails} onchange={handleAllergyChange}
+                                style="padding: 0 0 0.8rem 0.8rem; width: fit-content;">
+                            </lightning-input>
+                        </template>
+                    </div>
+
+                    <!-- PREGNANCY / LACTATION -->
+                    <template if:true={showPregnancySection}>
+                        <div class="section-card">
+                            <div class="section-title">Pregnancy / Lactation / गर्भावस्था / स्तनपान</div>
+
+                            <div class="custom-radio-group">
+                                <template for:each={pregnancyOptions} for:item="option">
+                                    <label key={option.value} class="custom-radio">
+                                        <input
+                                            type="radio"
+                                            name="pregnancy"
+                                            value={option.value}
+                                            onchange={handlePregnancyChange}
+                                        />
+                                        <span class="radio-mark"></span>
+                                        <span class="radio-text">{option.label}</span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div class="section-card">
+                        <div class="section-title">
+                            Existing Health Conditions
+                            <span class="section-subtitle">/ वर्तमान स्वास्थ्य स्थितियाँ</span>
+                        </div>
+                        <div class="sectionContent">
+                            <!-- Show full Medical_History__c text -->
+                            <template if:true={existingConditions}>
+                                <p
+                                    style="font-size: 0.9rem;width: fit-content; border: 1px solid #e0e0e0;padding: 4px 8px; background: #F4F6F8;">
+                                    {existingConditions}</p>
+                            </template>
+
+                            <!-- Input to add new condition -->
+                            <lightning-input type="text" label="Add additional health condition / कोई और स्वास्थ्य समस्या जोड़ें"
+                                placeholder="Please specify" value={newCondition} onchange={handleNewCondition}>
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <!-- LIFESTYLE FACTORS -->
+                    <div class="section-card">
+                        <div class="section-title">Lifestyle Factors / जीवनशैली से जुड़ी आदतें</div>
+
+                        <div class="sectionContent">
+                            <lightning-dual-listbox name="lifestyle" label="Select Lifestyle Factors"
+                                source-label="Available" selected-label="Selected" options={lifestyleOptions}
+                                value={selectedLifestyle} onchange={handleLifestyleChange}>
+                            </lightning-dual-listbox>
+                        </div>
+                    </div>
+
+                </template>
+            </template>
+        </div>
+
+
+        <!-- FOOTER -->
+        <footer class="modal-footer">
+            <button class="bel-btn bel-btn-secondary" onclick={cancel}>
+        Back
+    </button>
+
+    <button class="bel-btn bel-btn-primary" onclick={handleNext}>
+        Next
+    </button>
+        </footer>
+    </section>
+</template>

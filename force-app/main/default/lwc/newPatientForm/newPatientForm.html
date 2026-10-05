@@ -1,0 +1,121 @@
+<template>
+    <div class="form-container">
+        <!-- Updated Header Structure as per your exact request -->
+        <div class="form-header">
+            <img src={pmjayLogoUrl} alt="PMJAY Logo" class="header-logo left-logo" />
+            
+            <h2>New Patient / नया मरीज़</h2>
+            
+            <img src={Government_logo} alt="Government Logo" class="header-logo right-logo" />
+        </div>
+        
+        <div class="form-content">
+            <template if:true={isLoading}>
+                <div class="loading-overlay">
+                    <div class="loading-content">
+                        <lightning-spinner alternative-text="Creating patient..." size="medium"></lightning-spinner>
+                        <div class="loading-text">Creating patient...</div>
+                    </div>
+                </div>
+            </template>
+
+            <template if:false={isLoading}>
+                <div class="field-grid">
+                    <div class="field-wrapper" data-field="gender">
+                        <lightning-combobox
+                            name="gender"
+                            label="Gender / लिंग"
+                            placeholder="Select..."
+                            options={genderOptions}
+                            value={formData.gender}
+                            data-field="gender"
+                            onchange={handleGenderChange}
+                            required>
+                        </lightning-combobox>
+                    </div>
+                    
+                    <div class="field-wrapper" data-field="age">
+                        <lightning-input
+                            type="number"
+                            label="Age / उम्र"
+                            placeholder="Enter age"
+                            value={formData.age}
+                            data-field="age"
+                            onchange={handleInputChange}
+                            min="1"
+                            max="150"
+                            required>
+                        </lightning-input>
+                    </div>
+
+                    <div class="field-wrapper" data-field="firstName">
+                        <lightning-input
+                            type="text"
+                            label="First and Middle Name / पहला और मध्य नाम"
+                            placeholder="Enter first name"
+                            value={formData.firstName}
+                            data-field="firstName"
+                            onchange={handleInputChange}
+                            required>
+                        </lightning-input>
+                    </div>
+
+                    <div class="field-wrapper" data-field="lastName">
+                        <lightning-input
+                            type="text"
+                            label="Last Name / उपनाम"
+                            placeholder="Enter last name"
+                            value={formData.lastName}
+                            data-field="lastName"
+                            onchange={handleInputChange}
+                            required>
+                        </lightning-input>
+                    </div>
+                    
+                    <div class="field-wrapper" data-field="aadharNumber">
+                        <lightning-input
+                            type="text"
+                            label="AADHAAR Number / आधार नंबर"
+                            placeholder="Enter 12-digit AADHAR number"
+                            value={formData.aadharNumber}
+                            data-field="aadharNumber"
+                            onchange={handleInputChange}
+                            maxlength="12"
+                            required>
+                        </lightning-input>
+                    </div>
+
+                    <div class="field-wrapper" data-field="phone">
+                        <lightning-input
+                            type="tel"
+                            label="Phone Number / फोन नंबर"
+                            placeholder="Enter 10-digit phone number"
+                            value={formData.phone}
+                            data-field="phone"
+                            onchange={handleInputChange}
+                            maxlength="10"
+                            required>
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <div class="button-group">
+                        <lightning-button
+                            variant="neutral"
+                            label="Cancel"
+                            class="btn-cancel"
+                            onclick={handleCancel}>
+                        </lightning-button>
+                        <lightning-button
+                            variant="brand"
+                            label="Save & Continue"
+                            class="btn-create"
+                            onclick={handleCreate}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

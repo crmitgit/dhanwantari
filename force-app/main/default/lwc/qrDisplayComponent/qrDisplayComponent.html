@@ -1,0 +1,140 @@
+<template>
+    <div class="qr-display-container">
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container">
+                <div class="slds-spinner slds-spinner_medium" role="status">
+                    <span class="slds-assistive-text">Loading...</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+            <div class="prescription-card">
+                <!-- Header Section -->
+                <!-- <div class="prescription-header">
+                    <h1 class="prescription-title">Prescription</h1>
+                    <p class="facility-name">PHWC Chamoli</p>
+                </div> -->
+
+                <!-- <div class="consultation-details">
+                    <h3 class="section-title">Consultation Details</h3>
+                    <div class="details-grid">
+
+                        <div class="detail-row">
+                            <p><strong>Consultation Date:</strong> {encounterDetails.appointmentDate}</p>
+                        </div>
+                        <div class="detail-row">
+                            <p><strong>Doctor:</strong> {encounterDetails.doctorName}</p>
+                        </div>
+                        <div class="detail-row">
+                            <p><strong>Facility:</strong> {encounterDetails.facilityName}</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Selected Kendra Details -->
+                <!-- <div class="kendra-details">
+                    <h3 class="section-title">Selected Jan Aushadhi Kendra</h3>
+                    <div class="kendra-col">
+                        <p><strong>Kendra Code:</strong> {kendraDetails.KendraCode}</p>
+                        <p><strong>Owner Name:</strong> {kendraDetails.OwnerName}</p>
+                        <p><strong>Contact:</strong> {kendraDetails.ContactNumber}</p>
+                        <p><strong>Address:</strong> {kendraDetails.Street}, {kendraDetails.PostalCode} </p>
+                    </div>
+                </div>
+                 -->
+
+                <!-- Patient Greeting -->
+                <div class="patient-greeting">
+                    <h2 class="greeting-text">Dear {encounterDetails.patientName},</h2>
+                    <p class="greeting-message">Buy Prescribed Medicines from Jan Aushadhi Kendra at Subsidized Rates</p>
+                </div>
+
+                <!-- QR Code Section -->
+                <div class="qr-section">
+                    <p class="qr-instruction-text">Please present this QR code at the Jan Aushadhi Kendra:</p>
+                     <!-- Kendra Details -->
+
+
+    <div class="kendra-info">
+        <div class="ownerAndContact">
+        <div class="kendra-detail">
+            <lightning-icon icon-name="utility:user" alternative-text="Owner" title="Owner Name" size="x-small"></lightning-icon>
+            <span class="detail-value">{kendraDetails.OwnerName}</span>
+        </div>
+        
+            <div class="kendra-detail">
+                <lightning-icon icon-name="utility:call" alternative-text="Contact" title="Contact Number" size="x-small"></lightning-icon>
+                <span class="detail-value">{kendraDetails.ContactNumber}</span>
+            </div>
+        </div>
+            <div class="address-detail">
+                <lightning-icon icon-name="utility:checkin" alternative-text="Address" title="Address" size="x-small"></lightning-icon>
+                <a href={googleMapsLink} target="_blank" class="address-link">
+                    {kendraDetails.Street}, {kendraDetails.PostalCode}
+                    <lightning-icon icon-name="utility:new_window" alternative-text="Open in Maps" title="Open in Google Maps" size="xx-small"></lightning-icon>
+                </a>
+            </div>
+        </div>
+    
+
+
+                    <div class="qr-container">
+                        <template if:true={qrUrl}>
+                            <img src={qrUrl} alt="Prescription QR Code" class="qr-image" />
+                        </template>
+                        <template if:false={qrUrl}>
+                            <div class="qr-error">
+                                <p>QR Code could not be generated. Please try again.</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Instructions Box -->
+                <div class="instructions-box">
+                    <h3 class="instructions-title">Instructions:</h3>
+                    <div class="instructions-content">
+                        <p class="instruction-item">• Present this QR code at the Kendra counter</p>
+                        <p class="instruction-item">• The code expires in 48 hours from now </p>
+                        <p class="instruction-item">• The QR code has been sent over WhatsApp and email.
+                        </p>
+                        <!-- <p class="instruction-item">• Please retain this for your records</p> -->
+                    </div>
+                </div>
+
+                <!-- Thank you message -->
+                <p class="thank-you-text">Thank you for choosing PHWC Chamoli for your healthcare needs.</p>
+
+                <!-- Footer with signature -->
+                <div class="signature-section">
+                    <!-- <p class="signature-regards">Best regards,</p>
+                    <p class="signature-facility">PHWC Chamoli</p> -->
+                    <p class="powered-by">Powered by Dhanwantri • © CRMIT Solutions</p>
+                </div>
+                
+
+                <!-- Action Buttons -->
+                <!-- <div class="action-buttons">
+                    <lightning-button label="Download QR Code" variant="neutral" icon-name="utility:download"
+                        onclick={handleDownloadQR} class="action-btn">
+                    </lightning-button> -->
+
+                    <!-- <lightning-button 
+                        label="Print QR Code" 
+                        variant="neutral" 
+                        icon-name="utility:print"
+                        onclick={handlePrintQR}
+                        class="action-btn">
+                    </lightning-button> -->
+
+                    <!-- <lightning-button label="Back to Search" variant="brand" icon-name="utility:back"
+                        onclick={handleBackToSearch} class="action-btn">
+                    </lightning-button>
+                </div> -->
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,1911 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.lightning-btn {
+    padding: 0.65rem 1.25rem; /* Provides comfortable button size */
+    border-radius: 0.3rem;
+    font-size: 0.95rem; /* Readable font size */
+    cursor: pointer; /* Indicates interactivity */
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    font-weight: 500; /* Medium font weight */
+}
+
+.lightning-btn--neutral {
+    background-color: white;
+    border: 1px solid var(--lwc-colorBorder, #d8d8d8); /* Salesforce default border color */
+    color: var(--lwc-colorTextDefault, #181818); /* Salesforce default text color */
+}
+
+.lightning-btn--neutral:hover {
+    background-color: var(--lwc-colorBackgroundButtonHover, #f2f2f2);
+    border-color: var(--lwc-colorBorderHover, #b0adab);
+}
+
+.lightning-btn--brand {
+    background-color: var(--lwc-brandPrimary, #014486); /* Salesforce primary brand color */
+    border: 1px solid var(--lwc-brandPrimary, #014486);
+    color: white;
+}
+
+.lightning-btn--brand:hover {
+    background-color: var(--lwc-brandPrimaryDark, #014486); /* Darker brand color on hover */
+    border-color: var(--lwc-brandPrimaryDark, #014486);
+}
+
+.lightning-btn--brand:disabled {
+    background-color: var(--lwc-colorBackgroundButtonDisabled, #dddbda);
+    border-color: var(--lwc-colorBorder, #dddbda);
+    color: var(--lwc-colorTextWeak, #54698d);
+    cursor: not-allowed; /* Indicates non-interactiveness */
+    opacity: 0.7;
+}
+
+.note{
+    /* color: black; */
+    display: flex;
+    justify-content: center;
+    color: #008083 !important;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+   margin-top: 0.3rem;
+}
+
+
+
+/* Main container for your LWC component */
+.clinical-encounters-container {
+    max-height: 80vh; /* Adjust this value as needed. 80vh is a good starting point. */
+    width: 100%; /* Ensure it takes full width within the modal content area */
+    display: flex;
+    flex-direction: column;
+    margin: auto; /* Still good for centering if the modal allows it */
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Important: keeps scrollbars internal if content exceeds max-height */
+}
+
+.header-fixed-top {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+
+/* Specific styles for the LEFT logo (National Health Authority) */
+.left-logo-image{
+    height: 70px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-bottom: 8px;
+    }
+	
+	.right-logo-image {
+    height: 36px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    /* padding-bottom: 8px; */
+}
+
+
+/* Common properties for all corner icons (if any, but avoid sizing here) */
+.corner-icon {
+    /* Example: common vertical alignment, if not handled by parent flexbox */
+    vertical-align: middle;
+}
+
+/* End of IMPORTANT CHANGES */
+
+
+
+.large-image {
+    height: 120px; 
+    width: auto;
+}
+
+.header-right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icons */
+}
+
+.slds-card__header-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #000;
+}
+
+.fixed-content-top {
+    background-color: #ffffff;
+    /* padding: 1rem; */
+    /* border-bottom: 1px solid #e0e0e0; */
+    position: sticky;
+    top: 60px; 
+    z-index: 9;
+
+}
+
+.info_comp1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:6px;
+    margin-top: 8px;
+
+}
+
+.note-text {
+    font-size: 0.85rem;
+    color: #5c5c5c;
+}
+
+/* Styling for Patient Name */
+.patient-name-label {
+    font-size: 0.85rem;
+    color: #5c5c5c;
+}
+
+.patient-name-value {
+    font-size: 0.95rem; /* Slightly larger for emphasis */
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px; /* Spacing between label and value */
+    display: block; /* Ensures it takes a new line */
+    margin-bottom: 10px; /* Spacing between patient name and below record */
+}
+
+.selection-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 45px; /* Added horizontal padding */
+    margin-bottom: 3px;
+    margin-top: 9px;
+}
+ 
+
+.button-with-icon {
+    display: flex;
+    align-items: center;
+}
+
+.button-with-icon lightning-icon {
+    margin-right: 5px; /* Space between icon and label */
+}
+
+.selected-count {
+    font-weight: bold;
+    color: #333;
+}
+
+.scrollable-records-list {
+    flex-grow: 1; /* Allows this section to take up available space */
+    overflow-y: auto; /* Critical: Enables vertical scrolling only for this section */
+    padding: 0 1rem 1rem; /* Add horizontal padding and bottom padding */
+    -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS devices */
+}
+
+.encounter-list {
+    /* display: flex; */
+    flex-direction: column;
+    /* gap: 10px; */
+}
+
+.encounter-card {
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    box-shadow: none; /* Remove default card shadow */
+    padding: 12px;
+}
+
+.encounter-grid {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr; /* Checkbox column + 5 info columns */
+    align-items: start;
+    gap: 5px;
+}
+
+.encounter-checkbox-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ensure checkbox is vertically centered */
+}
+
+.encounter-info-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align labels and values to the top */
+}
+
+.field-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+    white-space: nowrap; /* Prevent label wrapping */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.encounter-link {
+    text-decoration: none;
+    color: #0176d3;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.encounter-link:hover {
+    text-decoration: underline;
+}
+
+.field-value {
+    font-size: 0.95rem;
+    color: #333;
+    white-space: nowrap; /* Prevent value wrapping */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.header-text {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    /* color: #0176d3 !important; */
+    /* text-transform: uppercase !important; */
+    letter-spacing: 0.5px !important;
+    /* background-color: #eef0f2; */
+}
+
+/* Simple diagnosis click functionality */
+.diagnosis-text-2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.diagnosis-text-2.expanded {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.diagnosis-text-2 {
+    max-width: 100%; /* Ensure diagnosis text doesn't overflow its container */
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    /* font-size: 14px; */
+    line-height: 1.5;
+    color: #181818;
+    font-weight: 400;
+}
+
+.table-header-style {
+    background-color: #eef0f2 !important; /* Very subtle light gray */
+    border-radius: 8px !important; /* Curvy like rows */
+    margin-bottom: 6px !important; /* Space between header and rows */
+    padding: 7px;
+}
+
+.table-header-style .slds-card__body {
+    padding: 12px 16px !important; /* Better padding */
+    margin-top: 0 !important;
+}
+
+.header-text {
+    margin: 0 !important; /* Remove default margins */
+}
+
+.footer-fixed-bottom {
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    padding: 1rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    text-align: right;
+}
+
+
+
+/* --- STYLES FOR THE SECOND UI (HEALTHCARE PROVIDER SEARCH PAGE-LIKE) --- */
+.healthcare-provider-search-container {
+    background-color: #f0f2f5; /* Light grey background for the whole page */
+
+    display: flex;
+    flex-direction: column;
+    /* font-family: 'Salesforce Sans', Arial, sans-serif; */
+    overflow: hidden;
+    
+}
+
+.icon {
+    height: 16px;
+ }
+
+
+.generate-summary-btn {
+    display: flex;
+    align-items: center;
+    width: 5.1rem;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.18rem 0.1rem;
+    background: white;
+   color: #333;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(45deg, #ff7e5f, #feb47b, #86c232, #61892f, #ff7e5f);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 300% 100%;
+    animation: gradientShift 3s ease infinite;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%, 0% 50%; }
+    50% { background-position: 0% 50%, 100% 50%; }
+    100% { background-position: 0% 50%, 0% 50%; }
+}
+
+.generate-summary-btn:hover {
+    background-color: #f7f7f79c;
+    color: #054e91;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.generate-summary-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-text {
+    margin-left: 0.25rem;
+}
+
+.healthcare-component-header {
+     background: white;
+    padding: 1.5rem;
+    text-align: center;
+    
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    flex-shrink: 0; /* Never shrink */
+}
+
+.left-corner-image {
+    height: 60px;
+    width: auto; 
+}
+
+.right-corner-icon {
+    height: 36px;
+    width: auto;
+    /* padding: 0.3rem; */
+}
+
+
+
+.healthcare-provider-header {
+    background-color: #ffffff;
+    padding: 0.5rem 1.5rem; /* ↓ Reduced padding */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.corner-icon {
+ /* height: 40px;    ↑ Increase image height */
+    width: auto;
+}
+
+.medium-image {
+    padding: 0; /* Remove internal padding if applied */
+}
+
+.header-left-section1 .corner-icon,
+.header-right-section2 .corner-icon {
+    height: 100px; /* Adjust size as needed */
+    width: auto;
+}
+
+
+
+
+.search-section-page {
+    /* margin-right: 2.5rem; */
+    background-color: #ffffff; /* White background as seen in image */
+    padding: 1.5rem; /* Internal padding */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    flex-shrink: 0;
+}
+
+.search-section-title {
+    margin-bottom: 1rem;
+     text-align: center;
+    color: #008083 !important;
+    font-weight: 500;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-form-page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem; /* Space between the input row and the button */
+    margin-top: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.single-form-row {
+    display: flex;
+    gap: 1rem; /* Space between each input field */
+    align-items: flex-start; /* Align elements to the top to ensure labels start at the same line */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+.single-form-row lightning-combobox,
+.single-form-row lightning-input {
+    flex-basis: calc(25% - 0.75rem);
+    min-width: 150px; /* Prevents fields from becoming too narrow */
+    margin: 0;
+}
+
+.single-form-row lightning-combobox .slds-form-element__control,
+.single-form-row lightning-input .slds-form-element__control {
+    height: 40px; /* Consistent height for input fields */
+}
+
+.single-form-row lightning-combobox label,
+.single-form-row lightning-input label {
+    font-size: 0.75rem; /* Smaller, standard SLDS label font size */
+    color: #3e3e3c; /* Standard SLDS label color */
+    margin-bottom: 0.25rem; /* Small gap between label and input */
+    display: block; /* Ensures label takes its own line above input */
+    margin-left: 5px !important;
+}
+
+.search-button-wrapper-page {
+    text-align: left;
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: center;
+}
+
+.search-button-wrapper-page .lightning-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    --sds-c-button-spacing-inline-start: 0.6rem;
+    --sds-c-button-spacing-inline-end: 0.6rem;
+    --sds-c-button-height: 2rem;
+}
+
+.search-button-wrapper-page .lightning-btn lightning-icon {
+    margin-right: 0.3rem;
+}
+
+.loading-content-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3); /* Much more transparent */
+    z-index: 1000;
+}
+.results-section-page {
+    flex-grow: 1;
+    padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    background-color: #edf2fb;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.results-title-page {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.results-grid-page {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Cards have their own bottom border for separation */
+    padding-bottom: 0;
+}
+
+/* Provider Card Styling (matches desired UI) */
+.provider-card {
+    border: none;
+    border-radius: 0;
+    padding: 0.75rem 0; /* Vertical padding, no horizontal padding */
+    cursor: default;
+    transition: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f0f0f0; /* Subtle bottom border for separation */
+    margin-bottom: 0;
+}
+
+.provider-card:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.provider-card:hover,
+.provider-card.selected {
+    /* No visual change on hover/select as per image */
+    border-color: transparent;
+    box-shadow: none;
+    
+}
+
+.provider-content-page {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start; /* CRITICAL: Aligns radio button with the top of the text content */
+    gap: 0.75rem; /* Space between radio button and details */
+}
+
+.provider-name-page {
+    font-weight: 700; /* Bolder as per image */
+    font-size: 1.05rem; /* Slightly larger to match image */
+    margin-bottom: 0.3rem; /* Space between name and type tag */
+    color: #333333;
+}
+
+/* Line containing only the tag */
+.provider-info-line {
+    display: flex; /* Keep flex for future expansion, but not strictly necessary without icon */
+    align-items: center;
+    gap: 6px; /* No gap needed if no icon */
+    margin-bottom: 0.4rem; /* Space below this line */
+}
+
+/* Provider Type Tag Styling - Adjusted colors to match image precisely */
+.provider-tag-page {
+    display: inline-block;
+    background-color: #e3f2fd; /* Very light blue background, similar to image */
+    color: #1976d2; /* Distinct blue text, similar to image */
+    border: 1px solid #90caf9; /* Thin blue border */
+    padding: 0.15em 0.5em; /* Padding inside the tag */
+    border-radius: 4px; /* Slightly rounded corners */
+    font-size: 0.75rem; /* Good size for the tag */
+    font-weight: 500;
+    line-height: 1; /* Ensures text aligns well within tag */
+}
+
+
+.provider-details-page {
+    flex-grow: 1;
+    min-width: 0; /* Critical: allows flex item to shrink */
+    overflow: hidden; /* Prevent container overflow */
+}
+
+.provider-address-page {
+    font-size: 0.8rem;
+    color: #333333;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    min-width: 0; /* Allow this flex container to shrink */
+}
+
+.provider-address-page span {
+    flex-shrink: 0; /* Keep icon fixed size */
+}
+
+.address-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; /* Critical: allows text to shrink below content width */
+    flex: 1; /* Take remaining space after icon */
+}
+.provider-address-page lightning-icon {
+    margin-right: 0.25rem;
+    color: #dc3545; /* Red color for pin icon */
+    --sds-c-icon-color-foreground-default: #dc3545;
+    width: 0.8rem; /* Smaller icon size for pin */
+    height: 0.8rem;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Removed provider-action-page as it's not in the new design */
+.provider-action-page {
+    display: none;
+}
+
+.pagination-section-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+    margin-top: auto;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pagination-buttons .pagination-btn {
+    background-color: white;
+    border: 1px solid #d8d8d8;
+    color: #555555;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.pagination-buttons .pagination-btn:hover:not(:disabled) {
+    border-color: var(--lwc-colorBrand, #0176d3);
+    color: var(--lwc-colorBrand, #0176d3);
+}
+
+.pagination-buttons .pagination-btn.active {
+    background-color: var(--lwc-colorBrand, #0176d3);
+    color: white;
+    border-color: var(--lwc-colorBrand, #0176d3);
+}
+
+.pagination-buttons .pagination-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+}
+
+.no-results-page {
+    text-align: center;
+    color: #706e6b;
+    padding: 2rem;
+    border: 1px dashed #dddbda;
+    border-radius: 0.25rem;
+    background-color: #f9f9f9;
+    margin-top: 1rem;
+}
+
+.healthcare-provider-footer {
+    background-color: #ffffff;
+    padding: 1rem 3rem;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content:center;
+    gap: 1rem;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.healthcare-provider-footer .lightning-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+}
+
+.healthcare-provider-footer .lightning-btn--neutral {
+    background-color: white;
+    color: #555555;
+    border: 1px solid #d8d8d8;
+}
+.healthcare-provider-footer .lightning-btn--neutral:hover {
+    border-color: var(--lwc-colorBrand, #d301c5);
+    color: var(--lwc-colorBrand, #0176d3);
+}
+
+.healthcare-provider-footer .lightning-btn--brand {
+       background-color: var(--lwc-brandPrimary, #032d60); /* Darker shade */
+    border: 1px solid var(--lwc-brandPrimary, #032d60);
+    color: white;
+}
+.healthcare-provider-footer .lightning-btn--brand:hover {
+    background-color: var(--lwc-colorBrandDark, #014486);
+    border-color: var(--lwc-colorBrandDark, #014486);
+}
+
+.results-scroll-wrapper {
+    max-height: 90px; /* Adjust as needed based on your layout */
+    padding-right: 0.5rem; /* Adds breathing room from the scrollbar */
+    margin-bottom: 1rem; /* Space before footer */
+}
+
+
+
+
+/* third component ui starts */
+
+
+
+
+.case-file-container {
+    background: white;
+    border-radius: 8px;
+   
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    padding: 0;
+    margin: 1rem;
+    /* width: 100% !important; */
+    display: flex;
+    flex-direction: column;
+    /* height: calc(100vh - 2rem); /* Full viewport minus margins */
+    /* max-height: calc(100vh - 2rem);     */
+    overflow: hidden; /* Prevent any overflow on container */
+    position: relative; /* Ensure proper stacking context */
+}
+
+
+
+.component-header {
+    background: white;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #e5e5e5;
+    border-radius: 8px 8px 0 0;
+    position: relative; /* Change to relative - no sticky needed */
+    z-index: 100;
+    flex-shrink: 0; /* Never shrink */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.case-file-document {
+    
+     border: 1px solid #ccc;
+    padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    overflow-y: auto; /* Only this scrolls */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    flex: 1; /* Take all remaining space */
+    min-height: 0; /* Allow flex item to shrink below content size */
+    /* Ensure smooth scrolling */
+    scrollbar-width: thin;
+    width: 100%;
+    margin-top: 0.6rem;
+    margin-bottom: 2.5rem;
+}
+.header-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #495057;
+    margin: 0;
+}
+
+.logo-section {
+    text-align: center;
+    /* margin-bottom: 0.7rem; */
+    position: absolute;
+    top: 5px;
+    left:5px;
+    
+}
+
+.document-logo {
+    height: 70px;
+    width: auto;
+}
+
+.document-title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.document-title h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #284b63;
+    margin: 0;
+}
+
+.top-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 1rem; */
+    /* padding: 0.5rem 0; */
+    font-size: 0.94rem;
+   color: #0d9488;
+    
+}
+
+.header-item {
+    flex: 1;
+    text-align: center;
+}
+
+.AI_headingContainer {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:5px;
+    /* margin-top: 15px; */
+}
+
+
+.AI_helperTextSection {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
+.helper-text {
+    color: #666666;
+    font-weight: 400;
+    font-size: 0.95em;
+}
+
+.genAI {
+    height: 25px;
+}
+
+.header-item:first-child {
+    text-align: left;
+    color: #1d3557;
+
+}
+
+.header-item:last-child {
+    text-align: right;
+    color: #1d3557;
+}
+
+.patient-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    min-height: 20px;
+}
+
+.label {
+    color: #333;
+    margin-right: 0.5rem;
+    font-weight: 700;
+}
+
+.value {
+    color: #333;
+    /* margin-right: 0.5rem; */
+
+}
+
+.divider {
+    height: 1px;
+    background-color: #d0d0d0;
+    margin: 0.7rem 0.7rem;
+}
+
+/* Updated textarea section styling */
+.textarea-section {
+    margin-bottom: 0.3rem;
+}
+
+.textarea-container {
+    margin-bottom: 0.4rem;
+}
+
+.textarea-label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+     margin-bottom: 5px; 
+    font-size: 0.875rem;
+    margin-top: 10px;
+}
+
+.custom-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.54;
+    background-color: white;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.custom-textarea::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.custom-textarea:focus {
+    outline: none;
+    border-color: #0070d2;
+    box-shadow: 0 0 0 2px rgba(0, 112, 210, 0.1);
+    background-color: white;
+}
+
+.custom-textarea::placeholder {
+    color: #999;
+    /* font-style: italic; */
+}
+
+/* Enhanced CSS for Clinical Encounter Timeline */
+.timeline-table-container {
+    width: 100%;
+    border: 1px solid #d9dbdd;
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.investigations_done_title {
+     padding: 12px 0 5px 0;
+    border-bottom: 1px solid #d9dbdd;
+    text-align: left;
+    display:flex;
+    justify-content: left;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Header container - no padding */
+.timeline-header-container {
+    padding: 12px 0 5px 0;
+    border-bottom: 1px solid #d9dbdd;
+    text-align: left;
+}
+
+/* Body container - no horizontal padding */
+.timeline-body-container {
+    padding: 0;
+}
+
+/* Header styling - small bold text aligned left */
+.timeline-header-title {
+    font-size: 0.875rem !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    color: #181818 !important;
+    text-align: left !important;
+}
+
+.medication-title-header {
+    font-size: 0.875rem !important;
+    font-weight: bold !important;
+    color: #181818 !important;
+    text-align: left !important;
+    margin-bottom: 4px;
+    margin-top: 20px;
+}
+
+.investigation-done-title {
+    font-size: 0.875rem !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    color: #181818 !important;
+    text-align: left !important;
+
+
+}
+
+/* Table styling for proper borders and spacing */
+.timeline-table-container .slds-table {
+    margin-bottom: 0;
+    border: none;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Table header styling */
+.timeline-table-container .slds-table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #d9dbdd;
+    border-right: 1px solid #d9dbdd;
+    font-weight: bold;
+    padding: 12px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Remove right border from last header cell */
+.timeline-table-container .slds-table thead th:last-child {
+    border-right: none;
+}
+
+/* Table body cell styling */
+.timeline-table-container .slds-table tbody td {
+    border-right: 1px solid #e5e5e5;
+    padding: 12px 8px;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Remove right border from last body cell */
+.timeline-table-container .slds-table tbody td:last-child {
+    border-right: none;
+}
+
+/* Cell content styling */
+.cell-content {
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+/* Wrapped text for longer content */
+.wrapped-text {
+    white-space: normal !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Remove truncation for wrapped cells */
+.wrapped-text .slds-truncate {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+}
+
+/* Column widths - optimized for better content visibility */
+.timeline-table-container .slds-table thead th:nth-child(1),
+.timeline-table-container .slds-table tbody td:nth-child(1) {
+    width: 12%;
+    min-width: 80px;
+}
+
+.timeline-table-container .slds-table thead th:nth-child(2),
+.timeline-table-container .slds-table tbody td:nth-child(2) {
+    width: 20%;
+    min-width: 100px;
+}
+
+.timeline-table-container .slds-table thead th:nth-child(3),
+.timeline-table-container .slds-table tbody td:nth-child(3) {
+    width: 25%;
+    min-width: 250px;
+}
+
+.timeline-table-container .slds-table thead th:nth-child(4),
+.timeline-table-container .slds-table tbody td:nth-child(4) {
+    width: 43%;
+    min-width: 350px;
+}
+
+/* Enhanced striping */
+.timeline-table-container .slds-table_striped tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.timeline-table-container .slds-table_striped tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+/* Remove hover effects completely */
+.timeline-table-container .slds-table tbody tr:hover,
+.timeline-table-container .slds-table_striped tbody tr:hover {
+    background-color: inherit !important;
+    cursor: default !important;
+}
+
+/* Rich text formatting within diagnosis cells */
+.timeline-table-container lightning-formatted-rich-text {
+    line-height: 1.4;
+}
+
+/* Loading state */
+.slds-spinner_container {
+    position: relative;
+    height: 200px;
+}
+
+/* Empty state styling */
+.slds-text-color_weak {
+    color: #706e6b;
+}
+
+/* MEDICATION TABLES - Updated to match timeline styling */
+.medication-container {
+    width: 100%;
+}
+
+/* Medication table container - same styling as timeline */
+.medication-table-container {
+    width: 100%;
+    border: 1px solid #d9dbdd;
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Medication table styling - match timeline */
+.medication-table-container .slds-table {
+    margin-bottom: 0;
+    margin-top: 0;
+    border: none;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Medication table header styling - match timeline */
+.medication-table-container .slds-table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #d9dbdd;
+    border-right: 1px solid #d9dbdd;
+    font-weight: bold;
+    padding: 12px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Remove right border from last header cell */
+.medication-table-container .slds-table thead th:last-child {
+    border-right: none;
+}
+
+/* Medication table body cell styling - match timeline */
+.medication-table-container .slds-table tbody td {
+    border-right: 1px solid #e5e5e5;
+    padding: 12px 8px;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Remove right border from last body cell */
+.medication-table-container .slds-table tbody td:last-child {
+    border-right: none;
+}
+
+/* Medication cell content styling */
+.medication-table-container .cell-content {
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: 0;
+    max-width: 100%;
+}
+
+/* Medication table striping - match timeline */
+.medication-table-container .slds-table_striped tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.medication-table-container .slds-table_striped tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+/* Remove ALL hover effects from medication tables */
+.medication-table-container .slds-table tbody tr:hover,
+.medication-table-container .slds-table_striped tbody tr:hover {
+    background-color: inherit !important;
+    cursor: default !important;
+}
+
+/* Medication table column widths */
+.medication-table-container .slds-table thead th:nth-child(1),
+.medication-table-container .slds-table tbody td:nth-child(1) {
+    width: 40%;
+    min-width: 200px;
+}
+
+/* .medication-table-container .slds-table thead th:nth-child(2),
+.medication-table-container .slds-table tbody td:nth-child(2) {
+    width: 20%;
+    min-width: 100px;
+} */
+
+.medication-table-container .slds-table thead th:nth-child(3),
+.medication-table-container .slds-table tbody td:nth-child(3) {
+    width: 30%;
+    min-width: 100px;
+}
+
+.medication-table-container .slds-table thead th:nth-child(4),
+.medication-table-container .slds-table tbody td:nth-child(4) {
+    width: 30%;
+    min-width: 120px;
+}
+
+/* Custom styling for medication names in active table */
+.medication-table-container .slds-table tbody tr td:first-child .cell-content strong {
+    color: black;
+    font-weight: 600;
+}
+
+/* Icon styling */
+.slds-icon-text-success {
+    color: #4bca81;
+}
+
+.slds-icon-text-default {
+    color: #706e6b;
+}
+
+/* Loading and error states */
+.slds-notify {
+    margin-bottom: 1rem;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    /* padding-top: 1rem; */
+}
+
+.action-button {
+    min-width: 120px;
+}
+
+/* Error and loading container styling */
+.loading-container,
+.error-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    text-align: center;
+
+}
+.referTo {
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    text-transform: capitalize;
+    color: #15616d;
+}
+
+.refer-loading-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.loading-message {
+    /* margin-top: 1rem; */
+    font-size: 14px;
+    color: #706e6b;
+    min-height: 10px;
+    position:absolute;
+    top: 75%;
+    left: 50%;
+    text-align: center;
+    transform: translateX(-50%); /* Add this line */
+
+}
+
+.error-container {
+    color: #c23934;
+    gap: 0.5rem;
+}
+
+.error-message {
+    font-weight: 500;
+}
+
+.medication-container .slds-card__body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Remove horizontal padding from medication header */
+.medication-container .slds-card__header {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.ai-confirmation {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    border-left: 4px solid #0176d3;
+}
+
+.ai-confirmation-checkbox {
+    /* margin-right: 2px; */
+    flex-shrink: 0;
+    /* margin-top: 2px; */
+}
+
+.ai-confirmation-text {
+    font-size: 13px;
+    color: #495057;
+    line-height: 1.4;
+    /* font-style: italic; */
+}
+
+
+
+/* .consent-declaration {
+    margin-top: 7px;
+    padding: 9px;
+    background-color: #FFF5E6;
+    border-left: 4px solid #ff9e1f;
+    border-radius: 4px;
+} */
+
+/* .consent-text {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #444;
+} */
+
+/* .consent-checkbox {
+     margin-right: 4px; 
+    flex-shrink: 0;
+} */
+
+.consent-heading {
+      font-size: 0.875rem !important;
+    font-weight: bold !important;
+   margin-bottom: 12px;
+    color: #181818 !important;
+    text-align: left !important;
+}
+
+
+
+/* new styles  */
+
+.consent-section {
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #FFF5E6;
+    border-left: 4px solid #FF9800;
+    border-radius: 6px;
+}
+
+
+.consent-option {
+    margin-bottom: 20px;
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.request-btn {
+    flex-shrink: 0;
+}
+
+.pending-badge {
+    padding: 6px 12px;
+    background-color: #E3F2FD;
+    color: #1565C0;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #90CAF9;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.consent-checkbox {
+    margin: 12px 0;
+}
+
+/* .digital-consent >> .slds-checkbox {
+    opacity: 0.8;
+} */
+
+.info-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #1976D2;
+    margin: 8px 0 0 28px;
+    font-style: italic;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #DDD;
+}
+
+.divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 12px;
+    background: #FFF5E6;
+    color: #666;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.manual-reason-container {
+    /* margin: 12px 0 0 28px; */
+    padding: 12px;
+    background-color: #fff;
+    border: 1px solid #FFB74D;
+    border-radius: 4px;
+}
+
+.reason-field {
+    margin-bottom: 4px;
+}
+
+.consent-textarea-label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+     margin-bottom: 5px; 
+    font-size: 0.75rem;
+    margin-top: 10px;
+}
+
+.char-count {
+    text-align: right;
+    font-size: 11px;
+    color: #757575;
+    margin-top: 4px;
+}
+
+.consent-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.consent-summary.success {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #66BB6A;
+}
+
+.consent-summary.warning {
+    background-color: #FFF3E0;
+    color: #E65100;
+    border: 1px solid #FFB74D;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .option-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .request-btn {
+        width: 100%;
+    }
+}
+
+
+
+
+
+.back-button-caseFile:hover {
+    background-color: #f8f9fa;
+}
+
+.createReferral:hover:not(.disabled) {
+    background-color: #014486;
+}
+
+.createReferral.disabled {
+    background-color: #c9c9c9;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+/* test report table */
+
+.test-reports-table-container {
+    width: 100%;
+    border: 1px solid #d9dbdd;
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Test reports table styling */
+.test-reports-table-container .slds-table {
+    margin-bottom: 0;
+    border: none;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Test reports table header styling */
+.test-reports-table-container .slds-table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #d9dbdd;
+    border-right: 1px solid #d9dbdd;
+    font-weight: bold;
+    padding: 12px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Remove right border from last header cell */
+.test-reports-table-container .slds-table thead th:last-child {
+    border-right: none;
+}
+
+/* Test reports table body cell styling */
+.test-reports-table-container .slds-table tbody td {
+    border-right: 1px solid #e5e5e5;
+    padding: 12px 8px;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Remove right border from last body cell */
+.test-reports-table-container .slds-table tbody td:last-child {
+    border-right: none;
+}
+
+/* Test reports table striping */
+.test-reports-table-container .slds-table_striped tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.test-reports-table-container .slds-table_striped tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+/* Remove hover effects from test reports tables */
+.test-reports-table-container .slds-table tbody tr:hover,
+.test-reports-table-container .slds-table_striped tbody tr:hover {
+    background-color: inherit !important;
+    cursor: default !important;
+}
+
+/* Test reports table column widths - 3 columns instead of 4 */
+.test-reports-table-container .slds-table thead th:nth-child(1),
+.test-reports-table-container .slds-table tbody td:nth-child(1) {
+    width: 100%;
+    min-width: 200px;
+}
+
+/* dont copy below part for replacing */
+.footer {
+    position: fixed;
+    bottom: 80px;
+    border-radius: 0px 0px 10px 10px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #ccc;
+    padding: 10px 40px;
+    text-align: right;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+}
+
+
+.footer button {
+    
+    padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    /* width: 80px; */
+}
+
+.footer button.createReferral {
+    background-color: #0165bc;
+    color: white;
+    border-color: #0165bc;
+    width: 110px;
+}
+
+
+
+
+.footer button.back-button-caseFile {
+    background-color: white;
+    color: #0165bc;
+    border: 2px solid #0165bc;
+    width: 110px;
+}
+
+.diagnosis_Container {
+    margin-top: 0.1rem;
+    /* margin-bottom: 0.4rem; */
+}
+
+.diagnosis-text {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #181818;
+    font-weight: 400;
+}
+
+.diagnosis-bold {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #181818;
+    font-weight: 500;
+}
+
+.bold-label lightning-input ::part(label),
+.bold-label lightning-combobox ::part(label) {
+    font-weight: bold !important;
+}
+
+
+
+.loading-message p {
+    margin: 0;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/* Add these CSS styles to your existing CSS file */
+
+.confirmation-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-modal-container {
+    background: white;
+    border-radius: 0.35rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    position: relative;
+    z-index: 1001;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+
+
+
+@keyframes modalSlideIn {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+ 
+       
+        .confirmation-modal-header {
+            background-color: #ffffff;
+            padding: 0.87rem 1rem;
+            border-bottom: 1px solid #d8dde6;
+            border-radius: 0.25rem 0.25rem 0 0;
+            text-align: center;
+        }
+
+        .confirmation-modal-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #080707;
+            line-height: 1.25;
+        }
+
+        .confirmation-modal-body {
+            padding: 1.7rem 1.2rem;
+            text-align: center;
+        }
+
+        .confirmation-message {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #3e3e3c;
+            margin: 0;
+        }
+
+        .confirmation-modal-footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid #d8dde6;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            background-color: #ffffff;
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+
+        .confirmation-cancel-button {
+            padding: 0.375rem 1rem;
+            border: 1px solid #747474;
+            background-color: #ffffff;
+            color: #0176d3;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2rem;
+        }
+
+        .confirmation-cancel-button:hover {
+            background-color: #f3f3f3;
+            border-color: #747474;
+        }
+
+        .confirmation-proceed-button {
+            padding: 0.375rem 1rem;
+            border: 1px solid #0176d3;
+            background-color: #0176d3;
+            color: #ffffff;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2rem;
+        }
+
+        .confirmation-proceed-button:hover {
+            background-color: #014486;
+            border-color: #014486;
+        }
+
+        .confirmation-proceed-button:focus,
+        .confirmation-cancel-button:focus {
+            outline: none;
+            box-shadow: 0 0 3px #0176d3;
+        }
+
+
+.custom-textarea.error {
+    border-color: #c23934;
+    box-shadow: 0 0 0 1px #c23934;
+}
+
+.validation-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 4px; */
+    font-size: 12px;
+}
+
+.character-count {
+    color: #706e6b;
+}
+
+.character-count.error {
+    color: #c23934;
+}
+
+.character-count.hidden {
+    display: none;
+}
+
+.error-message {
+    color: #c23934;
+    font-weight: 500;
+}
+
+.custom-combobox {
+    --slds-c-form-label-text-align: left;
+    --slds-c-form-label-margin-left: 5px;
+}
+
+.custom-combobox .slds-form-element__label {
+    margin-left: 5px !important
+} 
+
+.info-iconTitle-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+}

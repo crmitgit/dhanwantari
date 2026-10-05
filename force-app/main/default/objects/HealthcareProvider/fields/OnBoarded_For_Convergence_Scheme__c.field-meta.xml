@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnBoarded_For_Convergence_Scheme__c</fullName>
+    <defaultValue>false</defaultValue>
+    <label>ConvergenceScheme/संयोजन योजना में शामिल</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

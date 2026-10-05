@@ -1,0 +1,28 @@
+<template>
+
+    <!-- LOADING SCREEN -->
+    <template if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Checking medications"
+            size="medium">
+        </lightning-spinner>
+    </template>
+
+    <!-- EXISTING UI (UNCHANGED) -->
+    <template if:true={showActiveModal}>
+        <c-active-medication-modal
+            record-id={recordId}
+            onnext={handleNext}
+            oncancel={handleClose}>
+        </c-active-medication-modal>
+    </template>
+
+    <template if:true={showAiModal}>
+        <c-medication-guide
+            record-id={recordId}
+            onback={handleBack}
+            onclose={handleClose}>
+        </c-medication-guide>
+    </template>
+
+</template>

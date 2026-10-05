@@ -1,0 +1,7 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId,flexipage:availableForRecordHome"
+                access="global">
+
+    <c:prescriptionForms recordId="{!v.recordId}" />
+    
+
+</aura:component>

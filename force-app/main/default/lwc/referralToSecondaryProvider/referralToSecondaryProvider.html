@@ -1,0 +1,143 @@
+<template>
+        <div class="healthcare-provider-search-container">
+            <header class="healthcare-provider-header slds-grid slds-grid_align-spread">
+                <div class="header-left-section1">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-corner-image medium-image" />
+                </div>
+
+                <div class="healthcare-component-header">
+                    <h1 class="header-title"> Search Empanelled Healthcare Provider</h1>
+                </div>
+
+
+
+                <div class="header-right-section2">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={rightCornerImageUrl} alt="Government Logo" class="right-corner-icon " />
+                </div>
+            </header>
+
+            <div class="search-section-page">
+                <span class="search-section-title">
+                    Select the Specialty(s) to which you would like to refer the Patient /
+                    मरीज़ को रेफर करने के लिए विशेषज्ञता चुनें।
+                </span>
+                <div class="search-form-page">
+                    <div class="single-form-row">
+                        <lightning-combobox name="primarySpecialty" label="Primary Specialty" placeholder="Select"
+                            options={specialtyOptions} value={searchCriteria.primarySpecialty}
+                            data-field="primarySpecialty" onchange={handleInputChange} required class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox name="secondarySpecialty" label="Secondary Specialty" placeholder="Select"
+                            options={specialtyOptions} value={searchCriteria.secondarySpecialty}
+                            data-field="secondarySpecialty" onchange={handleInputChange} class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox label="City" placeholder="Select" value={searchCriteria.city}
+                            options={cityOptions} data-field="city" onchange={handleInputChange} required
+                            class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox name="hospitalType" label="Hospital Type" placeholder="Select"
+                            options={hospitalTypeOptions} value={searchCriteria.hospitalType} data-field="hospitalType"
+                            onchange={handleInputChange} class="custom-combobox">
+                        </lightning-combobox>
+                    </div>
+                    <div class="search-button-wrapper-page">
+                        <button class="generate-summary-btn" onclick={handleSearch} disabled={isLoadingProviders}>
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path
+                                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                            </svg>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <template if:true={isLoadingProviders}>
+                <div class="loading-container">
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={isLoadingProviders}>
+                <template if:true={showResults}>
+                    <div class="results-section-page">
+                        <h3 class="results-title-page">Search Results ({searchResults.length})</h3>
+
+                        <template if:true={showResults}>
+                            <div class="results-scroll-wrapper">
+                                <div class="results-grid-page">
+                                    <template for:each={searchResults} for:item="provider">
+                                        <div key={provider.Id} class={provider.cardClass} data-id={provider.Id}
+                                            onclick={handleProviderCardClick} tabindex="0" role="button">
+
+                                            <div class="provider-content-page">
+                                                <div class="provider-selection-radio">
+                                                    <lightning-input type="radio" name="providerSelection"
+                                                        value={provider.Id} checked={provider.isSelected}
+                                                        data-id={provider.Id} onchange={handleProviderSelection}>
+                                                    </lightning-input>
+                                                </div>
+
+                                                <div class="provider-details-page">
+
+                                                    <h4 class="provider-name-page"><span>🏥</span> {provider.Name}</h4>
+
+                                                    <template if:true={provider.displayAddress}>
+                                                        <p class="provider-address-page">
+                                                            <span>📍</span>
+                                                            <span class="address-text">{provider.displayAddress}</span>
+                                                        </p>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </template>
+
+                        <template if:false={showResults}>
+                            <div class="no-results-page">
+                                <p>No healthcare providers found matching your search criteria.</p>
+                                <p>Try adjusting your search parameters and search again.</p>
+
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+            <!-- Reason for Referral -->
+            <div class="slds-p-horizontal_large slds-p-vertical_medium">
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">
+                        <span class="slds-required">*</span> Reason for Referral 
+                    </label>
+
+                    <div class="slds-form-element__control">
+                        <lightning-textarea
+                            value={reasonForReferral}
+                            onchange={handleReasonChange}
+                            placeholder="Enter reason for referral..."
+                            max-length="1000">
+                        </lightning-textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="healthcare-provider-footer">
+                
+                <button class="lightning-btn lightning-btn--brand " onclick={handleSendEmail}
+                    disabled={isDisabled}>
+                    Refer
+                </button>
+            </footer>
+        </div>
+    </template>

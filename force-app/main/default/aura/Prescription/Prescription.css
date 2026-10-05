@@ -1,0 +1,16 @@
+.THIS .slds-modal__container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.THIS .slds-modal__header,
+.THIS .slds-modal__footer {
+    display: none !important;
+}
+
+.THIS .slds-modal__content {
+    padding: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}

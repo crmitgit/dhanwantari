@@ -1,0 +1,46 @@
+{
+  "appPageId" : "0afed565-95ef-4aaf-bc32-ce4a224e1ada",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "c74ee1bd-f512-4d26-84ba-27628b141dc3",
+  "label" : "Home",
+  "regions" : [ {
+    "id" : "b95051f3-c058-4fec-a5de-95981da72608",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:medicineCollection",
+      "id" : "56b6fd35-a7ee-4c49-9e2e-49740f0993b7",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9f3932e8-f03c-4f49-85e8-48cdf90d438a",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e8f07fb9-e2a5-4171-afee-9d40421b7c28",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Home"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "924f09a0-d175-4dd5-9848-f63d28f02274",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "30fd9b91-861a-41dd-aec3-8d2f0f3d1aa4",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "home"
+}

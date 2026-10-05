@@ -1,0 +1,14 @@
+Dear Doctor,
+
+Your consultation has been successfully 
+submitted for approval.
+
+Record ID   : {!ClinicalEncounter.Id}
+Submitted On: {!ClinicalEncounter.CreatedDate}
+Status      : Pending Approval
+
+You will be notified once it is reviewed 
+and a decision is made.
+
+Regards,
+Medical Team

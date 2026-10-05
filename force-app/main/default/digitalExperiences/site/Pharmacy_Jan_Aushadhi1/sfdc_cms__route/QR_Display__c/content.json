@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "QR Display",
+  "contentBody" : {
+    "activeViewId" : "QR_Display",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-qr-display",
+    "urlPrefix" : "qr-display"
+  },
+  "urlName" : "qr-display"
+}

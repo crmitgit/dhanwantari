@@ -1,0 +1,131 @@
+.form-container {
+    padding: 1rem;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: flex-start;
+    margin-left: 153px;
+}
+
+.table-container {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #d8dde6;
+}
+
+.slds-table th, .slds-table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+    word-break: break-word;
+    white-space: normal;
+    text-align: left;
+}
+
+.slds-table th:nth-child(1), .slds-table td:nth-child(1) { width: 70px; }
+.slds-table th:nth-child(2), .slds-table td:nth-child(2) { width: 60px; }
+.slds-table th:nth-child(3), .slds-table td:nth-child(3) { width: 120px; }
+.slds-table th:nth-child(4), .slds-table td:nth-child(4) { width: 180px; }
+.slds-table th:nth-child(5), .slds-table td:nth-child(5) { width: 120px; }
+.slds-table th:nth-child(6), .slds-table td:nth-child(6) { width: 140px; }
+.slds-table th:nth-child(7), .slds-table td:nth-child(7) { width: 140px; }
+.slds-table th:nth-child(8), .slds-table td:nth-child(8) { width: 100px; }
+.slds-table th:nth-child(9), .slds-table td:nth-child(9) { width: 220px; }
+
+.slds-table th {
+    background-color: rgb(255, 158, 31);
+    font-weight: bold;
+}
+
+.th-blue{
+    background-color: #2ABAEB;
+    color: white;
+    padding: 12px 5px;
+}
+
+
+.loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loading-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        min-width: 300px;
+    }
+
+    .loading-text {
+        margin-top: 3rem;
+    }
+
+    .loading-text p {
+        margin: 1.3rem 0;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .loading-subtext {
+        font-size: 0.875rem;
+        color: #666;
+        font-weight: normal;
+    }
+
+@media (max-width: 600px) {
+    .form-container {
+        padding: 0.5rem;
+    }
+
+    .filters {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-left: 0;
+    }
+    .filters > .slds-col {
+        width: 100% !important;
+        max-width: 100%;
+        flex: 1 1 100%;
+        padding: 0;
+    }
+    .filters lightning-combobox,
+    .filters lightning-input {
+        width: 100%;
+    }
+
+    .table-container {
+        max-height: 250px;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .slds-table th, .slds-table td {
+        padding: 8px 4px;
+        font-size: 0.85rem;
+    }
+
+    .loading-content {
+        min-width: 200px;
+        padding: 1rem;
+    }
+}
+
+/* Make table horizontally scrollable on small screens */
+.table-container {
+    overflow-x: auto;
+}

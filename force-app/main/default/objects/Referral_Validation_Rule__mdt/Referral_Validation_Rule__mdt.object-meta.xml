@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Weights, ranges and thresholds for the weighted referral validation score on the Empanelled Healthcare Portal. DeveloperName is the rule key read by ReferralValidationService.</description>
+    <label>Referral Validation Rule</label>
+    <pluralLabel>Referral Validation Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

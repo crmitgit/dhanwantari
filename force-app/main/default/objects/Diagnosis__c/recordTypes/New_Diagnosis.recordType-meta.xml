@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Diagnosis</fullName>
+    <active>true</active>
+    <label>New Diagnosis</label>
+    <picklistValues>
+        <picklist>Diagnosis_Type__c</picklist>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Provisional</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Severity__c</picklist>
+        <values>
+            <fullName>Acute</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chronic</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

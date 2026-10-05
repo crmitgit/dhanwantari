@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Healthcare_Provider__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Healthcare Provider / स्वास्थ्य प्रदाता</label>
+    <referenceTo>HealthcareProvider</referenceTo>
+    <relationshipLabel>Care Transitions / देखभाल हस्तांतरण</relationshipLabel>
+    <relationshipName>Care_Transitions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

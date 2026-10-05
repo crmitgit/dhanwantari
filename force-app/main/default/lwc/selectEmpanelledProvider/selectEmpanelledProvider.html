@@ -1,0 +1,67 @@
+<!-- selectEmpanelledProvider.html -->
+<template>
+    <!-- Compact spinner overlay -->
+    <template if:true={isLoading}>
+        <div class="spinner-overlay">
+            <lightning-spinner alternative-text="Loading..." size="medium" s></lightning-spinner>
+        </div>
+    </template>
+
+    <lightning-card title="Select Empanelled Provider" icon-name="standard:account">
+        <div class="slds-p-horizontal_medium slds-p-vertical_medium">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="provider-combobox">
+                    Healthcare Provider <span class="slds-required">*</span>
+                </label>
+                <div class="slds-form-element__control">
+                    <lightning-combobox
+                        id="provider-combobox"
+                        name="healthcareProvider"
+                        label="Healthcare Provider"
+                        variant="label-hidden"
+                        placeholder="Select Healthcare Provider"
+                        options={providerOptions}
+                        value={selectedProviderId}
+                        onchange={handleProviderChange}
+                        required>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Reason for Referral Textarea -->
+<div class="slds-form-element slds-m-top_medium">
+    <label class="slds-form-element__label" for="reason-textarea">
+        Reason for Referral to Another Provider <span class="slds-required">*</span>
+    </label>
+    <div class="slds-form-element__control">
+        <lightning-textarea
+            id="reason-textarea"
+            name="reasonForReferral"
+            label="Reason for Referral to Another Provider"
+            variant="label-hidden"
+            placeholder="Enter reason for referral..."
+            value={reasonForReferral}
+            onchange={handleReasonChange}
+            required
+            max-length="1000">
+        </lightning-textarea>
+    </div>
+</div>
+        </div>
+        
+        <div slot="footer" class="slds-p-horizontal_medium slds-p-vertical_small">
+            <div class="slds-float_right">
+                <button class="slds-button slds-button_neutral slds-m-right_small" 
+                        onclick={closeModal}
+                        disabled={isLoading}>
+                    Cancel
+                </button>
+                <button class="slds-button slds-button_brand" 
+                        onclick={handleSendEmail} 
+                        disabled={isDisabled}>
+                    Send Email
+                </button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

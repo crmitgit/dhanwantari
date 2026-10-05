@@ -1,0 +1,156 @@
+<template>
+    <template if:true={isModalOpen}>
+        <!-- Modal Backdrop -->
+        <div style="
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        ">
+            <!-- Modal Container -->
+            <div style="
+                position: relative;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                max-height: 130vh;
+                max-width: 1000px;
+                width: 100%;
+            ">
+
+                <div style="position: absolute; top: 1rem; right: 1rem; z-index: 1;">
+                    <lightning-button-icon icon-name="utility:close" variant="bare" alternative-text="Close"
+                        onclick={closeModal} title="Close">
+                    </lightning-button-icon>
+                </div>
+
+
+                <!-- Modal Content -->
+                <div style="overflow-y: auto; padding: 1.5rem; flex-grow: 1;">
+                    <!-- Modal Title -->
+                    <div class="slds-grid slds-align_absolute-center slds-m-bottom_medium"
+                        style="width: 96%;border-bottom: 1.5px solid #ccc;">
+                        <div class="slds-col slds-size_1-of-12 slds-align-middle slds-text-align_center">
+                            <img src={pmjayLogo} alt="PMJAY Logo" style="height: 65px; margin: 0 0 5px 40px;" />
+                        </div>
+                        <div
+                            class="slds-col slds-size_11-of-12 slds-align-middle slds-text-heading_medium slds-text-align_center">
+                            Clinical Service Request / जांचें 
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align-middle slds-text-align_center">
+                            <img src={governmentLogo} alt="GOVT Logo" style="height: 35px;margin: 0 0 0 -120px;" />
+                        </div>
+                    </div>
+
+                    <!-- Encounter & Patient Info -->
+                    <div class="info-section slds-box slds-theme_default slds-m-bottom_medium">
+                        <lightning-record-view-form object-api-name="ClinicalEncounter" record-id={recordId}>
+                            <div
+                                class="slds-grid slds-wrap slds-gutters slds-p-around_x-small slds-align_absolute-center">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                                    <p class="slds-text-title_caps slds-text-color_weak slds-m-bottom_xx-small"
+                                        style="font-weight: 700;">Consultation / अपॉइंटमेंट</p>
+                                    <p class="slds-text-heading_small" style="font-size: 16px; font-weight: 500;">
+                                        {encounterName}
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                                    <p class="slds-text-title_caps slds-text-color_weak slds-m-bottom_xx-small"
+                                        style="font-weight: 700;">Patient Name / मरीज़ का नाम</p>
+                                    <a href={patientUrl} target="_blank"
+                                        style="font-size: 16px; font-weight: 500; color: #0176D3; text-decoration: underline;">
+                                        {patientName}
+                                    </a>
+                                </div>
+                            </div>
+                        </lightning-record-view-form>
+                    </div>
+                    <div class="slds-m-bottom_medium">
+                        <c-clinical-tests-a-i-suggestion record-id={recordId}></c-clinical-tests-a-i-suggestion>
+                    </div>
+
+                    <!-- Input Fields -->
+                    <div class="field-section slds-m-top_medium">
+
+                        <lightning-record-edit-form object-api-name="ClinicalServiceRequest">
+                            <div class="slds-grid slds-wrap slds-gutters_large">
+
+                                <!-- Requested Test(s) -->
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input label="Test(s)/माँगे हुए परीक्षण" value={requestedTest}
+                                        onchange={handleRequestedTestChange} required>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-combobox label="Status / स्थिति" value={status} options={statusOptions}
+                                        onchange={handleStatusChange}>
+                                    </lightning-combobox>
+                                </div>
+
+                                <!-- Priority -->
+                                <!-- <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            label="Priority / प्राथमिकता"
+                            value={priority}
+                            options={priorityOptions}
+                            onchange={handlePriorityChange}>
+                        </lightning-combobox>
+                    </div> -->
+
+                                <!-- Requested Completion Date -->
+                                <!-- <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input type="date" label="Complete By / अनुरोधित पूर्णता तिथि"
+                                        value={requestedCompletionDate} onchange={handleRequestedDateChange}
+                                        required={isStatusOrdered} disabled={isStatusCompleted}>
+                                    </lightning-input>
+                                </div> -->
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input
+                                        type="date"
+                                        label={completionLabel}
+                                        value={dateValue}
+                                        onchange={handleDateChange}
+                                        required={isDateRequired}
+                                    ></lightning-input>
+                                </div>
+
+
+                                <!-- Notes -->
+                                <div class="slds-col slds-size_1-of-2">
+                                <lightning-input
+                                    type="text"
+                                    label="Notes / संलग्न"
+                                    value={notes}
+                                    onchange={handleNotesChange}>
+                                </lightning-input>
+                                </div>
+
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div style="
+                    padding: 1rem;
+                    border-top: 1px solid #eee;
+                    background-color: #f9f9f9;
+                    display: flex;
+                    justify-content: center;
+                    gap: 1rem;
+                ">
+                    <lightning-button label="Cancel" variant="neutral" onclick={closeModal}>
+                    </lightning-button>
+                    <lightning-button label="Save Request" variant="brand" onclick={submitRequest}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

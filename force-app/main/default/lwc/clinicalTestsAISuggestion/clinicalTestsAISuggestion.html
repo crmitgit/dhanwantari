@@ -1,0 +1,71 @@
+<template>
+
+    <div class="slds-box slds-m-bottom_small">
+
+        <template if:false={isLoading}>
+            <template if:false={suggestedTests}>
+                <template if:false={showPregnancySection}>
+                    <div class="slds-m-bottom_small">
+                        <lightning-button 
+                            label="Recommend Tests / टेस्ट की सिफारिश करें (AI)"
+                            variant="brand"
+                            onclick={fetchSuggestedTests}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={showPregnancySection}>
+
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    Pregnancy / Lactation / गर्भावस्था / स्तनपान
+                </div>
+
+                <lightning-radio-group
+                    name="pregnancy"
+                    label="Select Status"
+                    options={pregnancyOptions}
+                    value={pregnancyStatus}
+                    onchange={handlePregnancyChange}>
+                </lightning-radio-group>
+
+                <div class="slds-m-top_small">
+                    <lightning-button 
+                        label="Continue"
+                        variant="brand"
+                        onclick={handleContinue}>
+                    </lightning-button>
+                </div>
+        </template>
+
+         <template if:true={isLoading}>
+            <div class="spinner-container">
+                <div class="spinner-wrapper">
+                        <lightning-spinner size="small"></lightning-spinner>
+                </div>
+
+                    <div class="loading-text">
+                        AI is generating Clinical Tests suggestions…
+                    </div>
+            </div>
+        </template>
+
+        <!-- Output -->
+        <template if:true={suggestedTests}>
+            <div class="slds-text-heading_small slds-m-bottom_x-small">
+                Suggested Clinical Tests / सुझाए गए परीक्षण
+            </div>
+
+            <div class="gov-section ai-guidance">
+                <div class="gov-content-box">
+                    <div class="rich-text-content">
+                        <lightning-formatted-rich-text value={sanitizedOutput}></lightning-formatted-rich-text>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+</template>

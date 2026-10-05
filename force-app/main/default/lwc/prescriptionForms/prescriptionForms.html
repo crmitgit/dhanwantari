@@ -1,0 +1,233 @@
+<template>
+    <template if:true={isModalOpen}>
+        <div
+            style="position: relative; background: white; display: flex; flex-direction: column; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); max-height: 85vh; max-width: 100%; width: 100%;">
+            <div style="position: absolute; top: 1rem; right: 1rem; z-index: 1;">
+                <lightning-button-icon icon-name="utility:close" variant="bare" alternative-text="Close"
+                    onclick={closeModal} title="Close"></lightning-button-icon>
+            </div>
+
+            <div style="overflow-y: auto; padding: 1.5rem; flex-grow: 1;">
+                  <template if:false={isPatientCareTransitionPortal}>
+                <div class="slds-grid slds-align_absolute-center slds-m-bottom_medium"
+                    style="width: 95%;border-bottom: 1.5px solid #ccc;">
+                    <div class="slds-col slds-size_1-of-12 slds-align-middle slds-text-align_center">
+                        <img src={pmjayLogo} alt="PMJAY Logo" style="height: 70px;margin: 0 0 5px 60px;" />
+                    </div>
+                    <div
+                        class="slds-col slds-size_11-of-12 slds-align-middle slds-text-heading_medium slds-text-align_center">
+                        Add Medication / दवा जोड़ें
+                    </div>
+                    <div class="slds-col slds-size_1-of-12 slds-align-middle slds-text-align_center">
+                        <img src={governmentLogo} alt="GOVT Logo" style="height: 40px;margin: 0 0 0 -120px;" />
+                    </div>
+                </div>
+                  </template>
+                    <template if:false={isPatientCareTransitionPortal}>
+
+                <div class="info-section slds-box slds-theme_default slds-m-bottom_medium">
+                    <lightning-record-view-form object-api-name="ClinicalEncounter" record-id={recordId}>
+                        <div class="slds-grid slds-wrap slds-gutters slds-p-around_x-small slds-align_absolute-center">
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                                <p class="slds-text-title_caps slds-text-color_weak slds-m-bottom_xx-small"
+                                    style="font-weight: 700;">Clinical Encounter / अपॉइंटमेंट</p>
+                                <p class="slds-text-heading_small" style="font-size: 16px; font-weight: 500;">
+                                    {encounterName}
+                                </p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                                <p class="slds-text-title_caps slds-text-color_weak slds-m-bottom_xx-small"
+                                    style="font-weight: 700;">Patient Name / मरीज़ का नाम</p>
+                                <a href={patientUrl} target="_blank"
+                                    style="font-size: 16px; font-weight: 500; color: #0176D3; text-decoration: underline;">
+                                    {patientName}
+                                </a>
+                            </div>
+                        </div>
+                    </lightning-record-view-form>
+                </div>
+                    </template>
+
+                <template for:each={medicationSections} for:item="med">
+                    <div key={med.id} class="slds-box slds-m-top_medium medication-card" data-container-id={med.id}>
+                        <lightning-record-edit-form object-api-name="MedicationRequest">
+                            <div class="slds-grid slds-wrap slds-gutters_small">
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    
+                                    <template if:true={isPatientCareTransitionPortal}>
+                                    <label class="slds-form-element__label" data-main-label="" for="combobox-input-115"><abbr class="slds-required" lwc-5jdm1rt8ibq="" title="required">*</abbr>Medications / दवा</label>
+                                    <c-custom-lookup
+                                        obj-name="Medication"
+                                        search-placeholder=""
+                                        icon-name="standard:account"
+                                        onlookupselected={handleMedication}
+                                        data-id={med.id}
+                                        class="prescriptionsData">
+                                    </c-custom-lookup>
+                                </template>
+
+                                    <template if:false={isPatientCareTransitionPortal}>
+                                        <lightning-input-field field-name="MedicationId" value={med.medicationId}
+                                        data-id={med.id} onchange={handleMedicationLookupChange} 
+                                        required variant={medicationVariant} class="prescriptionsData"></lightning-input-field>
+                                    </template>
+                                    
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-input type="number" label="Duration (Days) / अवधि (दिनों में)"
+                                        value={med.durationDays} data-field="durationDays" data-id={med.id}
+                                        onchange={handleInputChange} min="1" required class="prescriptionsData"></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-input type="date" label="Start From / प्रारंभ तिथि" value={med.startFrom}
+                                        data-id={med.id} onchange={handleStartDateChange} required class="prescriptionsData"></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-input label="Instructions / निर्देश" value={med.instructions}
+                                        data-field="instructions" data-id={med.id} onchange={handleInputChange} class="prescriptionsData">
+                                    </lightning-input>
+                                </div>
+
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+
+    <div class="slds-form-element">
+        <label class="slds-form-element__label">
+            Dosage Timing / खुराक का समय
+        </label>
+
+        <div class="custom-checkbox-box">
+
+            <div class="slds-grid slds-gutters slds-wrap">
+
+                <!-- LEFT: Checkboxes -->
+                <div class="slds-col slds-size_1-of-2">
+
+                    <lightning-input type="checkbox"
+                        label="Morning / सुबह"
+                        checked={med.morning}
+                        data-field="morning"
+                        data-id={med.id}
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+
+                    <lightning-input type="checkbox"
+                        label="Afternoon / दोपहर"
+                        checked={med.afternoon}
+                        data-field="afternoon"
+                        data-id={med.id}
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+
+                    <lightning-input type="checkbox"
+                        label="Night / रात"
+                        checked={med.night}
+                        data-field="night"
+                        data-id={med.id}
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+
+                </div>
+
+                <!-- RIGHT: Dosage textbox -->
+                <div class="slds-col slds-size_1-of-2">
+
+                    <template if:true={med.showDosageInput}>
+                        <lightning-textarea 
+                            type="text"
+                            label="Dose / खुराक"
+                            placeholder="e.g. 5 ml / 1 tablet"
+                            value={med.dosage}
+                            data-field="dosage"
+                            data-id={med.id}
+                            onchange={handleInputChange}
+                            class="resizable-textarea">
+                        </lightning-textarea>
+                    </template>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+                                <!-- <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-combobox label="Afternoon Dosage / दोपहर की खुराक"
+                                        value={med.afternoonDosage} options={dosageOptions} data-field="afternoonDosage"
+                                        data-id={med.id} onchange={handleInputChange} class="prescriptionsData"></lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-combobox label="Evening Dosage / शाम की खुराक" value={med.eveningDosage}
+                                        options={dosageOptions} data-field="eveningDosage" data-id={med.id}
+                                        onchange={handleInputChange} class="prescriptionsData"></lightning-combobox>
+                                </div> -->
+                                <div class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+                                    <lightning-combobox label="Before Food or After Food / भोजन से पहले या बाद में"
+                                        value={med.beforeAfterFood} options={beforeAfterOptions}
+                                        data-field="beforeAfterFood" data-id={med.id} onchange={handleInputChange} class="prescriptionsData">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+
+                            <template if:true={showDeleteButtons}>
+                                <div class="slds-m-top_small slds-align_absolute-center">
+                                    <lightning-button-icon icon-name="utility:delete" alternative-text="Remove"
+                                        title="Remove" onclick={removeSection} data-id={med.id}></lightning-button-icon>
+                                </div>
+                            </template>
+                        </lightning-record-edit-form>
+                    </div>
+                </template>
+
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-button label="Add Medication" variant="neutral" onclick={addMedicationSection}>
+                    </lightning-button>
+                </div>
+            </div>
+            <div
+                style="padding: 1rem; border-top: 1px solid #eee; background-color: #f9f9f9; display: flex; justify-content: center; gap: 1rem;">
+              <!-- /*  <lightning-button label="Medication Guide" variant="brand" onclick={openGuideModal}
+                        class="slds-m-left_small"></lightning-button>*/ -->
+                 <template if:false={isPatientCareTransitionPortal}>
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={closeModal}>
+                    </lightning-button>
+                </template>
+                   <template if:false={isPatientCareTransitionPortal}>   
+                <lightning-button label="Save Prescription" variant="brand" onclick={submitPrescription}>
+                </lightning-button>
+                </template>
+            </div>
+        </div>
+    </template>
+    <!-- <template if:true={isGuideModalOpen}>
+        <section role="dialog" tabindex="-1" class="custom-modal-backdrop">
+            <div class="custom-modal-container">  -->
+
+                <!-- Custom Modal Header -->
+                <!-- <header class="custom-modal-header">
+                    <h2 class="modal-title">Medication Guide</h2>
+                </header> -->
+
+                <!-- Custom Modal Body -->
+                <!-- <div class="custom-modal-content">
+                    <lightning-formatted-rich-text value={decodedAiSummary}>
+                    </lightning-formatted-rich-text>
+                </div> -->
+
+
+                <!-- Custom Modal Footer -->
+                <!-- <footer class="custom-modal-footer">
+                    <button class="footer-button" onclick={closeGuideModal}>Close</button>
+                </footer>
+            </div>
+        </section>
+    </template> -->     
+
+
+
+</template>

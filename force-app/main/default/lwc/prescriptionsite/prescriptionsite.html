@@ -1,0 +1,119 @@
+<template>
+    <div class="prescription-container">
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading prescription..."></lightning-spinner>
+                <p class="loading-text">Loading prescription details...</p>
+            </div>
+        </template>
+
+        <!-- Error State -->
+        <template if:true={error}>
+            <div class="error-container">
+                <lightning-icon icon-name="utility:error" variant="error" size="large"></lightning-icon>
+                <h2>Unable to load prescription</h2>
+                <p>Please check the prescription ID and try again.</p>
+            </div>
+        </template>
+
+        <!-- Main Prescription Content -->
+        <template if:true={summary}>
+            <div class="prescription-content">
+                <!-- Header -->
+                <div class="prescription-header">
+                    <div class="clinic-info">
+                        <h1>{summary.facilityName}</h1>
+                        <p class="clinic-subtitle">Digital Prescription</p>
+                    </div>
+                    <div class="prescription-date">
+                        <p><strong>Date:</strong> {currentDate}</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Information -->
+                <!-- <div class="doctor-section">
+                    <div class="doctor-info">
+                        <h3>Dr. {summary.doctorName}</h3>
+                        <p class="facility-name">{summary.facilityName}</p>
+                    </div>
+                </div> -->
+
+                <!-- Patient Information -->
+                <div class="patient-section">
+                    <!-- <h3 class="section-title">Patient Information</h3> -->
+                    <div class="patient-details">
+                        <div class="patient-row">
+                            <div class="patient-field">
+                                <span class="field-label">Name:</span>
+                                <span class="field-value">{summary.patientName}</span>
+                            </div>
+                            <div class="patient-field">
+                                <span class="field-label">Age:</span>
+                                <span class="field-value">{summary.age} years</span>
+                            </div>
+                            <div class="patient-field">
+                                <span class="field-label">Gender:</span>
+                                <span class="field-value">{summary.gender}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescription Table -->
+                <div class="prescription-section">
+                    <h3 class="section-title">Prescription / दवाएं</h3>
+                    
+                    <template if:false={isMedicationEmpty}>
+                        <div class="medication-table-container">
+                            <table class="medication-table">
+                                <thead>
+                                    <tr>
+                                        <th class="med-name-col">Medication Name</th>
+                                        <th class="med-duration-col">Duration (Days)</th>
+                                        <th class="med-dosage-col">Dosage Instructions</th>
+                                        <th class="med-date-col">Start Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={formattedMedications} for:item="med">
+                                        <tr key={med.id} class="medication-row">
+                                            <td class="med-name">{med.name}</td>
+                                            <td class="med-duration">{med.duration}</td>
+                                            <td class="med-dosage">{med.dosage}</td>
+                                            <td class="med-start-date">{med.startDate}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    
+                    <template if:true={isMedicationEmpty}>
+                        <div class="no-medication">
+                            <p>No medications prescribed.</p>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Footer -->
+                <div class="prescription-footer">
+                    <div class="footer-note">
+                        <p><small>This is a digitally generated prescription. Please follow the dosage instructions carefully.</small></p>
+                        <p class="powered-by">Powered by Dhanwantri • © CRMIT Solutions</p>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+                <div class="print-section no-print">
+                    <lightning-button 
+                        variant="brand" 
+                        label="Print Prescription" 
+                        onclick={handlePrint}
+                        class="print-button">
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,29 @@
+<template>  
+        <div class="slds-p-around_medium">
+            <lightning-input
+                type="checkbox"
+                label="I attest that informed verbal consent has been obtained from the patient."
+                onchange={handleAttestChange}>
+            </lightning-input>
+
+            <template if:true={isAttested}>
+                <lightning-combobox
+                    label="Reason for Manual Consent"
+                    placeholder="Select a reason"
+                    options={reasonOptions}
+                    onchange={handleReasonChange}
+                    required>
+                </lightning-combobox>
+            </template>
+
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button
+                    variant="brand"
+                    label="Grant Consent"
+                    onclick={handleSubmit}
+                    disabled={disableSubmit}>
+                </lightning-button>
+            </div>
+
+        </div> 
+</template>

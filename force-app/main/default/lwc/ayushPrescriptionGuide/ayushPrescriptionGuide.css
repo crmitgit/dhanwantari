@@ -1,0 +1,458 @@
+/* ======================================================
+   AYURVEDA THEME VARIABLES
+   ====================================================== */
+:host {
+    --ayush-green: #2f6f4e;
+    --ayush-dark-green: #1f4d37;
+    --ayush-light-green: #eaf4ee;
+    --ayush-saffron: #e59b2a;
+    --ayush-bg: #f7fbf8;
+    --ayush-card: #ffffff;
+}
+
+
+.watermark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120%);
+    opacity: 0.07;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.watermark-image {
+    width: 400px;
+    height: auto;
+}
+
+.spinner-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+}
+
+
+/* ======================================================
+   BACKDROP
+   ====================================================== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+/* ======================================================
+   MODAL CONTAINER
+   ====================================================== */
+.modal-container {
+    background: var(--ayush-bg);
+    width: 95%;
+    max-width: 1200px;
+    max-height: 95vh;
+    border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(47, 111, 78, 0.28);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #d7e8df;
+}
+
+/* ======================================================
+   CLOSE BUTTON
+   ====================================================== */
+.close-button {
+    position: absolute;
+    right: 1rem;
+    top: 0.75rem;
+    z-index: 10;
+}
+
+/* ======================================================
+   HEADER
+   ====================================================== */
+.gov-header {
+    display: grid;
+    /* align-items: center; */
+    padding: 1.1rem 1.3rem;
+    background: #f1f8fe;;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.gov-header-title {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ayush-dark-green);
+    letter-spacing: 0.3px;
+}
+
+.gov-header-title span {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b6b57;
+}
+
+.gov-logo-left {
+    height: 52px;
+}
+
+.gov-logo-right {
+    height: 36px;
+}
+
+/* ======================================================
+   BODY
+   ====================================================== */
+.modal-body {
+    padding: 1rem;
+    overflow-y: auto;
+    background: white;
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;    /* Internet Explorer/Edge */
+    user-select: none; 
+}
+
+/* ======================================================
+   DISCLAIMER
+   ====================================================== */
+.gov-disclaimer {
+    display: flex;
+    gap: 0.75rem;
+    background: linear-gradient(90deg, #fff8e8, #fffdf7);
+    border: 1px solid #ffe2b7;
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #5a4a2f;
+    margin-bottom: 1.2rem;
+}
+
+/* ======================================================
+   SECTION CARD
+   ====================================================== */
+.gov-section {
+    background: var(--ayush-card);
+    /* border-radius: 14px; */
+    margin-bottom: 1.2rem;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.08);
+    border: 1px solid #e1efe7;
+    position: relative;
+}
+
+/* ======================================================
+   SECTION TITLE + ICONS
+   ====================================================== */
+
+.gov-section-title {
+    position: relative;
+    padding: 0.8rem 1rem 0.8rem 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ayush-green);
+   background: #f1f8fe;
+   
+    /* border-radius: 14px 14px 0 0; */
+}
+
+.gov-section-title1 {
+    position: relative;
+    padding: 0.8rem 1rem 0rem 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ayush-green);
+    background: #f1f8fe;
+    
+    /* border-radius: 14px 14px 0 0; */
+}
+
+/* Default Ayurveda leaf */
+.gov-section-title::before {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+.gov-section-title1::before {
+    position: absolute;
+    left: 0.8rem;
+    top: 76%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+/* Clinical section */
+/* .gov-section-title1.clinical::before {
+    content: "🩺";
+} */
+
+/* AI section */
+/* .gov-section-title.ai::before {
+    content: "🤖";
+} */
+
+/* ======================================================
+   INFO BOX
+   ====================================================== */
+.gov-info-box {
+    padding: 0.2rem 1rem 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: #2f4f3e;
+   background: #f1f8fe;
+    border-bottom: 1px solid #dadada;
+    
+    font-style: italic;
+}
+
+/* ======================================================
+   TABLE
+   ====================================================== */
+.gov-table-wrapper {
+    overflow-x: auto;
+}
+
+.gov-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.gov-table th {
+    /* background: linear-gradient(90deg, #eaf4ee, #f7fbf8); */
+    background: #f4f6f8;
+    color: var(--ayush-dark-green);
+    padding: 0.65rem;
+    text-align: left;
+    border-bottom: 2px solid #d4d4d4;
+}
+
+.gov-table td {
+    padding: 0.65rem;
+    border-bottom: 1px dashed #cfe3d8;
+    color: #243b2f;
+}
+
+.gov-table tr:nth-child(even) td {
+    background: #fbfefd;
+}
+
+/* ======================================================
+   AI GUIDANCE – CENTERED WATERMARK
+   ====================================================== */
+.gov-section.ai-guidance .gov-content-box {
+    position: relative;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    overflow: hidden;
+}
+
+/* Center watermark image */
+.gov-section.ai-guidance .gov-content-box::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 320px;               /* 🔥 bigger image */
+    height: 320px;
+    transform: translate(-50%, -50%);
+    background-image: url("/resource/ayushHerbalBg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.05;              /* 🔥 watermark feel */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Text always above watermark */
+.gov-section.ai-guidance .rich-text-content {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* Text above watermark */
+.gov-section.ai-guidance .rich-text-content {
+    position: relative;
+    z-index: 1;
+}
+
+.rich-text-content {
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: #243b2f;
+}
+
+/* Section headings inside AI text */
+.rich-text-content b,
+.rich-text-content strong {
+    display: block;
+    margin-top: 0.9rem;
+    margin-bottom: 0.4rem;
+    color: #1f4d37;
+}
+
+/* Square bracket headers */
+.rich-text-content p:has(strong) {
+    background: #f3faf6;
+    padding: 0.6rem 0.75rem;
+    border-left: 4px solid #2f6f4e;
+    /* border-radius: 4px; */
+}
+
+.gov-content-box {
+    padding: 1rem;
+    background: #ffffff;
+}
+
+/* =========================
+   STICKY FOOTER
+   ========================= */
+.sticky-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid #d7e8df;
+    padding: 0.75rem 2rem 0.75rem 1rem;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Advisory inside footer */
+.footer-advisory {
+    border-left: 3.5px solid var(--ayush-green);
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+    color: black;
+    background: #edf4fd;
+}
+
+
+
+/* Button area */
+.footer-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.bel-btn {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02857em; /* MUI button */
+    /* text-transform: uppercase; */
+
+    height: 36px;
+    width: 8.5rem;
+    padding: 6px 14px;
+
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 150ms ease,
+                box-shadow 150ms ease,
+                transform 50ms ease;
+}
+
+/* PRIMARY (Next) */
+.bel-btn-primary {
+    background-color: #2065d1;
+    color: #ffffff;
+}
+
+.bel-btn-primary:hover {
+    background-color: #1a54ad;
+}
+
+.bel-btn-primary:active {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
+                0px 2px 2px 0px rgba(0,0,0,0.14),
+                0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+
+/* SECONDARY (Back) */
+.bel-btn-secondary {
+    background-color: #dfe3e8;
+    color: rgba(0,0,0,0.87);
+}
+
+.bel-btn-secondary:hover {
+    background-color: #d5d9de;
+}
+
+.bel-btn-secondary:active {
+    background-color: #ccd1d6;
+}
+
+/* Disabled state (optional but recommended) */
+.bel-btn:disabled {
+    background-color: rgba(0,0,0,0.12);
+    color: rgba(0,0,0,0.38);
+    cursor: not-allowed;
+}
+
+
+
+/* ======================================================
+   COMMON
+   ====================================================== */
+.hindi {
+    margin-top: 0.35rem;
+    font-weight: 500;
+    color: #355f4a;
+}
+
+/* Inline Emergency Styles for AI Guidance Section */
+.emergency-alert-inline {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    /* border-radius: 6px; */
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+.emergency-icon-inline {
+    --sds-c-icon-color-foreground-default: #dc2626;
+    flex-shrink: 0;
+}
+
+.emergency-content-inline {
+    flex: 1;
+}
+
+.emergency-title-inline {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #991b1b;
+}
+
+.emergency-message-inline {
+    color: #1f2937;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}

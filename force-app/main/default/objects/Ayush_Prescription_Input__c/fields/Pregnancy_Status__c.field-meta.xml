@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pregnancy_Status__c</fullName>
+    <label>Pregnancy Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Applicable</fullName>
+                <default>false</default>
+                <label>Not Applicable</label>
+            </value>
+            <value>
+                <fullName>Pregnant</fullName>
+                <default>false</default>
+                <label>Pregnant</label>
+            </value>
+            <value>
+                <fullName>Lactating</fullName>
+                <default>false</default>
+                <label>Lactating</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

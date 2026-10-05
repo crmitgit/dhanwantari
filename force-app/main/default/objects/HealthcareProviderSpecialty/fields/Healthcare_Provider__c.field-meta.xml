@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Healthcare_Provider__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Healthcare Provider</label>
+    <referenceTo>HealthcareProvider</referenceTo>
+    <relationshipLabel>Healthcare Provider Specialties</relationshipLabel>
+    <relationshipName>Healthcare_Provider_Specialties</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,95 @@
+<!--
+  @description       : 
+  @author            : Karishma
+  @group             : 
+  @last modified on  : 18-07-2025
+  @last modified by  : Karishma
+-->
+<template>
+    <div class="form-container">
+        <div class="filters slds-grid slds-gutters">
+            <div class="slds-col slds-size_5-of-12">
+                <lightning-combobox
+                    name="city"
+                    label="District"
+                    placeholder="Select District"
+                    options={cityOptions}
+                    value={selectedCity}
+                    onchange={handleCityChange}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_5-of-12">
+                <lightning-input 
+                    type="text" 
+                    placeholder="Search by Pin Code" 
+                    label="Pin Code" 
+                    value={pinCode} 
+                    onchange={handlePinCodeChange}>
+                </lightning-input>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_col-bordered slds-table_striped slds-table_fixed-layout">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Sr.No</th>
+                        <th>Kendra Code</th>
+                        <th>Owner Name</th>
+                        <th>Contact No.</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Pin Code</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={filteredList} for:item="kendra">
+                        <tr key={kendra.janaushadhiId}>
+                            <td>
+                                <lightning-input 
+                                    type="radio" 
+                                    data-id={kendra.janaushadhiId}  
+                                    checked={kendra.isSelected} 
+                                    onchange={handleSelect}>
+                                </lightning-input>
+                            </td>
+                            <td>{kendra.index}</td>
+                            <td>{kendra.KendraCode}</td>
+                            <td>{kendra.OwnerName}</td>
+                            <td>{kendra.ContactNumber}</td>
+                            <td>{kendra.State}</td>
+                            <td>{kendra.City}</td>
+                            <td>{kendra.PostalCode}</td>
+                            <td>{kendra.Street}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+       <div style="text-align:center; margin-top:1rem;">
+    <lightning-button 
+        label="Get QR Code" 
+        variant="brand" 
+        onclick={handleSubmit}
+        disabled={isLoading}>
+    </lightning-button>
+</div>
+
+<template if:true={isLoading}>
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <lightning-spinner 
+                alternative-text="Generating QR Code..." 
+                size="large" variant="brand">
+            </lightning-spinner>
+            <div class="loading-text">
+                <p>Generating QR Code...</p>
+                <!-- <p class="loading-subtext">Please wait while we process your request</p> -->
+            </div>
+        </div>
+    </div>
+</template>
+    </div>
+</template>

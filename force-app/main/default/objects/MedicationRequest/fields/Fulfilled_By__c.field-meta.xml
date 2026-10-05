@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fulfilled_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Fulfilled By</label>
+    <referenceTo>Janaushadhi_Pharmacy__c</referenceTo>
+    <relationshipLabel>Medications / दवा अनुरोध</relationshipLabel>
+    <relationshipName>Medications</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

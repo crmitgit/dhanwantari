@@ -1,0 +1,288 @@
+<template>
+<template if:false={showExpiredState}>
+    <div class="consent-portal">
+        <!-- OTP Verification Screen -->
+        <template if:true={showOTPScreen}>
+    <div class="screen-container">
+            <div class="logo-section">
+                <img src={leftCornerImageUrl} alt="Dhanwantari Logo" class="logo-image" />
+                <h1 class="brand-name">Dhanwantari Arogya</h1>
+                <p class="page-title">Patient Verification / मरीज सत्यापन</p>
+            </div>
+        
+
+        <div class="content-card">
+            <div class="otp">
+                <p class="otp-label">Enter the 6-digit OTP sent to *****56457 </p>
+                <div class="otp-container">
+                    <template for:each={otpInputs} for:item="input" for:index="index">
+                        <input key={input.id} 
+                            type="text" 
+                            maxlength="1" 
+                            value={input.value}
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            data-index={index} 
+                            oninput={handleOTPChange} 
+                            onkeydown={handleOTPKeydown}
+                            class="otp-input"
+                            autocomplete="one-time-code">
+                    </template>
+                </div>
+            </div>
+
+            <div class="resend-section">
+                <p class="resend-text">
+                    Didn't receive the code? 
+                    <lightning-button variant="base" label="Resend OTP" onclick={handleResendOTP}
+                        class="resend-button">
+                    </lightning-button>
+                </p>
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-primary" onclick={handleVerifyOTP}>
+                        <lightning-icon icon-name="utility:unlock" size="x-small"></lightning-icon>
+                        Verify & Continue / सत्यापित करें और जारी रखें
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</template>
+
+        <!-- Consent Screen -->
+        <template if:true={showConsentScreen}>
+            <div class="screen-container">
+                <div class="logo-section">
+                    <img src={leftCornerImageUrl} alt="Dhanwantri Logo" class="logo-image" />
+                    <h1 class="brand-name">Dhanwantri Arogya</h1>
+                    <h2 class="page-title">Patient Consent for Medical Records / चिकित्सा रिकॉर्ड के लिए मरीज की सहमति</h2>
+                </div>
+                
+                <!-- Consent Status Badge (if already consented) -->
+                <template if:true={isAlreadyConsented}>
+                    <div class="status-badge granted">
+                        <lightning-icon icon-name="utility:check" size="x-small"></lightning-icon>
+                        <span>Consent Previously Granted / सहमति पहले दी गई</span>
+                    </div>
+                </template>
+                
+                <template if:true={isConsentRevoked}>
+                    <div class="status-badge revoked">
+                        <lightning-icon icon-name="utility:ban" size="x-small"></lightning-icon>
+                        <span>Consent Revoked / सहमति रद्द कर दी गई</span>
+                    </div>
+                </template>
+                
+                <!-- Patient Details -->
+                <div class="patient-details-card">
+                    <h3 class="section-title">Patient Details / मरीज का विवरण</h3>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Full Name / पूरा नाम:</span>
+                            <span class="detail-value">{patientName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Age / उम्र:</span>
+                            <span class="detail-value">{patientAge}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Gender / लिंग:</span>
+                            <span class="detail-value">{patientGender}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phone / फोन:</span>
+                            <span class="detail-value">{phoneNumber}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Referring PHWC / संदर्भित PHWC:</span>
+                            <span class="detail-value">PHWC Chamoli</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Referring Doctor / संदर्भित डॉक्टर:</span>
+                            <span class="detail-value">{referredBy}</span>
+                        </div>
+                    </div>
+                    <div class="referred-to-section">
+                        <span class="detail-label">Referred To Hospital / अस्पताल को संदर्भित:</span>
+                        <span class="detail-value highlight">{referredTo}</span>
+                    </div>
+                </div>
+                
+                <!-- Consent Information -->
+                <div class="consent-info-card">
+                    <template if:false={isAlreadyConsented}>
+                        <p class="consent-text">
+                            You are consenting to share the following medical records with <strong>{referredTo} </strong> 
+                            for the purpose of medical treatment and care.
+                        </p>
+                        <p class="consent-text-hindi">
+                            आप चिकित्सा उपचार और देखभाल के उद्देश्य से निम्नलिखित चिकित्सा रिकॉर्ड 
+                            <strong> {referredTo}</strong> के साथ साझा करने की सहमति दे रहे हैं।
+                        </p>
+                    </template>
+                    
+                    <template if:true={isAlreadyConsented}>
+                        <p class="consent-text">
+                            You have previously granted consent to share these medical records with <strong>{referredTo}</strong>.
+                            You can revoke this consent if you wish to stop sharing your medical information.
+                        </p>
+                        <p class="consent-text-hindi">
+                            आपने पहले इन चिकित्सा रिकॉर्ड को <strong>{referredTo}</strong> के साथ साझा करने की सहमति दी है।
+                            यदि आप अपनी चिकित्सा जानकारी साझा करना बंद करना चाहते हैं तो आप इस सहमति को रद्द कर सकते हैं।
+                        </p>
+                    </template>
+                </div>
+                
+                <!-- Referral Summary Files -->
+                <div class="files-card">
+                    <h3 class="section-title">Referral Summary / रेफरल सारांश</h3>
+                    <template if:true={hasSummaryFiles}>
+                        <template for:each={summaryFiles} for:item="file">
+                            <div key={file.Id} class="file-item">
+                                <lightning-input 
+                                    type="checkbox" 
+                                    label={file.Title}
+                                    checked={file.checked}
+                                    data-file-id={file.Id}
+                                    disabled={isAlreadyConsented}
+                                    onchange={handleFileSelection}>
+                                </lightning-input>
+                                <div class="file-icon">
+                                    <template if:true={file.isPDF}>
+                                        <lightning-icon icon-name="doctype:pdf" size="small"></lightning-icon>
+                                    </template>
+                                    <template if:false={file.isPDF}>
+                                        <lightning-icon icon-name="doctype:attachment" size="small"></lightning-icon>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={hasSummaryFiles}>
+                        <p class="no-files-message">No referral summary files available</p>
+                    </template>
+                </div>
+                
+                <!-- Patient Reports -->
+                <div class="files-card">
+                    <h3 class="section-title">Patient Reports / मरीज की रिपोर्ट</h3>
+                    <template if:true={hasDiagnosticFiles}>
+                        <template for:each={diagnosticFiles} for:item="file">
+                            <div key={file.Id} class="file-item">
+                                <lightning-input 
+                                    type="checkbox" 
+                                    label={file.Title}
+                                    checked={file.checked}
+                                    data-file-id={file.Id}
+                                    disabled={isAlreadyConsented}
+                                    onchange={handleFileSelection}>
+                                </lightning-input>
+                                <div class="file-icon">
+                                    <template if:true={file.isPDF}>
+                                        <lightning-icon icon-name="doctype:pdf" size="small"></lightning-icon>
+                                    </template>
+                                    <template if:false={file.isPDF}>
+                                        <lightning-icon icon-name="doctype:attachment" size="small"></lightning-icon>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={hasDiagnosticFiles}>
+                        <p class="no-files-message">No diagnostic reports available</p>
+                    </template>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <template if:false={isAlreadyConsented}>
+                        <button class="btn btn-primary" onclick={handleGrantConsent}>
+                            <lightning-icon icon-name="utility:check" size="x-small"></lightning-icon>
+                            Yes, Proceed with Selected / हां, चयनित के साथ आगे बढ़ें
+                        </button>
+                        <button class="btn btn-decline" onclick={handleDeclineConsent}>
+                            <lightning-icon icon-name="utility:close" size="x-small"></lightning-icon>
+                            No, Decline / नहीं, अस्वीकार करें
+                        </button>
+                    </template>
+                    
+                    <template if:true={isAlreadyConsented}>
+                        <button class="btn btn-revoke" onclick={handleRevokeConsent}>
+                            <lightning-icon icon-name="utility:ban" size="x-small"></lightning-icon>
+                            Revoke Consent / सहमति रद्द करें
+                        </button>
+                    </template>
+                </div>
+                
+                <template if:true={successMessage}>
+                    <div class="success-message">
+                        <lightning-icon icon-name="utility:success" size="small"></lightning-icon>
+                        <span>{successMessage}</span>
+                    </div>
+                </template>
+                
+                <template if:true={errorMessage}>
+                    <div class="error-message">
+                        <lightning-icon icon-name="utility:error" size="small"></lightning-icon>
+                        <span>{errorMessage}</span>
+                    </div>
+                </template>
+            </div>
+        </template>
+        
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="loading-overlay">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+        </template>
+        
+        <!-- Error State -->
+        <template if:true={showErrorState}>
+            <div class="screen-container">
+                <div class="logo-section">
+                    <img src={logoUrl} alt="Dhanwantri Logo" class="logo-image" />
+                    <h1 class="brand-name">Dhanwantri Arogya</h1>
+                </div>
+                
+                <div class="content-card error-state">
+                    <lightning-icon icon-name="utility:error" size="large"></lightning-icon>
+                    <h2>Unable to Load Consent Details</h2>
+                    <p class="error-message">{errorMessage}</p>
+                </div>
+            </div>
+        </template>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Powered by Dhanwantri Arogya • © CRMIT Solutions</p>
+        </div>
+    </div>
+</template>
+<template if:true={showExpiredState}>
+    <div class="expired-container slds-flex slds-align_absolute-center">
+        <div class="expired-card">
+            <div class="icon-wrapper">
+                <lightning-icon 
+                    icon-name="utility:clock" 
+                    variant="warning" 
+                    size="large"
+                    class="custom-icon">
+                </lightning-icon>
+            </div>
+
+            <h2 class="slds-text-heading_medium slds-m-top_medium header-text">
+                Link Expired <br/> 
+                <span class="hindi-text">लिंक की वैधता समाप्त हो गई है</span>
+            </h2>
+
+            <div class="divider"></div>
+
+            <p class="slds-text-body_regular error-message">
+                {errorMessage}
+            </p>
+        </div>
+    </div>
+</template>
+</template>

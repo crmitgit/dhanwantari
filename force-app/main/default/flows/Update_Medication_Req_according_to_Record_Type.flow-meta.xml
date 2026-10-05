@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_record_type</name>
+        <label>Check record type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>if_allopathy</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Alleopathy</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Alleopathy</targetReference>
+            </connector>
+            <label>if allopathy</label>
+        </rules>
+        <rules>
+            <name>if_ayurvedic</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Ayurvedic</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Ayurvedic</targetReference>
+            </connector>
+            <label>if ayurvedic</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Update Medication Req according to Record Type {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Medication Req according to Record Type</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Alleopathy</name>
+        <label>Update Alleopathy</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Medicine_Type__c</field>
+            <value>
+                <stringValue>Alleopathy</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.MedReq_Medication</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Ayurvedic</name>
+        <label>Update Ayurvedic</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Medicine_Type__c</field>
+            <value>
+                <stringValue>Ayurvedic</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.MedReq_Medication</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_record_type</targetReference>
+        </connector>
+        <object>Medication</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

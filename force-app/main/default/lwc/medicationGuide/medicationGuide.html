@@ -1,0 +1,131 @@
+<template>
+    <template if:true={isModalOpen}>
+
+        <div class="modal-backdrop">
+            <!-- LOADING SPINNER -->
+            <template if:true={isLoading}>
+                <div class="spinner-overlay">
+                    <lightning-spinner size="medium"></lightning-spinner>
+                    <div class="powered-by floating">
+                        Powered by CRMIT Solutions
+                    </div>
+                    <div class="loading-text">
+                        AI is generating medication suggestions…
+                    </div>
+                </div>
+            </template>
+
+
+            <div class="modal-container">
+                <!-- Close Button -->
+                <!-- <div class="close-button">
+                    <lightning-button-icon icon-name="utility:close" variant="bare" alternative-text="Close"
+                        onclick={closeModal}>
+                    </lightning-button-icon>
+                </div> -->
+
+                <!-- HEADER -->
+                <div class="gov-header">
+                    <!-- <img src={pmjayLogo} class="gov-logo-left" alt="PMJAY" /> -->
+                    <div class="gov-header-title">
+                       <h1>AI Medication Assistant<br /></h1>
+                        <p>औषधि मार्गदर्शन</p>
+                    </div>
+                    <!-- <img src={governmentLogo} class="gov-logo-right" alt="Govt of India" /> -->
+                </div>
+
+                <div class="modal-body">
+                    <!-- DISCLAIMER -->
+                    <div class="gov-disclaimer">
+                        <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                        <div>
+                            <b>Disclaimer & Compliance Advisory/ अस्वीकरण एवं अनुपालन परामर्श</b>
+                            <p>
+                                This system supports clinical decision-making but does not replace medical judgment.
+                                Medication information is for reference only and must be validated by a registered
+                                medical practitioner. /  यह प्रणाली चिकित्सकीय निर्णय का स्थान नहीं लेती। सभी औषधियों का सत्यापन
+                                पंजीकृत चिकित्सक द्वारा अनिवार्य है।
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- CLINICAL FACTORS -->
+                    <template if:true={filteredConsiderations.length}>
+                        <div class="gov-section">
+                            <div class="gov-section-title1 clinical">
+                                Patient-Specific Clinical Factors / रोगी-विशिष्ट नैदानिक कारक
+                            </div>
+
+                            <div class="gov-info-box">
+                                Medication recommendations are generated after evaluating patient-specific
+                                clinical parameters. / रोगी-विशिष्ट नैदानिक कारकों के आधार पर औषधि सुझाव तैयार किए गए हैं।
+                            </div>
+
+                            <div class="gov-table-wrapper">
+                                        <!-- Watermark -->
+                                <table class="gov-table">
+                                    <thead>
+                                        <tr>
+                                            <template for:each={filteredConsiderations} for:item="col">
+                                                <th key={col.label}>{col.label}</th>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template for:each={filteredConsiderations} for:item="col">
+                                                <td key={col.label}>{col.value}</td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- AI SUMMARY -->
+                    <div class="gov-section ai-guidance">
+                        <div class="gov-section-title ai">
+                            AI-Generated Medication Guidance / एआई-आधारित औषधि मार्गदर्शन
+                        </div>
+                        <div class="gov-content-box">
+                            <!-- <div class="watermark-container">
+                                <img src={crmitLogo} alt="Watermark" class="watermark-image" />
+                            </div> -->
+                            <div class="rich-text-content" data-id="aiSummaryContainer"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- FINAL ADVISORY -->
+                <div class="modal-footer sticky-footer">
+
+                    <!-- ADVISORY -->
+                    <div class="gov-footer-advisory footer-advisory">
+                        Final prescriptions must be reviewed and approved by the attending physician.
+                        <div class="hindi">
+                            अंतिम पर्चे की स्वीकृति संबंधित चिकित्सक द्वारा अनिवार्य है।
+                        </div>
+                    </div>
+
+                    <div class="footer-actions">
+                        <button
+                            class="bel-btn bel-btn-primary"
+                            onclick={handleBack}>
+                            Back / वापस जाएँ
+                        </button>
+
+                        <button
+                            class="bel-btn bel-btn-secondary"
+                            onclick={closeModal}>
+                            Close / बंद करें
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</template>

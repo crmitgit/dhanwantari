@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complete_By</fullName>
+    <active>false</active>
+    <errorConditionFormula>IF(ISNEW() = FALSE &amp;&amp; Requested_Completion_Date__c &lt; TODAY(),true,false)</errorConditionFormula>
+    <errorMessage>Requested Completion Date must be today or a future date. / अनुरोधित पूर्णता तिथि आज या उसके बाद की होनी चाहिए।</errorMessage>
+</ValidationRule>

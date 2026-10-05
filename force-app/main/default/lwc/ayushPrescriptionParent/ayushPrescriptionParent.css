@@ -1,0 +1,97 @@
+/* CENTER THE POPUP */
+.ayush-center-wrapper {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    background: transparent; /* no grey background */
+}
+
+.spinner-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+}
+
+
+/* POPUP SIZE (MADE BIGGER) */
+.ayush-card {
+    width: 480px;        /* 👈 bigger than before */
+    max-width: 90%;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    overflow: hidden;
+    font-family: Salesforce Sans, Arial, sans-serif;
+}
+
+/* HEADER */
+.ayush-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f3f4f6;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.ayush-title {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.leaf-img {
+    width: 40px;
+    height: 25px;
+    object-fit: contain;
+}
+.ayush-title span {
+    color: #000000;
+}
+/* BODY */
+.ayush-body {
+    padding: 16px;
+}
+
+.warning-box {
+    display: flex;
+    gap: 12px;
+    background: #f7f7f7;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+/* BROWN WARNING ICON */
+.warning-icon {
+    --slds-c-icon-color-foreground-default: #F5A623; /* yellow/amber */
+    --slds-c-icon-color-foreground: #F5A623;
+}
+
+
+
+.warning-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #000000;
+}
+
+.warning-text {
+    font-size: 13px;
+    color:#000000;
+    line-height: 1.5;
+}
+
+/* ACTION */
+.ayush-action {
+    margin-top: 16px;
+    text-align: right;
+}

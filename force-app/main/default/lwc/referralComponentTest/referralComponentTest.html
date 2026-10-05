@@ -1,0 +1,1234 @@
+<template>
+
+    <template if:true={isShowDraftSelectionModal}>
+        <div class="slds-card clinical-encounters-container slds-modal_large">
+            <div class="slds-card__header slds-grid slds-grid_align-spread header-fixed-top">
+                <div class="header-left-section">
+                    <img src={leftCornerImageUrl} alt="PMJAY Logo" class="corner-icon left-logo-image" />
+                </div>
+
+                <div class="slds-col slds-size_12-of-24 slds-text-align_center">
+                    <p style="font-size: 1.2rem; font-weight: 500; margin: 0;">
+                        Draft Referrals:
+                        <span style="font-size: 1.2rem; font-weight: 500; margin-left: 4px;">{patientName}/{age}Y</span>
+                    </p>
+                </div>
+
+                <div class="header-right-section">
+                    <img src={rightCornerImageUrl} alt="Government Logo" class="corner-icon right-logo-image" />
+                </div>
+            </div>
+
+            <div class="fixed-content-top slds-card__body_inner slds-p-vertical_xx-small slds-text-align_center">
+                <div class="info_comp1">
+                    <p class="slds-text-body_small note ">
+                        <span class="" style="font-size: 15.1px;">Select a Draft Referral to continue or create a New
+                            Referral / ड्राफ्ट रेफरल जारी रखने के लिए चुनें या नया रेफरल बनाएं।</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="selection-actions slds-grid slds-m-bottom_medium slds-card__body_inner">
+                <div class="slds-col slds-size_3-of-12"></div>
+            </div>
+
+            <!-- Draft Referrals Table -->
+            <div class="scrollable-records-list">
+                <div class="encounter-list">
+                    <template if:true={draftReferrals}>
+                        <!-- Table Header -->
+                        <div class="encounter-header table-header-style">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-col slds-size_1-of-12 slds-p-right_small">
+                                    <!-- Checkbox column header -->
+                                </div>
+                                <div class="slds-col slds-size_2-of-12 slds-p-right_small slds-m-left_small">
+                                    <p class="field-label header-text">Created Date</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12 slds-p-right_small">
+                                    <p class="field-label header-text">Primary Specialty</p>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                    <p class="field-label header-text">Referred To</p>
+                                </div>
+                                <div class="slds-col slds-size_2-of-12  ">
+                                    <p class="field-label header-text">Priority</p>
+                                </div>
+                                <!-- <div class="slds-col slds-size_1-of-12">
+                                <p class="field-label header-text">Action</p>
+                            </div> -->
+                            </div>
+                        </div>
+
+                        <!-- Table Rows -->
+                        <template for:each={draftReferrals} for:item="draftReferral">
+                            <div key={draftReferral.referralId} class="encounter-card slds-card slds-m-bottom_small"
+                                data-id={draftReferral.referralId} onclick={handleDraftSelect} style="cursor: pointer;">
+                                <div
+                                    class="slds-card__body slds-card__body_inner slds-grid slds-grid_vertical-align-center slds-wrap">
+                                    <div class="slds-col slds-size_1-of-12 slds-p-right_small">
+                                        <lightning-input type="radio" name="draftReferralRadio"
+                                            checked={draftReferral.selected} data-id={draftReferral.referralId}
+                                            onchange={handleDraftSelect} label="">
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12 slds-p-right_small">
+                                        <lightning-button variant="base" label={draftReferral.createdDate}
+                                            title={draftReferral.createdDate} data-id={draftReferral.referralId}
+                                            onclick={handleReferralClick} class="encounter-link">
+                                        </lightning-button>
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-right_small">
+                                        <p class="field-value" title={draftReferral.primarySpecialty}>
+                                            {draftReferral.primarySpecialty}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_4-of-12 slds-p-right_small">
+                                        <p class="field-value" title={draftReferral.referredToName}>
+                                            {draftReferral.referredToName}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12 slds-p-left_small"
+                                        style="padding-left: 23px;">
+                                        <lightning-badge label={draftReferral.referralPriority}
+                                            variant={draftReferral.priorityVariant}
+                                            style="width: 75px; justify-content: center;">
+                                        </lightning-badge>
+                                    </div>
+                                    <!-- <div class="slds-col slds-size_1-of-12"> -->
+                                    <!-- Action menu removed for simplicity -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:false={draftReferrals}>
+                        <div class="slds-align_absolute-center slds-var-p-around_medium">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:note" size="large"
+                                    variant="neutral"></lightning-icon>
+                                <p class="slds-text-heading_medium slds-m-top_small">No Draft Referrals Found</p>
+                                <p class="slds-text-body_regular slds-text-color_weak">
+                                    You don't have any draft referrals for this patient.
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={error}>
+                        <div class="slds-text-color_error slds-align_absolute-center slds-var-p-around_medium">
+                            <lightning-icon icon-name="utility:error" size="small" variant="error"
+                                class="slds-m-right_x-small"></lightning-icon>
+                            An error occurred: {error.body.message}
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Footer with action buttons -->
+            <div class="slds-card__footer slds-text-align_right slds-p-around_medium footer-fixed-bottom">
+                <lightning-button label="Cancel" variant="neutral" onclick={handleCancel} class="slds-m-right_small">
+                </lightning-button>
+                <lightning-button label="Use Selected Draft" variant="brand" onclick={handleUseSelectedDraft}
+                    disabled={isSelectedDraftDisabled} class="slds-m-right_small">
+                </lightning-button>
+                <lightning-button label="New Referral" variant="brand-outline" onclick={handleCreateNewReferral}>
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+
+
+    <template if:true={isShowMainModel}>
+        <div class="slds-card clinical-encounters-container slds-modal_large">
+            <div class="slds-card__header slds-grid slds-grid_align-spread header-fixed-top">
+                <div class="header-left-section">
+                    <img src={leftCornerImageUrl} alt="PMJAY Logo" class="corner-icon left-logo-image" />
+                </div>
+
+                <div class="slds-col slds-size_12-of-24 slds-text-align_center">
+                    <p style="font-size: 1.1rem; font-weight: 600; margin: 0;">
+                        <span style="font-size: 1.4rem; font-weight: 500; margin-left: 4px;">{patientName}/{age}Y</span>
+                    </p>
+                </div>
+
+                <div class="header-right-section">
+                    <img src={rightCornerImageUrl} alt="Government Logo" class="corner-icon right-logo-image" />
+                </div>
+            </div>
+
+            <div class="fixed-content-top slds-card__body_inner slds-p-vertical_xx-small slds-text-align_center">
+                <div class="info_comp1">
+                    <!-- <lightning-icon
+                    icon-name="utility:info"
+                    alternative-text="Information"
+                    title="More Info"
+                    size="x-small"
+                    class="slds-m-left_xx-small">
+                </lightning-icon> -->
+                    <p class="slds-text-body_small note ">
+                        <span class="slds-text-heading_small">Select the Consultation(s) whose summary will be used /
+                            परामर्श चुनें - इसका सारांश बनाया जाएगा।</span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="selection-actions slds-grid slds-m-bottom_medium slds-card__body_inner">
+                <div class="slds-col slds-size_3-of-12"></div>
+            </div>
+
+            <!-- table starts here -->
+
+            <div class="scrollable-records-list">
+                <div class="encounter-list">
+                    <template if:true={clinicalEncounters}>
+                        <!-- Table Header -->
+                        <div class="encounter-header table-header-style">
+                            <div class=" slds-grid slds-grid_vertical-align-center ">
+                                <div class="slds-col slds-size_1-of-12 slds-p-right_small">
+                                    <!-- Checkbox column header -->
+                                </div>
+                                <div class="slds-col slds-size_2-of-12 slds-p-right_small slds-m-left_small">
+                                    <p class="field-label header-text">Date</p>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 slds-p-right_small ">
+                                    <p class="field-label header-text">Diagnosis</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12 ">
+                                    <p class="field-label header-text">Doctor</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Rows -->
+                        <template for:each={clinicalEncounters} for:item="encounter">
+                            <div key={encounter.encounterId} class="encounter-card slds-card slds-m-bottom_small"
+                                data-id={encounter.encounterId} onclick={handleCardClick} style="cursor: pointer;">
+                                <div
+                                    class="slds-card__body slds-card__body_inner slds-grid slds-grid_vertical-align-center slds-wrap">
+                                    <div class="slds-col slds-size_1-of-12 slds-p-right_small">
+                                        <lightning-input type="checkbox" name="encounterCheckbox"
+                                            checked={encounter.selected} data-id={encounter.encounterId}
+                                            onchange={handleEncounterSelection} onclick={handleCheckboxClick} label="">
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12 slds-p-right_small">
+                                        <lightning-button variant="base" label={encounter.encounterDate}
+                                            title={encounter.encounterDate} data-id={encounter.encounterId}
+                                            onclick={handleEncounterClick} class="encounter-link">
+                                        </lightning-button>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-right_small">
+                                        <p class="field-value diagnosis-text-2" title={encounter.diagnosis}
+                                            onclick={toggleDiagnosisExpansion} data-id={encounter.encounterId}
+                                            style="cursor: pointer;">
+                                            {encounter.diagnosis}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-p-left_small">
+                                        <p class="field-value">{encounter.prescribingDoctor}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={clinicalEncounters.length}>
+                        <div class="slds-align_absolute-center slds-var-p-around_medium slds-text-heading_small">
+                            <p>This patient has no approved clinical encounters.</p>
+                        </div>
+                    </template>
+
+                    <template if:true={error}>
+                        <div class="slds-text-color_error slds-align_absolute-center slds-var-p-around_medium">
+                            An error occurred: {error.body.message}
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+
+
+            <div class="slds-card__footer slds-text-align_right slds-p-around_medium footer-fixed-bottom">
+                <lightning-button label="Cancel" variant="neutral" onclick={handleCancel} class="slds-m-right_small">
+                </lightning-button>
+                <lightning-button label="Select Provider" variant="brand" onclick={handleProceed}
+                    class="slds-border-radius_none" disabled={proceedButtonDisabled}></lightning-button>
+            </div>
+        </div>
+    </template>
+    <template if:true={isShowReferralModal}>
+        <div class="healthcare-provider-search-container">
+            <header class="healthcare-provider-header slds-grid slds-grid_align-spread">
+                <div class="header-left-section1">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-corner-image medium-image" />
+                </div>
+
+                <div class="healthcare-component-header">
+                    <h1 class="header-title"> Search Empanelled Healthcare Provider</h1>
+                </div>
+
+
+
+                <div class="header-right-section2">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={rightCornerImageUrl} alt="Government Logo" class="right-corner-icon " />
+                </div>
+            </header>
+
+            <div class="search-section-page">
+                <span class="search-section-title">
+                    Select the Specialty(s) to which you would like to refer the Patient /
+                    मरीज़ को रेफर करने के लिए विशेषज्ञता चुनें।
+                </span>
+                <div class="search-form-page">
+                    <div class="single-form-row">
+                        <lightning-combobox name="primarySpecialty" label="Primary Specialty" placeholder="Select"
+                            options={specialtyOptions} value={searchCriteria.primarySpecialty}
+                            data-field="primarySpecialty" onchange={handleInputChange} required class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox name="secondarySpecialty" label="Secondary Specialty" placeholder="Select"
+                            options={specialtyOptions} value={searchCriteria.secondarySpecialty}
+                            data-field="secondarySpecialty" onchange={handleInputChange} class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox label="City" placeholder="Select" value={searchCriteria.city}
+                            options={cityOptions} data-field="city" onchange={handleInputChange} required
+                            class="custom-combobox">
+                        </lightning-combobox>
+
+                        <lightning-combobox name="hospitalType" label="Hospital Type" placeholder="Select"
+                            options={hospitalTypeOptions} value={searchCriteria.hospitalType} data-field="hospitalType"
+                            onchange={handleInputChange} class="custom-combobox">
+                        </lightning-combobox>
+                    </div>
+                    <div class="search-button-wrapper-page">
+                        <button class="generate-summary-btn" onclick={handleSearch} disabled={isLoadingProviders}>
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path
+                                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                            </svg>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <template if:true={isLoadingProviders}>
+                <div class="loading-container">
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={isLoadingProviders}>
+                <template if:true={showResults}>
+                    <div class="results-section-page">
+                        <h3 class="results-title-page">Search Results ({searchResults.length})</h3>
+
+                        <template if:true={hasResults}>
+                            <div class="results-scroll-wrapper">
+                                <div class="results-grid-page">
+                                    <template for:each={searchResults} for:item="provider">
+                                        <div key={provider.Id} class={provider.cardClass} data-id={provider.Id}
+                                            onclick={handleProviderCardClick} tabindex="0" role="button">
+
+                                            <div class="provider-content-page">
+                                                <div class="provider-selection-radio">
+                                                    <lightning-input type="radio" name="providerSelection"
+                                                        value={provider.Id} checked={provider.isSelected}
+                                                        data-id={provider.Id} onchange={handleProviderSelection}>
+                                                    </lightning-input>
+                                                </div>
+
+                                                <div class="provider-details-page">
+
+                                                    <h4 class="provider-name-page"><span>🏥</span> {provider.Name}</h4>
+
+                                                    <template if:true={provider.displayAddress}>
+                                                        <p class="provider-address-page">
+                                                            <span>📍</span>
+                                                            <span class="address-text">{provider.displayAddress}</span>
+                                                        </p>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </template>
+
+                        <template if:false={hasResults}>
+                            <div class="no-results-page">
+                                <p>No healthcare providers found matching your search criteria.</p>
+                                <p>Try adjusting your search parameters and search again.</p>
+
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+
+            <footer class="healthcare-provider-footer">
+                <button class="lightning-btn lightning-btn--neutral" onclick={handleBackToMainModal}>
+                    Back
+                </button>
+                <button class="lightning-btn lightning-btn--brand " onclick={handleProceedToCaseFile}
+                    disabled={isProceedToCaseFileDisabled}>
+                    Proceed to Refer
+                </button>
+            </footer>
+        </div>
+    </template>
+
+    <template if:true={isShowCaseFileModal}>
+        <!-- start -->
+        <div class="case-file-container">
+
+            <div class="component-header">
+                <div class="header-left-section1">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-corner-image medium-image" />
+                </div>
+
+                <h1 class="header-title">{summaryTitle}</h1>
+
+                <div class="header-right-section2">
+                    <!-- Swapped src and alt attributes -->
+                    <img src={rightCornerImageUrl} alt="Government Logo" class="right-corner-icon " />
+                </div>
+
+                <!-- <div class="logo-section">
+                    <img src={logoUrl} alt="Case File Logo" class="document-logo" />
+                </div> -->
+
+            </div>
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoadingCaseFile}>
+                <div class="loading-container">
+                    <lightning-spinner alternative-text="Loading case file data..." size="medium"></lightning-spinner>
+                    <div class="loading-message">
+                        <p>Generating Referral Summary</p>
+                    </div>
+                </div>
+            </template>
+
+
+
+
+            <!-- Error Message -->
+            <template if:true={error}>
+                <div class="error-container">
+                    <lightning-icon icon-name="utility:error" variant="error" size="small"></lightning-icon>
+                    <span class="error-message">{error}</span>
+                </div>
+            </template>
+
+            <!-- Case File Content -->
+            <template if:false={isLoadingCaseFile}>
+                <template if:false={error}>
+
+                    <div class="case-file-document">
+                        <template if:true={isLoadingReferralCreation}>
+                            <div class="loading-container">
+                                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                <div class="loading-message">
+                                    <p>{currentLoadingMessage}</p>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Logo Section -->
+
+
+                        <!-- Document Title  -->
+                        <!-- <div class="document-title">
+                        <h2>Patient Referral Summary</h2>
+                    </div> -->
+
+                        <!-- Top Header Row -->
+                        <template if:false={isLoadingReferralCreation}>
+                            <div class="referTo">
+                                <span>Referring to: {selectedProviderName}</span>
+                            </div>
+                            <div class="top-header-row">
+                                <div class="header-item">
+                                    <strong>Referral ID: </strong>
+                                    <span class="value">{currentReferralName}</span>
+                                </div>
+                                <div class="header-item">
+                                    <strong>{caseData.patientName}/{caseData.patientAge}Y</strong>
+                                </div>
+                                <div class="header-item">
+                                    <strong>Mob: {caseData.patientPhone}</strong>
+                                </div>
+                            </div>
+
+                            <!-- Horizontal Line -->
+                            <div class="divider"></div>
+
+                            <!-- Patient Information Grid -->
+                            <div class="patient-info-grid">
+                                <!-- Left Column -->
+                                <div class="info-column">
+                                    <div class="info-row">
+                                        <span class="label">Gender:</span>
+                                        <span class="value">{caseData.gender}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">PMJAY ID:</span>
+                                        <span class="value">{caseData.pmJayId}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Aadhar Number:</span>
+                                        <span class="value">{caseData.aadharNumber}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Attendant Name:</span>
+                                        <span class="value">{caseData.attendantName}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Attendant Phone:</span>
+                                        <span class="value">{caseData.attendantPhone}</span>
+                                    </div>
+                                </div>
+                                <!-- Right Column -->
+                                <div class="info-column">
+
+                                    <div class="info-row">
+                                        <span class="label">Referring PHWC:</span>
+                                        <span class="value">{caseData.facilityName}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Referring Doctor</span>
+                                        <span class="value">{caseData.doctorName}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Doctor's Phone:</span>
+                                        <span class="value">{caseData.doctorPhone}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Referred Primary Specialty:</span>
+                                        <span class="value">{primarySpecialityName}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Referred Secondary Specialty:</span>
+                                        <span class="value">{displaySecondarySpecialty}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Input Fields Section -->
+
+
+                            <!-- Horizontal Line -->
+                            <div class="divider"></div>
+
+                            <div class="slds-card slds-m-top_medium">
+                                <!-- <div class="slds-card__header">
+                    <h2 class="slds-card__header-title slds-text-heading_small">
+                        Referral Details
+                    </h2>
+                </div> -->
+                                <div class="slds-card__body slds-card__body_inner bold-label">
+                                    <div class="slds-grid slds-gutters slds-wrap slds-p-bottom_none">
+                                        <!-- Recommended Visit By Date Field -->
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-left_none ">
+                                            <lightning-input type="date" name="recommendedVisitBy"
+                                                label="Recommended Visit Before" value={recommendedVisitBy}
+                                                onchange={handleRecommendedVisitByChange} required
+                                                class="slds-m-bottom_small">
+                                            </lightning-input>
+                                        </div>
+
+                                        <!-- Referral Priority Picklist -->
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-right_none">
+                                            <lightning-combobox name="referralPriority" label="Referral Priority"
+                                                value={referralPriority} placeholder="Select Priority"
+                                                options={priorityOptions} onchange={handleReferralPriorityChange}
+                                                required class="slds-m-bottom_small">
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Referral and Care Summary Section -->
+                            <div class="textarea-section">
+
+                                 <div class="textarea-container">
+                                    <div class="AI_headingContainer">
+                                        <div class="info-iconTitle-container"><label class="textarea-label"
+                                                for="referralSummaryBYAI">Referral Summary / रेफ़रल सारांश
+                                            </label>
+                                            <!-- <lightning-icon icon-name="utility:info" alternative-text="Information"
+                                                title="This data has been pulled from the latest Consultation"
+                                                size="x-small" class="slds-m-left_xx-small slds-m-top_xx-small">
+                                            </lightning-icon> -->
+                                        </div>
+
+
+                                         <div class="AI_helperTextSection">
+                                            <img src={genAI} alt="genAI" class="genAI" title="This summary was generated by AI">
+                                         <span class="helper-text">This summary was generated by AI</span>
+                                         </div>
+                                    </div>
+
+
+                                    <textarea id="referralSummaryBYAI" name="referralSummaryBYAI" class="custom-textarea"
+                                        placeholder="Referral Summary"
+                                        onchange={handleReferralSummaryChange}>{referralSummaryBYAI}</textarea>
+                                </div>
+
+                                <div class="ai-confirmation">
+                                    <lightning-input type="checkbox" name="aiConfirmationCheckbox"
+                                        onchange={handleAiConfirmationChange} class="ai-confirmation-checkbox">
+                                    </lightning-input>
+                                    <span class="ai-confirmation-text">I have reviewed and edited the summary above as
+                                        needed to accurately reflect the patient's condition.</span>
+                                </div>
+                               <label class="textarea-label"><span style="color:red">*</span> Reason for Referral / रेफरल का कारण
+                               </label>
+                                <div class="textarea-container">
+                                 
+                                    <textarea id="reasonForReferral" name="reasonForReferral" class={textareaClass}
+                                        placeholder="E.g. Patient needs evaluation for suspected stable angina with worsening exertional dyspnea. Cardiology consult recommended for diagnostic confirmation and initiation of therapy. Please assess for possible admission under PMJAY if warranted."
+                                        oninput={handleReasonChange}>{reasonForReferral}</textarea>
+
+                                    <div class="validation-info">
+                                        <span class={characterCountClass}>{characterCount}/50 characters</span>
+                                        <template if:true={showError}>
+                                            <div class="error-message">Please enter at least 50 characters</div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <div class="textarea-container">
+                                    <div class="AI_headingContainer">
+                                        <div class="info-iconTitle-container"><label class="textarea-label"
+                                                for="careSummary">Chief Complaints / मुख्य शिकायतें
+                                            </label>
+                                            <lightning-icon icon-name="utility:info" alternative-text="Information"
+                                                title="This data has been pulled from the latest Consultation"
+                                                size="x-small" class="slds-m-left_xx-small slds-m-top_xx-small">
+                                            </lightning-icon>
+                                        </div>
+
+
+                                        <!-- <div class="AI_helperTextSection">
+                                            <img src={genAI} alt="genAI" class="genAI" title="This summary was generated by AI"> -->
+                                        <!-- <span class="helper-text">This summary was generated by AI</span> -->
+                                        <!-- </div> -->
+                                    </div>
+
+
+                                    <textarea id="careSummary" name="careSummary" class="custom-textarea"
+                                        placeholder="Enter Chief Complaints"
+                                        onchange={handleCareChange}>{careSummary}</textarea>
+                                </div>
+                                <!-- AI Summary Confirmation Checkbox -->
+                                <!-- <div class="ai-confirmation">
+                                    <lightning-input type="checkbox" name="aiConfirmationCheckbox"
+                                        onchange={handleAiConfirmationChange} class="ai-confirmation-checkbox">
+                                    </lightning-input>
+                                    <span class="ai-confirmation-text">I have reviewed and edited the summary above as
+                                        needed to accurately reflect the patient's condition.</span>
+                                </div> -->
+                            </div>
+
+                            <!-- new textbox for diagnosis -->
+                            <div class="textarea-section">
+                                <div class="textarea-container">
+                                    <div class="info-iconTitle-container">
+                                        <label class="textarea-label" for="preliminaryDiagnosis">Diagnosis /
+                                            निदान</label>
+                                        <lightning-icon icon-name="utility:info" alternative-text="Information"
+                                            title="This data has been pulled from the latest Consultation"
+                                            size="x-small" class="slds-m-left_xx-small slds-m-top_xx-small">
+                                        </lightning-icon>
+                                    </div>
+
+                                    <textarea id="preliminaryDiagnosis" name="preliminaryDiagnosis"
+                                        class="custom-textarea"
+                                        placeholder="E.g. Hypertension —— Essential hypertension with target organ damage"
+                                        onchange={handlePreliminaryDiagnosisChange}>
+                                    {preliminaryDiagnosis}
+                                </textarea>
+                                </div>
+                            </div>
+
+                            <!-- Clinical Encounter Timeline Card -->
+                            <div class="slds-card">
+                                <!-- Header with small bold title aligned left -->
+                                <div class="timeline-header-container slds-text-align_left">
+                                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+
+                                        <div class="slds-media__body slds-text-align_left">
+                                            <h3 class="timeline-header-title">
+                                                <strong>Consultation Timeline / अपॉइंटमेंट कालक्रम</strong>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Loading Spinner -->
+                                <template if:true={isLoading}>
+                                    <div class="timeline-body-container">
+                                        <lightning-spinner alternative-text="Loading timeline data..." size="medium">
+                                        </lightning-spinner>
+                                    </div>
+                                </template>
+
+                                <!-- Timeline Data Table -->
+                                <template if:false={isLoading}>
+                                    <div class="timeline-body-container">
+                                        <template if:true={hasData}>
+                                            <div class="timeline-table-container">
+                                                <table
+                                                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Date">Date</div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Doctor/PHWC">
+                                                                    Doctor/PHWC
+                                                                </div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Symptoms">Chief
+                                                                    Complaints
+                                                                </div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Diagnosis">Diagnosis
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={timelineData} for:item="encounter">
+                                                            <tr key={encounter.id}>
+                                                                <td data-label="Date">
+                                                                    <div class="cell-content wrapped-text "
+                                                                        title={encounter.date}>
+                                                                        {encounter.date}
+                                                                    </div>
+                                                                </td>
+                                                                <td data-label="Doctor/PHWC">
+                                                                    <div class="slds-truncate cell-content wrapped-text"
+                                                                        title={encounter.doctorFacility}>
+                                                                        {encounter.doctorFacility}
+                                                                    </div>
+                                                                </td>
+                                                                <td data-label="Symptoms">
+                                                                    <div class="cell-content wrapped-text"
+                                                                        title={encounter.symptoms}>
+                                                                        {encounter.symptoms}
+                                                                    </div>
+                                                                </td>
+                                                                <td data-label="Diagnosis">
+                                                                    <div class="cell-content wrapped-text">
+                                                                        <lightning-formatted-rich-text
+                                                                            value={encounter.diagnosis}>
+                                                                        </lightning-formatted-rich-text>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </template>
+
+                                        <!-- Empty State -->
+                                        <template if:false={hasData}>
+                                            <div class="slds-text-align_center slds-p-vertical_large">
+                                                <lightning-icon icon-name="utility:info" size="large"
+                                                    class="slds-m-bottom_small"></lightning-icon>
+                                                <p class="slds-text-heading_small">No timeline data available</p>
+                                                <p class="slds-text-body_regular slds-text-color_weak">
+                                                    No clinical encounters found for the selected criteria.
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- medication tables -->
+
+                            <div class="medication-container">
+                                <!-- Loading Spinner -->
+                                <template if:true={isLoading}>
+                                    <div class="slds-text-align_center slds-p-vertical_large">
+                                        <lightning-spinner alternative-text="Loading medication data..." size="medium">
+                                        </lightning-spinner>
+                                    </div>
+                                </template>
+
+                                <!-- Error Message -->
+                                <template if:true={error}>
+                                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error"
+                                        role="alert">
+                                        <span class="slds-assistive-text">Error</span>
+                                        <lightning-icon icon-name="utility:error" variant="inverse" size="x-small"
+                                            class="slds-m-right_x-small"></lightning-icon>
+                                        <h2>{error}</h2>
+                                    </div>
+                                </template>
+
+                                <!-- Medication Content -->
+                                <template if:false={isLoading}>
+                                    <!-- Active Medications Section -->
+                                    <div class="slds-card ">
+                                        <div class="">
+                                            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+
+                                                <div class="slds-media__body slds-text-align_left">
+                                                    <h3 class="medication-title-header">
+                                                        <strong>Active Medication / वर्तमान दवाएं</strong>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <template if:true={hasActiveMedications}>
+                                                <div class="medication-table-container">
+                                                    <table
+                                                        class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                                        <thead>
+                                                            <tr class="slds-line-height_reset">
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="Medication">
+                                                                        Medication
+                                                                    </div>
+                                                                </th>
+                                                                <!-- <th class="slds-text-title_caps" scope="col">
+                                                            <div class="slds-truncate" title="Dosage">Dosage</div>
+                                                        </th> -->
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="Frequency">
+                                                                        Frequency
+                                                                    </div>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="Start Date">
+                                                                        Started On
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <template for:each={activeMedications}
+                                                                for:item="medication">
+                                                                <tr key={medication.id}>
+                                                                    <td data-label="Medication">
+                                                                        <div class="cell-content"
+                                                                            title={medication.name}>
+                                                                            <strong>{medication.name}</strong>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!-- <td data-label="Dosage">
+                                                                <div class="cell-content" title={medication.dosage}>
+                                                                    {medication.dosage}
+                                                                </div>
+                                                            </td> -->
+                                                                    <td data-label="Frequency">
+                                                                        <div class="cell-content"
+                                                                            title={medication.frequency}>
+                                                                            {medication.frequency}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td data-label="Start Date">
+                                                                        <div class="cell-content">
+
+                                                                            {medication.formattedStartDate}
+
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </template>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </template>
+
+                                            <!-- Empty State for Active Medications -->
+                                            <template if:false={hasActiveMedications}>
+                                                <div class="slds-text-align_left">
+                                                    <!-- <lightning-icon icon-name="utility:info" size="large"
+                                                        class="slds-m-bottom_small slds-icon-text-default"></lightning-icon> -->
+                                                    <!-- <p class="slds-text-heading_small">No Active Medications</p> -->
+                                                    <p class="slds-text-body_regular slds-text-color_weak">
+                                                        No active medications found for this patient.
+                                                    </p>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Past Medications Section -->
+                                    <div class="">
+                                        <div class="">
+                                            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+
+                                                <div class="slds-media__body slds-text-align_left">
+                                                    <h3 class="medication-title-header">
+                                                        <strong>Past Medication / पूर्व की दवाएँ</strong>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <template if:true={hasPastMedications}>
+                                                <div class="medication-table-container">
+                                                    <table
+                                                        class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                                        <thead>
+                                                            <tr class="slds-line-height_reset">
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="Medication">
+                                                                        Medication
+                                                                    </div>
+                                                                </th>
+                                                                <!-- <th class="slds-text-title_caps" scope="col">
+                                                            <div class="slds-truncate" title="Dosage">Dosage</div>
+                                                        </th> -->
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="Frequency">
+                                                                        Frequency
+                                                                    </div>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <div class="slds-truncate" title="End Date">Until
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <template for:each={pastMedications} for:item="medication">
+                                                                <tr key={medication.id}>
+                                                                    <td data-label="Medication">
+                                                                        <div class="cell-content"
+                                                                            title={medication.name}>
+                                                                            {medication.name}
+                                                                        </div>
+                                                                    </td>
+                                                                    <!-- <td data-label="Dosage">
+                                                                <div class="cell-content" title={medication.dosage}>
+                                                                    {medication.dosage}
+                                                                </div>
+                                                            </td> -->
+                                                                    <td data-label="Frequency">
+                                                                        <div class="cell-content"
+                                                                            title={medication.frequency}>
+                                                                            {medication.frequency}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td data-label="End Date">
+                                                                        <div class="cell-content">
+
+                                                                            {medication.formattedEndDate}
+
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </template>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </template>
+
+                                            <!-- Empty State for Past Medications -->
+                                            <template if:false={hasPastMedications}>
+                                                <div class="slds-text-align_left">
+                                                    <!-- <lightning-icon icon-name="utility:info" size="small"
+                                                        class="slds-m-bottom_small slds-icon-text-default"></lightning-icon> -->
+                                                    <!-- <p class="slds-text-heading_small">No Past Medications</p> -->
+                                                    <p class="slds-text-body_regular slds-text-color_weak">
+                                                        No past medications found for this patient.
+                                                    </p>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <!-- Test Reports Summary Section - Add this after medication tables -->
+                            <div class="slds-card slds-m-bottom_medium">
+                                <!-- Header with small bold title aligned left -->
+                                <div class="investigations_done_title">
+
+
+                                    <h3 class="investigation-done-title">
+                                        <strong>Investigations Done / कराए गए परीक्षण</strong>
+                                    </h3>
+                                    <span class="helper-text">Reports will be attached to the referral email.</span>
+
+
+                                </div>
+
+                                <!-- Loading Spinner -->
+                                <template if:true={isLoading}>
+                                    <div class="timeline-body-container">
+                                        <lightning-spinner alternative-text="Loading test reports data..."
+                                            size="medium">
+                                        </lightning-spinner>
+                                    </div>
+                                </template>
+
+                                <!-- Test Reports Data Table -->
+                                <template if:false={isLoading}>
+                                    <div class="timeline-body-container">
+                                        <template if:true={hasTestReports}>
+                                            <!-- Changed class name from timeline-table-container to test-reports-table-container -->
+                                            <div class="test-reports-table-container">
+                                                <table
+                                                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Test Name">Test Name
+                                                                </div>
+                                                            </th>
+                                                            <!-- <th class="slds-text-title_caps" scope="col">
+                                                            <div class="slds-truncate" title="Date">Date</div>
+                                                        </th>
+                                                        <th class="slds-text-title_caps" scope="col">
+                                                            <div class="slds-truncate" title="Status">Status</div>
+                                                        </th> -->
+                                                            <!-- Removed Key Findings column header -->
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={formattedTestReportsData} for:item="report">
+                                                            <tr key={report.id}>
+                                                                <td data-label="Test Name">
+                                                                    <div class="cell-content wrapped-text"
+                                                                        title={report.testName}>
+                                                                        <strong>{report.testName} </strong>
+                                                                        <span>( {report.testDate} )</span>
+                                                                    </div>
+                                                                </td>
+                                                                <!-- <td data-label="Date">
+                                                                <div class="cell-content" title={report.date}>
+                                                                    {report.formattedDate}
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="Status">
+                                                                <div class="cell-content" title={report.status}>
+                                                                    {report.status}
+                                                                </div>
+                                                            </td> -->
+                                                                <!-- Removed Key Findings column data -->
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </template>
+
+
+                                        <template if:false={hasTestReports}>
+                                            <div class="slds-text-align_left">
+                                                <!-- <lightning-icon icon-name="utility:info" size="large"
+                                                    class="slds-m-bottom_small"></lightning-icon> -->
+                                                <!-- <p class="slds-text-heading_small">No Test Reports Available</p> -->
+                                                <p class="slds-text-body_regular slds-text-color_weak">
+                                                    No test reports found for this patient.
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- declaration -->
+
+                            <div class="consent-section">
+    <h4 class="consent-heading">Patient Consent / रोगी की सहमति</h4>
+   
+    <!-- Digital Consent -->
+    <div class="consent-option">
+        <!-- <div class="option-header">
+            <lightning-button
+                label="Request Patient Consent"
+                variant="brand"
+                onclick={handleRequestConsent}
+                disabled={isConsentPending}
+                icon-name="utility:email"
+                class="request-btn">
+            </lightning-button>
+           
+            <template if:true={isConsentPending}>
+                <span class="pending-badge">Email Sent - Awaiting Response</span>
+            </template>
+        </div>
+         -->
+        <lightning-input
+            type="checkbox"
+            label="Initiate Patient consent request before sharing clinical records with the Empanelled Provider"
+            checked={isDigitalConsentInitiated}
+            onchange={handleDigitalConsentToggle}
+
+            class="consent-checkbox digital-consent">
+        </lightning-input>
+       
+        <template if:true={isConsentPending}>
+            <p class="info-text">
+                <lightning-icon icon-name="utility:info" size="xx-small"></lightning-icon>
+                This will auto-check when patient approves via email link
+            </p>
+        </template>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+        <span>OR</span>
+    </div>
+
+    <!-- Manual Consent -->
+    <div class="consent-option">
+        <lightning-input
+            type="checkbox"
+            label="I attest that informed verbal consent has been obtained from the patient."
+            checked={isManualConsentChecked}
+            onchange={handleManualConsentToggle}
+            class="consent-checkbox manual-consent">
+        </lightning-input>
+
+        <template if:true={isManualConsentChecked}>
+            <div class="manual-reason-container">
+               <div class="textarea-container">
+            <lightning-combobox
+                name="manualConsentReason"
+                label="Reason for Manual Consent"
+                placeholder="Select a reason"
+                value={manualConsentReason}
+                options={manualConsentReasonOptions}
+                onchange={handleManualConsentReasonChange}
+                required>
+            </lightning-combobox>
+
+            <template if:true={showError}>
+                <div class="error-message">
+                    Please select a reason for manual consent
+                </div>
+            </template>
+                                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Consent Status Summary -->
+    <!-- <template if:true={hasAnyConsent}>
+        <div class="consent-summary success">
+            <lightning-icon icon-name="utility:success" size="x-small"></lightning-icon>
+            <span>Consent obtained - You can proceed with referral</span>
+        </div>
+    </template>
+
+    <template if:false={hasAnyConsent}>
+        <div class="consent-summary warning">
+            <lightning-icon icon-name="utility:warning" size="x-small"></lightning-icon>
+            <span>Consent required to proceed</span>
+        </div>
+    </template> -->
+</div>
+
+
+
+                            <!-- <div class="consent-declaration">
+                                <h4 class="consent-heading">Declaration / घोषणा </h4>
+                                <div class="consent-text">
+                                    <lightning-input type="checkbox" name="consentCheckbox"
+                                        onchange={handleConsentChange} class="consent-checkbox">
+                                    </lightning-input>
+                                    <span>Consent taken from Patient/Attendant for sharing this information with the
+                                        referred Care Provider.</span>
+                                </div>
+                            </div> -->
+
+
+                            <!-- Horizontal Line -->
+                            <div class="divider"></div>
+
+
+                        </template>
+                    </div>
+                    <template if:false={isLoadingReferralCreation}>
+                        <div class="footer">
+
+
+                            <button class="back-button-caseFile" onclick={handleBackToReferralModal}>Back</button>
+
+                            <!-- Disabled button when checkbox is unchecked -->
+                            <button class="back-button-caseFile" onclick={handleSaveAsDraft}>Save As Draft</button>
+                            <button class={buttonClass} onclick={handleReferButtonClick}
+                                disabled={buttonDisabled}>Refer</button>
+
+                            <!-- Enabled button when checkbox is checked -->
+
+                        </div>
+                    </template>
+
+                </template>
+
+
+            </template>
+        </div>
+        <!-- end -->
+    </template>
+
+    <template if:true={showConfirmationModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="confirmation-modal-container">
+                    <div class="confirmation-modal-header">
+                        <h2 class="confirmation-modal-title">Confirm Referral</h2>
+                    </div>
+
+                    <div class="confirmation-modal-body">
+                        <template if:true={isManualConsentChecked}>
+                        <p class="confirmation-message">
+                            Are you sure you want to proceed with the Referral?
+                            This action will send an email notification to the Referred Provider.
+                        </p>
+                        </template>
+                         <template if:true={isDigitalConsentInitiated}>
+                        <p class="confirmation-message">
+                            Note: This action will initiate a consent request to the Patient.
+                            The Referral will be sent to the Provider after consent is granted.
+                        </p>
+                        </template>
+
+                    </div>
+
+                    <div class="confirmation-modal-footer">
+                        <button class="confirmation-cancel-button" onclick={handleConfirmationCancel}>
+                            Cancel
+                        </button>
+                        <button class="confirmation-proceed-button" onclick={handleCreateReferral}>
+                            Refer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" style="height: 85%;margin-top: 46px;opacity: 0.5;"></div>
+    </template>
+
+    <!-- end  -->
+</template>

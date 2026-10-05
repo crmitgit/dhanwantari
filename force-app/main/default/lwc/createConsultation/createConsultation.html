@@ -1,0 +1,259 @@
+<template>
+    <template if:true={isModalOpen}>
+
+        <!-- Modal Backdrop -->
+        <div style="
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        ">
+
+            <!-- Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Modal Container -->
+            <div style="
+                position: relative;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                max-height: 85vh;
+                max-width: 800px;
+                width: 100%;
+            ">
+
+                <!-- Close -->
+                <div style="position: absolute; top: 1rem; right: 1rem; z-index: 1;">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        variant="bare"
+                        alternative-text="Close"
+                        onclick={closeModal}>
+                    </lightning-button-icon>
+                </div>
+
+                <!-- CONTENT -->
+                <div style="overflow-y: auto; padding: 1.5rem; flex-grow: 1;">
+
+                    <!-- HEADER -->
+                    <div class="slds-grid slds-align_absolute-center slds-m-bottom_medium"
+                         style="width: 96%; border-bottom: 1.5px solid #ccc;">
+
+                        <div class="slds-col slds-size_2-of-12 slds-text-align_center">
+                            <img src={pmjayLogo} style="height: 65px; width: auto; margin-left: 5px;" />
+                        </div>
+
+                        <div class="slds-col slds-size_10-of-12 slds-text-heading_medium slds-text-align_center"
+                             style="font-weight: 500;">
+                            New Consultation / नया अपॉइंटमेंट
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                            <img src={governmentLogo} style="height: 35px; width: 75px; margin-left: -90px;" />
+                        </div>
+                    </div>
+
+                    <!-- PATIENT INFO -->
+                    <div class="info-section slds-box slds-theme_default slds-m-bottom_medium">
+                        <div class="slds-grid slds-wrap slds-gutters slds-p-around_x-small slds-align_absolute-center">
+
+                            <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                                <p class="slds-text-title_caps slds-text-color_weak"
+                                   style="font-weight: 700;">Patient Name / मरीज़ का नाम</p>
+
+                                <a href={patientUrl} target="_blank"
+                                   style="font-size: 16px; font-weight: 500; color: #0176D3;">
+                                    {patientName}
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- FORM SECTION -->
+                    <div class="field-section slds-m-top_medium">
+
+                        <div class="slds-grid slds-wrap slds-gutters">
+
+                            <!-- Consultation Type -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-combobox
+                                    label="Consultation Type / अपॉइंटमेंट प्रकार"
+                                    value={form.Patient_Type__c}
+                                    options={consultationTypeOptions}
+                                    data-field="Patient_Type__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-combobox
+                                    label="Status / स्थिति"
+                                    value={form.Status}
+                                    options={statusOptions}
+                                    data-field="Status"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-combobox
+                                    label="Category / श्रेणी"
+                                    value={form.Category}
+                                    options={categoryOptions}
+                                    data-field="Category"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input
+                                    type="date"
+                                    label="Start Date / प्रारंभ तिथि"
+                                    value={form.StartDate}
+                                    data-field="StartDate"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <!-- Symptoms -->
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-textarea
+                                    label="Chief Complaints / मुख्य शिकायत"
+                                    value={form.Symptoms__c}
+                                    data-field="Symptoms__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-textarea>
+                            </div>
+
+                            <!-- Vikriti -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-combobox
+                                    label="Vikriti / विकृति"
+                                    value={form.Vikriti__c}
+                                    options={vikritiOptions}
+                                    data-field="Vikriti__c"
+                                    onchange={handleChange}>
+                                </lightning-combobox>
+                            </div>
+
+                            <!-- Additional Info -->
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-textarea
+                                    label="Additional Information / अतिरिक्त जानकारी"
+                                    value={form.Additional_Information__c}
+                                    data-field="Additional_Information__c"
+                                    onchange={handleChange}>
+                                </lightning-textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- VITALS -->
+                    <div class="field-section slds-m-top_medium">
+
+                        <div class="slds-text-heading_small slds-m-bottom_small">
+                            Vitals / जीवन संकेत
+                        </div>
+
+                        <div class="slds-grid slds-wrap slds-gutters">
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input type="number" label="Height (cm) / कद (से.मी.)"
+                                    value={form.Height_in_cm__c}
+                                    data-field="Height_in_cm__c"
+                                    field-level-help="Auto-filled from patient record"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input type="number" label="Weight (kg) / वजन (किलो)"
+                                    value={form.Weight_in_Kg__c}
+                                    data-field="Weight_in_Kg__c"
+                                    onchange={handleChange}
+                                    field-level-help="Auto-filled from patient record"
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input type="number" label="Pulse Rate / नाड़ी दर (बीपीएम)"
+                                    value={form.Pulse_Rate_in_BPM__c}
+                                    data-field="Pulse_Rate_in_BPM__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input type="number" label="Body Temp / तापमान (°F)"
+                                    value={form.Body_Temperature__c}
+                                    data-field="Body_Temperature__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input type="number" label="SpO2 / ऑक्सीजन स्तर (%)"
+                                    value={form.SpO2__c}
+                                    data-field="SpO2__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input label="Blood Pressure / रक्तचाप"
+                                    value={form.Blood_Pressure__c}
+                                    data-field="Blood_Pressure__c"
+                                    onchange={handleChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div style="
+                    padding: 1rem;
+                    border-top: 1px solid #eee;
+                    background-color: #f9f9f9;
+                    display: flex;
+                    justify-content: center;
+                    gap: 1rem;
+                ">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+
+                    <lightning-button label="Save"
+                        variant="brand"
+                        onclick={handleSave}>
+                    </lightning-button>
+                </div>
+
+            </div>
+        </div>
+
+    </template>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Care_Transition__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Care Transition / देखभाल हस्तांतरण</label>
+    <referenceTo>Care_Transition__c</referenceTo>
+    <relationshipLabel>Careplans</relationshipLabel>
+    <relationshipName>Careplans</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,65 @@
+.rounded-button {
+    border-radius: 1.5rem;
+    padding: 0.5rem 1.25rem;
+}
+
+.modal-open {
+    overflow: hidden;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+
+.field-section {
+    /* subtle card look */
+    border: 1px solid #d8dde6;   /* matches SLDS token “$color-border” */
+    border-radius: 0.25rem;      /* SLDS small radius */
+    padding: 1rem 1.25rem;       /* breathing room inside the box */
+    background: #fff;            /* guarantee white background */
+}
+
+.info-section {
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    background-color: #f4f6f9;
+    padding: 1rem;
+}
+
+/* .slds-spinner_container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 50%;
+    height: 50%;
+    z-index: 10001;
+    background-color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.slds-spinner_container {
+    z-index: 9000;
+    width: 69vw;
+    max-height: 69vh;
+    top: 16%;
+    left: 11%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* optional – gives each row a little space on narrow screens */
+.field-section .slds-col {
+    margin-bottom: 1rem;
+}
+
+.custom-modal .slds-modal__container {
+    width: 90vw;
+    max-width: 1000px;
+    max-height: 85vh;
+    margin: 5vh auto 0 auto; /* lowered placement */
+    overflow-y: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}

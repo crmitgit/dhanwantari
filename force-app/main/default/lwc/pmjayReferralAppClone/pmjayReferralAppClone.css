@@ -1,0 +1,2533 @@
+.pmjay-portal-container {
+    font-family: 'Arial', sans-serif;
+    max-width: 1450px;
+    margin: 20px auto;
+    background-color: #fffaf0; /* Light saffron background for the whole page */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* ===============================
+   CONSENT PENDING WARNING BOX
+   =============================== */
+
+.consent-warning-box {
+    margin: 24px auto;
+    padding: 24px 28px;
+    max-width: 900px;
+
+    background: #fff7e6;            /* Soft warning background */
+    border: 1px solid #f3c87a;      /* Govt-style amber border */
+    border-left: 6px solid #f59e0b; /* Emphasis strip */
+
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+
+    text-align: left;
+}
+
+/* Heading */
+.consent-warning-box h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #92400e; /* Dark amber */
+}
+
+/* Paragraph text */
+.consent-warning-box p {
+    margin: 6px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #78350f;
+}
+
+/* Optional subtle icon alignment (if used later) */
+.consent-warning-box .icon {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .consent-warning-box {
+        padding: 18px 20px;
+        margin: 16px;
+    }
+
+    .consent-warning-box h3 {
+        font-size: 16px;
+    }
+
+    .consent-warning-box p {
+        font-size: 13px;
+    }
+}
+
+
+/* Container for the read-only info */
+.info-display-grid {
+    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+    gap: 20px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background to distinguish area */
+    border-radius: 8px;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .info-display-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-label {
+        font-size: 12px;
+    }
+
+    .info-value {
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
+
+/* Individual item styling */
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+/* The Label (Grey/Small) */
+.info-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.grid{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* The Value (Dark/Bold/No Border) */
+.info-value {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+    padding: 4px 0;
+    border-bottom: 1px solid #eee; /* Optional: adds a subtle underline instead of a box */
+    display: block;
+    flex-grow: 1;
+    padding-bottom: 6px;
+    line-height: 1.4;
+}
+
+/* Add these styles to your existing pmjayReferralApp.css file */
+
+.thank-you-page {
+    display: flex;
+    min-height: 350px; /* Adjust as needed */
+}
+
+.thank-you-icon {
+    --sds-c-icon-color-foreground: #128807; /* BJP Green for success icon */
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.thank-you-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF9933; /* BJP Saffron */
+    margin-bottom: 15px;
+}
+
+.thank-you-page .description-text {
+    font-size: 1.1em;
+    font-weight: normal;
+    color: #343a40; /* Darker grey for main text */
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.thank-you-page .description-color {
+    color: #128807; /* Maintain green for specific emphasized text */
+}
+
+/* Ensure the button on the thank you page is styled correctly */
+.thank-you-page .custom-button {
+    margin-top: 0; /* Remove extra margin if inherited */
+}
+/* Header Styling */
+.pmjay-header {
+    display: flex;
+    justify-content: space-between; /* Distribute items to edges */
+    align-items: center;
+    padding: 10px 20px; /* Adjusted padding to give logos space */
+    background-color: #fcf8e3; /* Soft saffron tint for header */
+    border-bottom: 1px solid #faefd8; /* Slightly darker saffron tint border */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.pmjay-header-left {
+    display: flex; /* Changed to row to align logo and text side-by-side */
+    flex-direction: row; /* Explicitly set to row */
+    align-items: center;
+    gap: 8px; /* Space between logo and text */
+    font-size: 0.85em;
+    color: #4a4a4a; /* Darker grey for text */
+}
+
+/* User-provided logo classes */
+.left-logo {
+    height: 75px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    /* Removed negative margins to let the padding control position relative to header */
+}
+
+.pmjay-logo-text {
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.pmjay-header-center {
+    flex-grow: 1; /* Allows it to take available space */
+    text-align: center;
+}
+
+.pmjay-title {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #FF9933; /* BJP Saffron - Primary Title */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.pmjay-header-right {
+    display: flex; /* Ensure it's displayed for the NHA logo */
+    align-items: center;
+}
+
+/* User-provided logo classes */
+.right-logo {
+    height: 50px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-right: 15px;
+    /* Removed negative margins to let the padding control position relative to header */
+}
+
+
+/* Progress Stepper Styling */
+.progress-stepper {
+    display: flex;
+    justify-content: center; /* Center the steps horizontally */
+    align-items: center;
+    padding: 20px 0;
+    background-color: #fcf8e3; /* Soft saffron tint for progress stepper background */
+    border-bottom: 1px solid #faefd8;
+    /* Removed gap: 0px; to allow flex-grow on lines to distribute space */
+}
+
+/* General step styling */
+.progress-stepper > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #6c757d; /* Grey for inactive text */
+    font-weight: 500;
+    font-size: 0.85em;
+    text-align: center;
+    flex-shrink: 0;
+    z-index: 1; /* Ensure circles are above lines */
+    padding: 0 25px; /* Increased padding to create more space for lines to fill */
+}
+
+.progress-stepper .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Light grey for inactive circle */
+    color: #4a4a4a; /* Darker grey for number */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Active and Completed Step Styling (using dynamic classes as per LWC template) */
+.progress-stepper .active .circle {
+    background-color: #FF9933; /* BJP Saffron for active circle */
+    color: white; /* White number */
+}
+
+.progress-stepper .active span {
+    color: #FF9933; /* BJP Saffron for active text */
+}
+
+.progress-stepper .completed .circle {
+    background-color: #128807; /* BJP Green for completed circles */
+    color: white; /* This color is for the number if displayed, but we use tick now */
+}
+
+.progress-stepper .completed span {
+    color: #128807; /* BJP Green text for completed steps */
+}
+
+/* Ensure the tick icon inside a completed circle is white */
+.progress-stepper .completed .circle .step-tick {
+    --sds-c-icon-color-foreground: white !important; /* Force white color for the tick */
+}
+
+.progress-stepper .step-tick {
+    /* This general rule sets it to white, but the above more specific rule with !important ensures it */
+    --sds-c-icon-color-foreground: white;
+    width: 20px;
+    height: 20px;
+}
+
+/* Lines between steps */
+.progress-stepper .line {
+    flex-grow: 1; /* Allows lines to take up all available space */
+    height: 2px;
+    background-color: #e0e0e0; /* Light grey for inactive line */
+    /* Adjust margin to effectively span the gap between step divs.
+        (30px circle width / 2) + 25px padding = 40px, so 40px negative margin makes them butt up to circle edges.
+        But we want them to fill the *gap* between the divs, and keep a small visual overlap.
+    */
+    margin: 0 -2px; /* Small negative margin for visual overlap with circles, ensuring continuity */
+    z-index: 0; /* Keep behind steps */
+    transition: background-color 0.3s ease;
+}
+
+.progress-stepper .completed-line {
+    background-color: #128807; /* BJP Green for completed line (progress bar) */
+}
+
+
+/* Patient Care Transmission Section */
+.patient-care-transmission-section {
+    text-align: center;
+    padding: 30px 30px 15px 30px; /* Top padding to visually separate from stepper */
+    background-color: #fcf8e3; /* Soft saffron tint */
+    border-bottom: 1px solid #faefd8;
+}
+
+.section-title {
+    color: #343a40;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    font-weight: 600; /* Medium bold */
+}
+
+.section-description {
+    color: #128807; /* BJP Green */
+    font-size: 1em;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* General description color class for consistency */
+.description-color {
+    color: #128807; /* BJP Green */
+}
+
+
+/* Content Card Styling - Repurposed for Hospital Selection Card */
+.content-card {
+    background-color: #fffaf0; /* Very light saffron for content area background */
+    border-radius: 0 0 8px 8px;
+    justify-content: space-around; /* Center horizontally */
+    position: relative; /* Needed for spinner positioning */
+    min-height: 70vh;
+}
+
+/* Container Spacing */
+.reports-table-container {
+    width: 100%;
+    /* padding: 15px; */
+    background: transparent;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding-top: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Reduce padding on mobile */
+@media (max-width: 600px) {
+    .custom-table {
+        min-width: 80%;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 8px 10px !important;
+        font-size: 13px;
+    }
+
+    .file-name-cell span {
+        white-space: nowrap;
+    }
+}
+
+/* ===============================
+   MOBILE CARD VIEW – NO TITLES
+   =============================== */
+@media (max-width: 600px) {
+
+    .custom-table thead {
+        display: none;
+    }
+
+    .table-header-actions{
+        padding: 0rem 2rem;
+    }
+
+    .custom-table,
+    .custom-table tbody,
+    .custom-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .custom-table tr {
+        margin-bottom: 14px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 12px 14px;
+    }
+
+    .custom-table td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+        border: none;
+        font-size: 14px;
+    }
+
+    /* ❌ REMOVE Document / Download labels */
+    .custom-table td::before {
+        content: none !important;
+    }
+
+    /* File name */
+    .file-name-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        max-width: 90%;
+        overflow: hidden;
+    }
+
+    .file-name-cell span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Download button */
+    .view-btn {
+        padding: 6px 16px;
+        font-size: 13px;
+        width: auto;
+        min-width: 100px;
+    }
+}
+
+/* Heading Styling (Gov Blue with Saffron border) */
+.table-title {
+    margin-bottom: 15px;
+    text-align: left;
+    /* border-left: 4px solid #ff9933; Saffron border for Indian Gov look */
+    padding-left: 10px;
+    margin: 0;
+    color: #343a40;
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: #fcf8e3;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .table-title {
+        font-size: 15px;
+        margin-top: 16px;
+    }
+}
+
+/* Professional Table Styling */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    border: 1px solid #e0e0e0;
+}
+
+.custom-table th {
+    padding: 12px;
+    border-bottom: 2px solid #e0e0e0;
+    text-align: center;
+    font-weight: bold;
+    color: #343a40;
+    font-size: 1em;
+    background: #fffaf0;
+    margin-top: 34px;
+    width: 70%;
+}
+
+.custom-table td {
+    padding: 12px 12px 12px 35px;
+    border-bottom: 2px solid #f0f0f0;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #343a40;
+    font-size: 0.9em;
+}
+
+/* File Name & Icon alignment */
+.file-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pdf-icon {
+    --sds-c-icon-color-foreground: #d32f2f; /* Red for PDF */
+}
+
+/* View Button - Gov Blue Theme */
+.view-btn {
+    background-color: #FF9933;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background 0.3s;
+    margin: 10px 20px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .view-btn {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .consent-warning-box {
+        margin: 16px;
+        padding: 16px;
+    }
+
+    .consent-warning-box h3 {
+        font-size: 15px;
+    }
+
+    .consent-warning-box p {
+        font-size: 13px;
+    }
+}
+
+/* ===============================
+   TABLET VIEW
+   =============================== */
+@media (max-width: 1024px) {
+    .pmjay-title {
+        font-size: 18px;
+        text-wrap: auto;
+    }
+
+    .left-logo,
+    .right-logo {
+        height: 42px;
+        max-width: 120px;
+    }
+}
+
+/* ===============================
+   MOBILE HEADER CLEANUP
+   =============================== */
+
+@media (max-width: 600px) {
+
+    .pmjay-header {
+        background: #fffbe6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .pmjay-header-center {
+        order: 1;
+        width: 100%;
+        text-align: center;
+    }
+
+    .pmjay-title {
+        text-wrap: auto;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.3;
+        padding: 0 6px;
+    }
+
+    /* Logos row */
+    .pmjay-header-left,
+    .pmjay-header-right {
+        order: 2;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    /* Wrap logos in one row */
+    .pmjay-header-left,
+    .pmjay-header-right {
+        display: inline-flex;
+    }
+
+    /* Logos size */
+    .right-logo {
+        height: 32px;
+        max-width: 90px;
+        object-fit: contain;
+    }
+    .left-logo{
+        height: 48px;
+        max-width: 90px;
+        object-fit: contain;
+    }
+
+    /* Put both logos in one row */
+    .pmjay-header-left,
+    .pmjay-header-right {
+        margin: 0;
+    }
+
+    /* Logos container row */
+    .pmjay-header {
+        row-gap: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .pmjay-header-left::after {
+        content: "";
+        display: block;
+        width: 94%;
+        height: 1px;
+        background: #d1d5db;
+        margin: 0 6px;
+    }
+}
+
+
+/* ===============================
+   EXTRA SMALL DEVICES
+   =============================== */
+@media (max-width: 480px) {
+    .pmjay-title {
+        font-size: 18px;
+        text-wrap: auto;
+    }
+
+    .left-logo,
+    .right-logo {
+        height: 36px;
+        max-width: 110px;
+    }
+}
+
+/* Mobile only */
+@media (max-width: 600px) {
+    .step-content-inner {
+        padding: 16px 16px 20px;
+    }
+
+    .description-text {
+        margin-bottom: 12px;
+        font-size: 14px !important;
+        line-height: 1.5;
+        padding: 0rem 1rem;
+    }
+
+    .search-input-group {
+        padding: 8px 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .button-group {
+        justify-content: center;
+    }
+
+    .secondary-button {
+        width: 100%;
+    }
+}
+
+.view-btn:hover {
+    background-color: #E68A2E;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* No Files Alert Box */
+.no-files-card {
+    background: #fff9e6;
+    border: 1px dashed #ffcc00;
+    padding: 20px;
+    text-align: center;
+    color: #856404;
+    margin-top: 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Search bar width fix */
+.search-input-group {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .search-input-group {
+        flex-direction: column;
+        padding: 0rem 1rem;
+    }
+
+    .search-button {
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+}
+
+.center{
+    justify-content: center;
+    align-items: center;
+    height: 70vh !important;
+}
+
+.search-input {
+    flex-grow: 1;
+}
+
+.colFlex{
+    flex-direction: column;
+}
+
+/* ORIGINAL/DEFAULT .step-content styling - COLUMN BASED */
+.step-content {
+    background-color: white; /* Keep content card itself white for contrast with container */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); */
+    /* padding: 15px; */
+    display: flex;
+    /* flex-direction: column; */
+    /* Center items horizontally within the column */
+    width: 100%;
+    box-sizing: border-box;
+    /* padding-left: 10px; */
+    /* max-width is now applied to inner content if needed */
+
+    /* --- ADDED BACKGROUND PROPERTIES --- */
+
+    /* --- END ADDED BACKGROUND PROPERTIES --- */
+}
+
+/* NEW: Specific styling for step-content when it contains images side-by-side */
+.step-content-with-images {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 15px; /* Adjust padding as needed */
+    display: flex;
+    flex-direction: row; /* ONLY this class uses row direction */
+    align-items: center; /* Vertically center content and images */
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between; /* Space out the images and center content */
+}
+.step-content-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    z-index: 2;
+    position: relative;
+
+}
+/* NEW: Styles for the PM images */
+.pm-image {
+    height: 350px; /* Adjust height as per your design */
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+.left-pm-image {
+    /* Specific positioning for the left image */
+    margin-right: 10px; /* Space between image and content */
+}
+
+.right-pm-image {
+    /* Specific positioning for the right image */
+    margin-left: 10px; /* Space between image and content */
+}
+
+
+.step-icon-container {
+    background-color: #fcf8e3; /* A soft, professional yellow/saffron tint */
+    border-radius: 12px; /* Rounded rectangle as per image */
+    padding: 20px; /* Increased padding for a larger circle */
+    margin-bottom: 20px; /* Space between icon and title */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* NEW: Styles for emoji icons within the selection cards */
+.emoji-icon {
+    font-size: 50px; /* Match lightning-icon size */
+    line-height: 1; /* Ensures icon is centered vertically */
+    color: #0070d2; /* Standard Salesforce Blue, close to what you requested */
+    display: flex; /* Use flex to center the emoji if it's multiple characters */
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Styling for custom image icons in step headers */
+.step-custom-icon {
+    width: 45px; /* Adjust size as needed */
+    height: 45px; /* Adjust size as needed */
+    object-fit: contain; /* Ensures image scales within bounds without cropping */
+}
+
+/* New titles for step 1 content as per image */
+.card-title { /* Renamed from hospital-selection-title */
+    color: #343a40;
+    margin-bottom: 8px;
+    font-size: 1.6em;
+    font-weight: 600;
+}
+
+.card-description { /* Renamed from hospital-selection-description */
+    color: #128807; /* BJP Green */
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.4em;
+}
+
+/* Input Fields and Groups for Hospital Selection (Step 1) */
+.hospital-selection-row { /* New class for the specific row of inputs in Step 1 */
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 650px; /* Adjust as needed for input row */
+    /* margin-bottom: 25px; */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center inputs when they wrap */
+    align-items: flex-start; /* Align labels/inputs to the top for consistent placement */
+}
+
+.hospital-input-group { /* New class for each input group in Step 1 */
+    flex: 1;
+    min-width: 280px; /* Minimum width for inputs in a row */
+    margin-bottom: 0; /* Remove if margin is handled by gap */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+/* Styling for generic input labels (used in Step 1 and other steps) */
+.input-label { /* Changed from form-label to input-label based on provided HTML */
+    display: block;
+    font-weight: bold; /* Made bold for better prominence */
+    color: #343a40; /* Darker for better contrast */
+    margin-bottom: 8px;
+    font-size: 0.9em; /* Increased size for better readability */
+}
+
+/* Style for asterisk for required fields */
+.required-field-asterisk {
+    color: #dc3545; /* Red color for asterisk */
+    font-size: 1.1em; /* Slightly larger asterisk */
+    margin-left: 2px; /* Small space from text */
+}
+
+/* Hides the old .required span from your HTML if it's still there */
+.required {
+    display: none;
+}
+
+/* General input and textarea styles (retained most, adjusted padding/height) */
+.custom-input,
+.custom-textarea {
+    width: 100%;
+    padding: 10px 12px; /* Adjusted padding */
+    border: 1px solid #ced4da;
+    border-radius: 6px; /* Default curve */
+    font-size: 1em;
+    color: #495057;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    min-height: 40px; /* Consistent height for inputs */
+}
+
+/* NEW: Smaller placeholder text for custom-input and custom-textarea */
+.custom-input::placeholder,
+.custom-textarea::placeholder {
+    font-size: 0.9em; /* Smaller font size for placeholders */
+    color: #888; /* Slightly lighter color for placeholders */
+}
+
+/* Added for proper curve for dropdowns */
+.custom-dropdown {
+    border-radius: 8px; /* More curved for dropdowns */
+    padding: 12px; /* Added padding for dropdowns */
+}
+
+.custom-input:focus,
+.custom-textarea:focus,
+.custom-dropdown:focus { /* Added .custom-dropdown focus */
+    border-color: #FF9933; /* BJP Saffron on focus */
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.25); /* Saffron glow on focus */
+}
+
+.custom-textarea {
+    min-height: 80px; /* Standard height for textareas */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Specific styling for lightning-combobox internal elements */
+.custom-combobox {
+    /* Design Tokens for background color - this is key */
+    --sds-c-input-color-background: transparent !important; /* Make background transparent */
+    --sds-c-input-background-color: transparent !important;
+    --sds-c-field-color-background: transparent !important;
+    --sds-c-select-color-background: transparent !important;
+    --sds-c-combobox-color-background: transparent !important;
+    --sds-c-button-color-background: transparent !important;
+    --sds-c-button-inverse-color-background: transparent !important;
+
+    /* Maintain borders and padding to match custom-input */
+    --sds-c-input-color-border: #ced4da !important;
+    --sds-c-input-border-radius: 6px !important;
+    --sds-c-input-padding-vertical: 10px !important;
+    --sds-c-input-padding-horizontal: 12px !important;
+    --sds-c-input-font-size: 1em !important;
+
+    /* Fallback and direct overrides to ensure transparency and remove shadow */
+    background-color: transparent !important;
+    border-radius: 6px !important;
+    box-shadow: none !important; /* Remove any combobox default shadow */
+}
+
+/* Targeted to ensure the main input area is transparent */
+.custom-combobox .slds-input {
+    background-color: transparent !important; /* Force transparent background */
+    border: 1px solid #ced4da !important; /* Explicit border */
+    border-radius: 6px !important; /* Match custom-input */
+    padding: 10px 12px !important; /* Match custom-input padding for consistent height */
+    font-size: 1em !important; /* Standard font size */
+    height: auto !important; /* Let content dictate height, but min-height will enforce */
+    min-height: 40px !important; /* Consistent height */
+    color: #495057 !important; /* Consistent text color */
+    line-height: normal !important; /* Allow natural line height */
+    box-sizing: border-box !important; /* Include padding/border in total width/height */
+    text-transform: none !important; /* No forced text transform */
+    box-shadow: none !important; /* Ensure no internal shadow */
+}
+
+/* Override lightning-combobox label style to match general input-label */
+.custom-combobox .slds-form-element__label {
+    font-size: 0.9em !important; /* Make it consistent with .input-label */
+    font-weight: bold !important; /* Make it bold consistent with .input-label */
+    color: #343a40 !important; /* Ensure label text is dark */
+    text-transform: none !important; /* Prevent unwanted uppercase */
+    margin-bottom: 8px !important; /* Consistent margin from input */
+    display: block !important; /* Ensure it takes full width */
+    margin-left: 0 !important; /* Override SLDS default margin if any */
+}
+
+/* Ensure the asterisk aligns correctly within the label */
+.custom-combobox .slds-form-element__label .required-field-asterisk {
+    color: #dc3545 !important; /* Red color for asterisk */
+    font-size: 1.1em !important;
+    margin-left: 2px !important;
+}
+
+/* --- REMOVE THE DROPDOWN ARROW FOR COMBOBOXES --- */
+/* Target the dropdown button/icon within lightning-combobox and hide it */
+.custom-combobox .slds-combobox__input.slds-input_faux .slds-button_icon-bare,
+.custom-combobox .slds-input__icon-group_right lightning-button-icon {
+    display: none !important;
+}
+
+/* Adjust padding for the input text when the icon is removed */
+.custom-combobox .slds-combobox__input.slds-input_faux {
+    padding-right: 12px !important; /* Adjust padding if dropdown arrow is removed to prevent empty space */
+}
+
+/* Ensure the wrapper that normally contains the dropdown icon doesn't add extra space */
+.custom-combobox .slds-input__icon-group {
+    width: auto !important; /* Allow width to shrink */
+}
+
+
+/* --- AGGRESSIVE TARGETING FOR COMBOBOX BACKGROUND (Updated to transparent) --- */
+.custom-combobox button.slds-combobox__input.slds-input_faux {
+    background-color: transparent !important;
+    color: #495057 !important;
+}
+
+.custom-combobox .slds-combobox__form-element {
+    background-color: transparent !important;
+}
+
+.custom-combobox .slds-form-element__control {
+    background-color: transparent !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 6px !important;
+    box-shadow: none !important; /* Also remove shadow from here */
+}
+
+.custom-combobox .slds-button_icon-bare {
+    background-color: transparent !important;
+}
+
+.custom-combobox .slds-input__wrapper {
+    background-color: transparent !important;
+}
+
+/* NEW: Smaller placeholder text for lightning-combobox */
+.custom-combobox .slds-input::placeholder {
+    font-size: 0.9em !important; /* Smaller font size for placeholders */
+    color: #888 !important; /* Slightly lighter color for placeholders */
+    background-color: transparent !important;
+}
+
+.custom-combobox .slds-listbox {
+    /* Keep dropdown list white, but can be adjusted if needed */
+    background-color: white !important;
+    border: 1px solid #ced4da !important; /* Keep border for the dropdown list */
+    border-top: none !important; /* Avoid double border with the input field */
+    border-radius: 0 0 6px 6px !important; /* Rounded only at the bottom */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important; /* Subtle shadow for the dropdown */
+    margin-top: -1px; /* Overlap border with the input field */
+}
+
+.custom-combobox .slds-combobox__input-value {
+    background-color: transparent !important;
+}
+
+.custom-combobox .slds-combobox_container .slds-combobox.slds-dropdown-trigger {
+    background-color: transparent !important;
+}
+/* --- END: AGGRESSIVE TARGETING FOR COMBOBOX BACKGROUND --- */
+
+
+/* Important Info Box */
+.security-info-box { /* Renamed from important-info-box */
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #FF9933; /* BJP Saffron border */
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 650px; /* Match width of input row */
+}
+
+.security-info-box lightning-icon {
+    --sds-c-icon-color-foreground: #FF9933; /* BJP Saffron for info icon */
+    margin-right: 12px;
+    margin-top: 2px; /* Adjust vertical alignment */
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.custom-button.icon-button lightning-icon {
+    --sds-c-icon-color-foreground: white !important; /* Force the icon color to white */
+    margin: 0; /* Remove any extra margins from the icon */
+}
+
+.security-info-box .info-text p {
+    margin: 0;
+    color: #128807; /* BJP Green for description text */
+    font-size: 0.88em;
+    line-height: 1.7em;
+    font-weight: bold;
+}
+
+.security-info-box .info-bold-text {
+    font-weight: bold;
+    color: #FF9933; /* BJP Saffron for bold text */
+}
+
+/* Buttons */
+/* General button styling, specific styles override this */
+.custom-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px; /* Applied to all custom buttons for consistency with the "Select Provider" image */
+    font-size: 1em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 25px; /* Spacing from content above */
+    background-color: orange; /* A professional blue (closer to Chakra Blue) */
+    color: white; /* Ensure text is white for contrast */
+}
+
+.custom-button:hover {
+    background-color: #004494; /* Darker blue on hover for all custom buttons */
+}
+
+/* Specific button for "Proceed with OTP Verification" - This now inherits from .custom-button */
+.proceed-button {
+    /* No need to re-declare background-color and color here as it's handled by .custom-button */
+    font-weight: 500;
+    padding: 12px 25px;
+    border-radius: 8px; /* Ensure this is set for consistency */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inner shadow for depth */
+    margin-top: 30px; /* More space from info box */
+}
+
+/* Removed specific background-color and hover for primary and secondary buttons
+    as they will now inherit from .custom-button. */
+.primary-button {
+    /* background-color: #28a745; */ /* Removed */
+    /* color: white; */ /* Removed */
+}
+
+.primary-button:hover {
+    /* background-color: #218838; */ /* Removed */
+}
+
+.secondary-button {
+    /* background-color: #6c757d; */ /* Removed */
+    /* color: white; */ /* Removed */
+}
+
+.secondary-button:hover {
+    /* background-color: #5a6268; */ /* Removed */
+}
+.custom-combobox .slds-form-element__label.slds-required::after {
+    content: '*';              /* Red asterisk */
+    color: red;                /* Make it red */
+    margin-left: 2px;          /* Space from label */
+    position: static;
+    vertical-align: top;
+    font-size: 1rem;
+}
+
+
+/* Ensure the main label itself doesn't have extra padding that pushes content away from the asterisk */
+.custom-combobox .slds-form-element__label {
+    padding-right: 0 !important;
+}
+
+
+.button-icon-right {
+    margin-left: 8px; /* Icon on the right */
+    margin-right: 0; /* Ensure no left margin */
+    --sds-c-icon-color-foreground: white; /* Ensure icon is white */
+}
+.full-page-overlay {
+    position: fixed; /* Fixes it to the viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white for dimming */
+    backdrop-filter: blur(3px); /* Applies blur effect to content behind */
+    -webkit-backdrop-filter: blur(3px); /* Safari support for backdrop-filter */
+    z-index: 9999; /* Ensures it's on top of everything else */
+    display: flex; /* Use flexbox to center the spinner */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.button-icon { /* Generic icon for other buttons (if not .button-icon-right) */
+    margin-right: 8px;
+    --sds-c-icon-color-foreground: white; /* Ensure icon is white */
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    /* margin-top: 30px; */
+    width: 100%;
+    justify-content: center; /* Center buttons */
+    padding: 15px;
+}
+
+/* OTP Input Specific Styling */
+/* NEW/MODIFIED STYLES FOR OTP SECTION START */
+.step-content h2 { /* Targeting the H2 specifically within .step-content for OTP Verification */
+    margin-bottom: 10px; /* Reduced space below the H2 heading */
+    margin-top: 20px; /* Reduced space above the H2 heading */
+    font-size: 1.6em; /* Ensure consistent heading size */
+    color: #343a40; /* Consistent heading color */
+}
+
+.step-content .description-text { /* Targeting the description text below the heading */
+    margin-bottom: 25px;
+    font-size: 1em;
+    color: #128807; /* BJP Green */
+    padding-right: 30px;
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+.otp-input-container {
+    display: flex;
+    gap: 10px; /* Reduced gap between OTP input boxes */
+    margin-bottom: 20px; /* Reduced space below the OTP inputs */
+    justify-content: center;
+}
+
+.otp-input {
+    width: 45px; /* Reduced width for slightly smaller boxes */
+    height: 45px; /* Reduced height for slightly smaller boxes */
+    text-align: center;
+    font-size: 1.6em; /* Reduced font size for digits */
+    border: 1px solid #ced4da;
+    border-radius: 8px; /* Slightly more rounded corners for the boxes */
+    -moz-appearance: textfield; /* Firefox specific for number input */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06); /* Subtle inner shadow for depth */
+    transition: all 0.2s ease-in-out; /* Smooth transition for focus */
+}
+
+.otp-input:focus {
+    border-color: #FF9933; /* BJP Saffron border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(255, 153, 51, 0.25); /* BJP Saffron glow on focus */
+    outline: none; /* Remove default outline */
+}
+
+.resend-otp-text {
+    font-size: 0.9em; /* Slightly smaller for readability */
+    color: #128807; /* BJP Green */
+    margin-top: 10px; /* Adjusted spacing above resend text */
+    margin-bottom: 20px; /* Reduced spacing below resend text before buttons */
+}
+/* NEW/MODIFIED STYLES FOR OTP SECTION END */
+
+
+/* Search Input Group (used in Step 4) */
+.search-input-group {
+    display: flex;
+    gap: 15px; /* Increased gap for search input and button */
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.search-input {
+    flex-grow: 1;
+}
+
+.search-button {
+    background-color: #FF9933; /* BJP Saffron for search button */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px; /* Set to 8px for consistency */
+    height: 48px; /* Match input height */
+    margin-top: 0; /* Remove top margin inherited from .custom-button */
+    display: flex; /* Ensure flex for icon and text */
+    align-items: center; /* Vertically align icon and text */
+    justify-content: center;
+}
+
+.search-button:hover {
+    background-color: #E68A2E; /* Darker saffron on hover */
+}
+
+.search-button lightning-icon {
+    margin-right: 8px; /* Space between search icon and text */
+    --sds-c-icon-color-foreground: white; /* Ensure icon is white */
+}
+
+/* Input Grid for Patient Details (used in Step 4) */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Exactly two columns, each taking equal space */
+    gap: 20px; /* Consistent gap between grid items */
+    width: 100%;
+    max-width: 800px; /* Adjust max width for grid, consistent with accordion sections */
+    margin-top: 20px;
+    padding: 0 15px; /* Add horizontal padding for content within the accordion */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.input-grid .input-group {
+    margin-bottom: 0; /* Remove individual margin as gap handles spacing */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+/* This rule for 'full-width' is maintained for other sections that might use it */
+.input-group.full-width {
+    grid-column: 1 / -1;
+}
+
+
+/* Read-only input styling for Patient Details */
+.custom-input[readonly] {
+    background-color: #e9ecef; /* Light grey background for readonly fields */
+    border-color: #ced4da; /* Match border of non-readonly for consistency */
+    color: #6c757d; /* Grey text for readonly fields */
+    cursor: not-allowed;
+}
+
+.input-grid .custom-input[readonly] {
+    background-color: #e9ecef; /* Light grey background for readonly fields */
+    border-color: #ced4da; /* Match border of non-readonly for consistency */
+    color: #6c757d; /* Grey text for readonly fields */
+    cursor: not-allowed;
+}
+
+.maxWidth800{
+    max-width: 800px;
+}
+
+/* Accordion Styling (used in Step 4) */
+.accordion-section {
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #faefd8; /* Light saffron tint for accordion border */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures content doesn't spill out during collapse */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for accordion sections */
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .accordion-section {
+        padding: 12px;
+    }
+
+    .accordion-header h3 {
+        font-size: 15px;
+    }
+}
+
+.accordion-header {
+    background-color: #fcf8e3; /* A soft, professional yellow/saffron tint for header */
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #faefd8; /* Match current border */
+    transition: background-color 0.2s ease;
+}
+
+.accordion-header:hover {
+    background-color: #faefd8; /* Slightly darker saffron tint on hover */
+}
+
+.accordion-header h3 {
+    margin: 0;
+    color: #343a40;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.accordion-header lightning-icon {
+    --sds-c-icon-color-foreground: #FF9933; /* BJP Saffron for icon */
+    transition: transform 0.2s ease;
+}
+
+.session-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 16px 16px 0px;
+    background: transparent;
+}
+
+.hospital-menu {
+    --sds-c-button-color-background: #eef3f8;
+    --sds-c-button-radius-border: 6px;
+    --sds-c-button-spacing-inline-start: 12px;
+    --sds-c-button-spacing-inline-end: 12px;
+    --sds-c-button-text-color: #1b5297;
+    --sds-c-button-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.hospital-info {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.hospital-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+}
+
+.hospital-name {
+    display: block;
+    font-size: 14px;
+    color: #ff9933; 
+}
+
+
+.accordion-section.expanded .accordion-header lightning-icon {
+    transform: rotate(180deg);
+}
+
+.table-header-actions{
+    margin: 0px;
+    background: #fcf8e3;
+    padding-right: 4rem;
+}
+
+.footer {
+    text-align: center;
+    /* padding: 20px; */
+    margin-top: 30px;
+    color: #555;
+    font-size: 14px;
+   
+}
+
+.accordion-content1 {
+    padding: 20px 20px 35px 20px;
+    background-color: #fffaf0;
+    display: grid;
+    /* flex-direction: row; */
+    gap: 15px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    opacity: 1;
+    visibility: visible;
+
+}
+
+.gridCol2{
+    grid-template-columns: 1fr 1fr;
+}
+
+.gridCol4{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.accordion-content {
+    padding: 20px;
+    background-color: #fffaf0; /* Very light saffron for accordion content */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Vertical gap between direct children */
+    overflow: hidden; /* Ensures content doesn't spill out during collapse */
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Smooth transition */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* *** CRUCIAL CHANGE FOR `c-prescription-forms` SCROLLING *** */
+.prescription-forms-container {
+    width: 100%;
+    overflow-y: auto;
+    /* padding: 10px;
+    border: 1px solid #e0e0e0; */
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+/* ******************************************************************* */
+
+
+/* Ensure child input groups don't add extra margin */
+.accordion-content .input-group {
+    margin-bottom: 0;
+}
+
+/* Specific styling for radio buttons within accordion */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    /* Removed redundant width/flex-direction: column; from inner input-group */
+}
+
+.radio-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.radio-buttons input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* --- NEW/MODIFIED STYLES FOR ATTACHMENT CHECKBOXES AND UPLOADED FILES --- */
+
+/* Container for all attachment type checkboxes */
+.checkbox-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax for better responsiveness, aiming for 2 columns */
+    gap: 20px 30px; /* Increased row gap, and column gap */
+    margin-top: 10px;
+    width: 100%; /* Ensure it takes full width */
+}
+
+.checkbox-with-upload {
+    display: flex;
+    flex-direction: column; /* Keep column for checkbox and its potentially separate input/uploaded files */
+    align-items: flex-start; /* Align checkbox label and files to the start */
+    padding: 5px 0; /* Add some padding for spacing around each checkbox group */
+}
+
+.checkbox-label-and-input { /* NEW: Wrapper for checkbox and label to control their alignment */
+    display: flex;
+    align-items: center; /* Vertically align checkbox and its label */
+    margin-bottom: 5px; /* Space between the checkbox line and the uploaded files */
+}
+
+.checkbox-with-upload input[type="checkbox"] {
+    margin-right: 8px; /* Space between checkbox and its label */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    margin-top: 0; /* Reset default margin-top if any */
+}
+
+.checkbox-with-upload label {
+    font-size: 0.95em; /* Slightly larger text for checkbox labels */
+    color: #343a40;
+    font-weight: normal; /* Standard font-weight */
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+/* Align checkbox label with the checkbox input */
+.checkbox-with-upload input[type="checkbox"] + label {
+    margin-left: 0; /* Reset margin from previous rules */
+}
+
+
+.checkbox-with-upload .other-input {
+    margin-top: 8px; /* Space between "Other" checkbox label and its input */
+    width: 100%; /* Ensure "Other" input takes full width within its grid column */
+    max-width: 250px; /* Limit width to avoid being too wide */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+}
+
+.uploaded-files-display {
+    margin-top: 5px; /* Space between checkbox/other input and file names */
+    /* padding-left: 20px; */
+    font-size: 0.85em;
+    color: #555;
+    display: flex;
+    flex-wrap: wrap; /* Allow file names to wrap */
+    gap: 5px; /* Gap between file names */
+    /* width: 100%; */
+}
+
+.uploaded-file-name {
+    background-color: #e0e0e0;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-flex; /* Changed to flex to align text and icon */
+    align-items: center;
+    gap: 5px; /* Space between file name and remove icon */
+}
+
+.uploaded-file-name .remove-icon {
+    cursor: pointer;
+    --sds-c-icon-color-foreground: #6c757d; /* Grey color for the close icon */
+    width: 14px; /* Smaller icon */
+    height: 14px;
+}
+
+.uploaded-file-name .remove-icon:hover {
+    --sds-c-icon-color-foreground: #dc3545; /* Red on hover */
+}
+
+
+.uploaded-files-list {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #faefd8; /* Light saffron tint border */
+    border-radius: 8px;
+    background-color: #fcf8e3; /* Soft saffron tint background */
+}
+
+.uploaded-files-list strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #343a40;
+}
+
+.uploaded-files-list p {
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: #495057;
+    display: flex; /* Changed to flex */
+    align-items: center;
+    gap: 5px;
+}
+
+/* Remove margin from lightning-icon itself for precise control */
+.uploaded-files-list p lightning-icon {
+    margin: 0;
+}
+
+
+/* Specific style for lightning-file-upload when shown conditionally */
+.report-upload-section lightning-file-upload {
+    margin-top: 10px; /* Spacing below checkbox/other input */
+    width: 100%; /* Take full width within its parent */
+    max-width: 300px; /* Limit max width for file uploader for better layout */
+}
+
+
+/* Styles for the new Declaration section as per the image */
+.declaration-section {
+    background-color: #fffaf0; /* Very light saffron for content area */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 15px;
+    margin-top: 15px; /* Ensure space above this section */
+    margin-bottom: 15px; /* Add some space below this section */
+    width: 100%;
+    max-width: 800px; /* Match the width of other accordion sections */
+}
+
+.declaration-header {
+    /* Use transparent background for the header itself, as the border will be on the content */
+    background-color: transparent;
+    padding: 0px 0px 10px 0px; /* Adjusted padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0px solid #dee2e6; /* No border for the header */
+}
+
+.declaration-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #343a40;
+    padding: 10px 0px 0px 0px;
+}
+
+.declaration-content {
+    background-color: #fffaf0; /* Light orange background */
+    border: 1px solid #FF9933; /* Orange border */
+    border-left: 5px solid #FF9933; /* Thicker orange left border */
+    border-radius: 8px; /* Rounded corners for the content box */
+    padding: 20px;
+    display: flex;
+    align-items: center; /* Vertically align checkbox and text */
+    gap: 15px; /* Space between checkbox and text */
+}
+
+.declaration-content input[type="checkbox"] {
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    width: 20px; /* Make checkbox slightly larger */
+    height: 20px;
+}
+
+.declaration-content label {
+    font-size: 0.95em; /* Match attachment checkbox label size */
+    color: #343a40;
+    font-weight: normal;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+
+/* --- END NEW/MODIFIED STYLES --- */
+
+
+/* New Stats Section at the bottom */
+.stats-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px 20px;
+    background-color: #fcf8e3; /* Soft saffron tint */
+    border-top: 1px solid #faefd8;
+    border-radius: 0 0 8px 8px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 20px; /* Space between stat items */
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 120px; /* Ensure items don't get too narrow */
+    flex: 1; /* Allow items to grow and shrink */
+}
+
+.stat-icon {
+    width: 40px; /* Icon size */
+    height: 40px;
+    margin-bottom: 8px;
+    object-fit: contain;
+    --sds-c-icon-color-foreground: #0056b3; /* Professional blue for stat icons */
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #343a40; /* Dark grey for values */
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: #6c757d; /* Grey for labels */
+    line-height: 1.3;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pmjay-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pmjay-header-left, .pmjay-header-center, .pmjay-header-right {
+        width: 100%;
+        justify-content: center; /* Center items within their sections */
+        margin-bottom: 10px;
+    }
+    .pmjay-header-center {
+        order: -1; /* Move title to the top on small screens */
+        margin-bottom: 15px;
+    }
+    .pmjay-header-left {
+        margin-top: 5px; /* Adjust spacing */
+    }
+
+    .left-logo, .right-logo {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+
+    .progress-stepper > div {
+        padding: 0 5px; /* Reduce padding on small screens */
+    }
+
+    /* MODIFIED: step-content and images for responsiveness */
+    /* .step-content { Removed the previous flex-direction: column; here */
+    /* flex-direction: column; */
+    /* padding: 15px; */
+    /* } */
+
+    .pm-image {
+        width: 100%; /* Make images take full width */
+        height: auto; /* Adjust height proportionally */
+        margin: 10px 0; /* Add vertical margin */
+    }
+
+    .step-content-inner {
+        padding: 0; /* Remove internal padding on small screens */
+        width: 100%; /* Ensure inner content takes full width */
+    }
+
+    .hospital-selection-row { /* Targets the "Select City & Hospital" inputs */
+        flex-direction: column;
+        align-items: center;
+    }
+    .hospital-input-group {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .security-info-box,
+    .proceed-button {
+        width: 100%;
+        max-width: 100%;
+        font-weight: bold;
+    }
+
+    .stats-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .stat-item {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .custom-button {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .accordion-header {
+        padding: 12px 15px;
+    }
+
+    .accordion-content {
+        padding: 15px;
+    }
+
+    .checkbox-options-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+
+    .checkbox-with-upload {
+        align-items: flex-start; /* Align checkbox and content to the start on small screens */
+    }
+
+    .uploaded-files-display {
+        padding-left: 20px; /* Keep indent on small screens */
+        justify-content: flex-start; /* Align file names to the start */
+    }
+    .checkbox-with-upload label {
+        /* No longer needed here as it's within checkbox-label-and-input */
+    }
+}
+
+.step-content .input-row { /* Target the input-row directly within step-content */
+    display: flex; /* Use flexbox for horizontal layout */
+    gap: 20px; /* Adjusted gap to 20px for better spacing */
+    width: 100%;
+    max-width: 650px; /* Match the max-width of other input rows for consistency */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center the inputs horizontally when wrapped */
+    /* margin-bottom: 30px; */
+    /* margin-top: 20px;*/
+}
+
+.step-content .input-row .input-group {
+    flex: 1; /* Allow input groups to grow and shrink */
+    min-width: 280px; /* Ensure they don't get too small before wrapping */
+    margin-bottom: 0; /* Remove default margin as flex gap handles it */
+}
+
+/* Add these styles to your existing pmjayReferralApp.css file */
+
+/* Main container for the two selection cards */
+.main-selection-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Space between the cards */
+    /* padding: 50px 20px;*/
+     /* background-color: #fffaf0;*/
+    border-radius: 0 0 8px 8px; /* Match the bottom border radius of the main container */
+    min-height: 380px; /* Ensure enough height for the cards to display well */
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+}
+/* Styling for each individual selection card */
+.selection-card {
+    background-color: #fcf8e3; /* A soft, professional yellow/saffron tint */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px; /* Adjust internal padding as needed */
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* ---- MODIFIED/NEW PROPERTIES FOR UNIFORM SIZE ---- */
+    width: 380px; /* Set a fixed width */
+    height: 350px; /* Set a fixed height to make them consistently sized */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space between icon, title, and description */
+    align-items: center; /* Center content horizontally */
+    /* ---- END MODIFIED/NEW PROPERTIES ---- */
+
+    /* --- ADDED BACKGROUND PROPERTIES --- */
+    background-image: url('{!URLFOR($Resource.cardContainer)}'); /* Your static resource image */
+    background-size: cover; /* Cover the entire area of the card */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-blend-mode: overlay; /* Blends the background image with the existing background color */
+    /* --- END ADDED BACKGROUND PROPERTIES --- */
+}
+
+.selection-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+/* You might also want to adjust the icon container size if needed */
+.card-icon-container {
+    background-color: #fcf8e3; /* Soft, professional yellow/saffron tint for icon container */
+    border-radius: 50%; /* Make it a circle */
+    padding: 20px; /* Increase padding for a larger circle */
+    margin-bottom: 20px; /* Space between icon and title */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selection-icon {
+    --sds-c-icon-color-foreground: #FF9933; /* BJP Saffron for the icon */
+    width: 50px; /* Larger icon size */
+    height: 50px;
+}
+
+.selection-card-title {
+    margin: 0 0 10px 0;
+    font-size: 1.5em; /* Slightly smaller than main title but prominent */
+    font-weight: 600;
+    color:orange;
+}
+
+.selection-card-description {
+    color: green; /* Grey for description text */
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments for the new cards */
+@media (max-width: 768px) {
+    .main-selection-container {
+        flex-direction: column; /* Stack cards vertically on small screens */
+        padding: 30px 15px; /* Adjust padding */
+        gap: 20px; /* Reduce gap */
+    }
+
+    .selection-card {
+        width: 90%; /* Make cards take more width on small screens */
+        max-width: 350px; /* Limit max width for readability */
+        height: auto; /* Allow height to adjust on small screens if content wraps */
+        min-height: 200px; /* Keep a minimum height */
+        padding: 25px 15px;
+    }
+
+    .selection-card-title {
+        font-size: 1.3em;
+    }
+
+    .selection-card-description {
+        font-size: 0.9em;
+    }
+}
+.slds-notify_container {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 0 !important;
+    right: auto !important;
+    max-width: 90%; /* You might still want to keep this or adjust */
+    width: auto; /* You might still want to keep this or adjust */
+}
+
+/* If you keep the above, ensure this part is considered if needed for mobile */
+@media (max-width: 768px) {
+    .slds-notify_container {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: 0 !important;
+        right: auto !important;
+        max-width: 90%;
+        width: auto;
+    }
+}
+
+
+/* =====================================================================
+   UI REFRESH (visual only – same saffron / green / cream palette)
+   Everything below overrides earlier rules. Delete this block to revert.
+   ===================================================================== */
+
+.pmjay-portal-container {
+    --pm-saffron: #FF9933;
+    --pm-saffron-dark: #E68A2E;
+    --pm-saffron-soft: rgba(255, 153, 51, 0.12);
+    --pm-saffron-ring: rgba(255, 153, 51, 0.28);
+    --pm-green: #128807;
+    --pm-cream: #fffaf0;
+    --pm-cream-2: #fcf8e3;
+    --pm-cream-border: #f3e3c3;
+    --pm-text: #2f3437;
+    --pm-muted: #6b7280;
+    --pm-radius: 14px;
+    --pm-radius-sm: 10px;
+    --pm-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px rgba(17, 24, 39, 0.06);
+    --pm-shadow-hover: 0 2px 4px rgba(17, 24, 39, 0.05), 0 14px 32px rgba(17, 24, 39, 0.10);
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Noto Sans Devanagari', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--pm-text);
+    margin: 24px auto;
+    border-radius: 18px;
+    border: 1px solid var(--pm-cream-border);
+    box-shadow: var(--pm-shadow);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Header: tricolour accent strip + cleaner title ---------- */
+.pmjay-header {
+    position: relative;
+    padding: 18px 28px 16px;
+    background: linear-gradient(180deg, #fffdf6 0%, var(--pm-cream-2) 100%);
+    border-bottom: 1px solid var(--pm-cream-border);
+}
+
+.pmjay-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pm-saffron) 0%, var(--pm-saffron) 33%, #ffffff 33%, #ffffff 66%, var(--pm-green) 66%, var(--pm-green) 100%);
+}
+
+.pmjay-title {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+}
+
+.left-logo {
+    padding-bottom: 0;
+}
+
+/* ---------- Content area ---------- */
+.content-card {
+    padding: 8px 24px 32px;
+}
+
+.session-header {
+    padding: 14px 0 6px;
+}
+
+.hospital-menu {
+    --sds-c-button-color-background: #ffffff;
+    --sds-c-button-color-border: var(--pm-cream-border);
+    --sds-c-button-radius-border: 999px;
+    --sds-c-button-shadow: 0 1px 2px rgba(17, 24, 39, 0.06);
+}
+
+.hospital-name {
+    font-weight: 600;
+}
+
+/* ---------- Headings & helper text ---------- */
+.card-title,
+.step-content h2 {
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    color: var(--pm-text);
+}
+
+.card-description {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin-bottom: 28px;
+}
+
+.step-content .description-text {
+    font-weight: 600;
+    line-height: 1.55;
+    padding-right: 0;
+    text-align: center;
+}
+
+/* ---------- Home selection cards ---------- */
+.main-selection-container {
+    gap: 24px;
+    padding: 24px 0 8px;
+    align-items: stretch;
+}
+
+.selection-card {
+    position: relative;
+    height: auto;
+    min-height: 300px;
+    padding: 32px 24px 24px;
+    justify-content: flex-start;
+    gap: 6px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid var(--pm-cream-border);
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.selection-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pm-saffron), var(--pm-green));
+    opacity: 0.85;
+}
+
+.selection-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--pm-saffron);
+    box-shadow: var(--pm-shadow-hover);
+}
+
+.card-icon-container {
+    width: 88px;
+    height: 88px;
+    padding: 0;
+    margin-bottom: 16px;
+    background-color: var(--pm-saffron-soft);
+    border: 1px solid rgba(255, 153, 51, 0.25);
+}
+
+.emoji-icon {
+    font-size: 42px;
+}
+
+/* Home card line icons (replace the emoji) */
+.card-line-icon {
+    --sds-c-icon-color-foreground-default: var(--pm-saffron-dark);
+    --slds-c-icon-color-foreground-default: var(--pm-saffron-dark);
+    --sds-c-icon-color-foreground: var(--pm-saffron-dark);
+    --slds-c-icon-color-foreground: var(--pm-saffron-dark);
+    fill: var(--pm-saffron-dark);
+}
+
+.selection-card:hover .card-icon-container {
+    background-color: rgba(255, 153, 51, 0.18);
+    border-color: rgba(255, 153, 51, 0.45);
+}
+
+.selection-card-title {
+    font-size: 1.35em;
+    font-weight: 700;
+    color: var(--pm-saffron);
+    margin: 0 0 6px;
+}
+
+.selection-card-description {
+    color: var(--pm-green);
+    font-size: 0.95em;
+    line-height: 1.55;
+    flex-grow: 1;
+}
+
+.custom-button.icon-button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-top: 16px;
+    border-radius: 999px;
+}
+
+.selection-card:hover .custom-button.icon-button {
+    background-color: var(--pm-saffron-dark);
+}
+
+/* ---------- Buttons ---------- */
+.custom-button {
+    min-height: 44px;
+    padding: 11px 24px;
+    border-radius: var(--pm-radius-sm);
+    background-color: var(--pm-saffron);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    box-shadow: 0 1px 2px rgba(17, 24, 39, 0.08), 0 4px 10px rgba(255, 153, 51, 0.25);
+    transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease;
+}
+
+.custom-button:hover {
+    background-color: var(--pm-saffron-dark);
+    box-shadow: 0 2px 4px rgba(17, 24, 39, 0.10), 0 6px 14px rgba(255, 153, 51, 0.32);
+}
+
+.custom-button:active {
+    transform: translateY(1px);
+}
+
+.custom-button:focus-visible,
+.view-btn:focus-visible,
+.selection-card:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--pm-saffron-ring);
+}
+
+/* Back / secondary actions: outlined so the main action stands out */
+.custom-button.secondary-button {
+    background-color: #ffffff;
+    color: var(--pm-saffron-dark);
+    border: 1.5px solid var(--pm-saffron);
+    box-shadow: none;
+}
+
+.custom-button.secondary-button:hover {
+    background-color: var(--pm-saffron-soft);
+    box-shadow: none;
+}
+
+.button-group {
+    gap: 12px;
+    padding: 20px 0 8px;
+}
+
+.button-group .custom-button {
+    margin-top: 0;
+    min-width: 160px;
+}
+
+.search-button {
+    height: 48px;
+    white-space: nowrap;
+}
+
+.view-btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 8px 18px;
+    transition: background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* ---------- Inputs ---------- */
+.custom-input,
+.custom-textarea {
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #d9dde3;
+    border-radius: var(--pm-radius-sm);
+    background-color: #ffffff;
+    color: var(--pm-text);
+    font-size: 1em;
+    box-shadow: inset 0 1px 2px rgba(17, 24, 39, 0.03);
+}
+
+.custom-input:hover,
+.custom-textarea:hover {
+    border-color: #c7ccd4;
+}
+
+.custom-input:focus,
+.custom-textarea:focus,
+.custom-dropdown:focus {
+    border-color: var(--pm-saffron);
+    box-shadow: 0 0 0 3px var(--pm-saffron-ring);
+}
+
+.custom-input[readonly],
+.input-grid .custom-input[readonly] {
+    background-color: #f5f6f8;
+    color: #4b5563;
+    border-color: #e5e7eb;
+    box-shadow: none;
+}
+
+.input-label {
+    font-weight: 600;
+    color: var(--pm-text);
+    margin-bottom: 6px;
+}
+
+.custom-combobox {
+    --sds-c-input-radius-border: 10px;
+    --slds-c-input-radius-border: 10px;
+}
+
+.search-input-group {
+    gap: 12px;
+    align-items: stretch;
+}
+
+/* ---------- OTP ---------- */
+.otp-input-container {
+    gap: 12px;
+    margin: 8px 0 20px;
+}
+
+.otp-input {
+    width: 52px;
+    height: 58px;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--pm-text);
+    border: 1.5px solid #d9dde3;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.otp-input:focus {
+    border-color: var(--pm-saffron);
+    box-shadow: 0 0 0 3px var(--pm-saffron-ring);
+}
+
+/* ---------- Info / warning / declaration boxes ---------- */
+.security-info-box {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background-color: rgba(255, 250, 240, 0.9);
+    border: 1px solid rgba(255, 153, 51, 0.45);
+    border-left: 5px solid var(--pm-saffron);
+    border-radius: 12px;
+}
+
+.consent-warning-box {
+    border-radius: 12px;
+    box-shadow: var(--pm-shadow);
+}
+
+.declaration-section {
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+}
+
+.declaration-content {
+    border-radius: 12px;
+}
+
+.no-files-card {
+    border-radius: 12px;
+}
+
+/* ---------- Accordions ---------- */
+.accordion-section {
+    background-color: #ffffff;
+    border: 1px solid var(--pm-cream-border);
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+}
+
+.accordion-header {
+    padding: 16px 20px;
+    background-color: var(--pm-cream-2);
+}
+
+.accordion-header h3 {
+    font-weight: 700;
+    color: var(--pm-text);
+}
+
+.accordion-content,
+.accordion-content1 {
+    background-color: #fffdf8;
+}
+
+.info-display-grid {
+    background-color: #ffffff;
+    border: 1px solid #f0ebe0;
+    border-radius: 12px;
+}
+
+.info-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--pm-muted);
+}
+
+.info-value {
+    color: var(--pm-text);
+    border-bottom-color: #f1ede4;
+}
+
+/* ---------- Report tables ---------- */
+.reports-table-container {
+    background-color: #ffffff;
+    border: 1px solid var(--pm-cream-border);
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+    overflow: hidden;
+    padding-top: 0;
+    margin-top: 20px;
+}
+
+.table-title {
+    font-size: 1.05em;
+    font-weight: 700;
+    color: var(--pm-text);
+    border-bottom: 1px solid var(--pm-cream-border);
+}
+
+.custom-table {
+    border: none;
+}
+
+.custom-table th {
+    font-size: 0.78em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--pm-muted);
+    border-bottom: 1px solid #eee7d8;
+}
+
+.custom-table td {
+    font-weight: 500;
+    border-bottom: 1px solid #f3efe6;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: rgba(255, 153, 51, 0.05);
+}
+
+/* ---------- Progress stepper ---------- */
+.progress-stepper .circle {
+    width: 34px;
+    height: 34px;
+    box-shadow: 0 0 0 4px #ffffff;
+}
+
+.progress-stepper .active .circle {
+    box-shadow: 0 0 0 4px var(--pm-saffron-soft);
+}
+
+/* ---------- Uploaded file chips ---------- */
+.uploaded-file-name {
+    background-color: var(--pm-saffron-soft);
+    border: 1px solid rgba(255, 153, 51, 0.3);
+    color: var(--pm-text);
+    border-radius: 999px;
+    padding: 4px 10px;
+}
+
+.uploaded-files-list {
+    border-radius: 12px;
+}
+
+/* ---------- Thank-you page ---------- */
+.thank-you-title {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .pmjay-portal-container {
+        margin: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .content-card {
+        padding: 4px 12px 24px;
+    }
+
+    .selection-card {
+        min-height: 220px;
+        padding: 28px 18px 20px;
+    }
+
+    .button-group .custom-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .otp-input {
+        width: 44px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 400px) {
+    .otp-input-container {
+        gap: 8px;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 48px;
+        font-size: 1.3em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .selection-card,
+    .custom-button,
+    .custom-table tbody tr {
+        transition: none;
+    }
+
+    .selection-card:hover {
+        transform: none;
+    }
+}
+
+/* ---------- Home cards: neutral titles, icon tiles and larger grey descriptions ---------- */
+.selection-card-title {
+    color: #1f2937;
+}
+
+.selection-card-description {
+    color: #4b5563;
+    font-size: 1.05em;
+    line-height: 1.6;
+}
+
+.card-icon-container {
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+}
+
+.selection-card:hover .card-icon-container {
+    background-color: rgba(255, 153, 51, 0.12);
+    border-color: rgba(255, 153, 51, 0.35);
+}

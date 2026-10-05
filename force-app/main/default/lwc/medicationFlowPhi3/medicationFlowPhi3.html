@@ -1,0 +1,17 @@
+<template>
+    <template if:true={showActiveModal}>
+        <c-active-medication-modal
+            record-id={recordId}
+            onnext={handleNext}
+            oncancel={handleClose}>
+        </c-active-medication-modal>
+    </template>
+
+    <template if:true={showAiModal}>
+        <c-medication-guide-phi3
+            record-id={recordId}
+            onback={handleBack}
+            onclose={handleClose}>
+        </c-medication-guide-phi3>
+    </template>
+</template>

@@ -1,0 +1,220 @@
+/* Container Styles - Salesforce Standard */
+.form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 0.75rem; /* Made more curved */
+    border: 1px solid #dddbda;
+}
+
+.form-header {
+    color: #374151;
+  /* padding: 2.5rem 1.5rem;   Increased vertical padding for 5rem logo */
+    border-bottom: 1px solid #dddbda;
+    border-radius: 0.25rem 0.25rem 0 0;
+    
+    /* Flexbox for header content: left-logo - title - right-logo */
+    display: flex;
+    justify-content: space-between; /* Distribute items with space between them */
+    align-items: center; /* Vertically center content */
+}
+
+.form-header h2 {
+    margin: 0;
+    font-size: 25px; /* Increased from 1.125rem */
+    font-weight: 600;
+    line-height: 1.25;
+    flex-grow: 1; /* Allows h2 to take available space */
+    text-align: center; /* Center the text within its flex item */
+}
+
+/* Common style for both logos in the header */
+.header-logo {
+    height: 5rem; /* Consistent height for both logos as requested */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensures the entire image is visible within the element */
+}
+
+.left-logo {
+  height: 75px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-bottom: 8px;
+    padding-left: 15px;
+}
+
+.right-logo {
+    height: 50px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-right: 15px;
+}
+
+/* Form Content Area */
+.form-content {
+    padding: 1.5rem 2rem; /* Increased horizontal padding */
+/* background: #ffffff; */
+}
+
+/* Field Grid - Salesforce Standard */
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem; /* Consistent gap between grid items (fields) */
+    margin-bottom: 1.5rem;
+}
+
+.field-wrapper {
+    position: relative;
+}
+
+/* Empty field to maintain grid layout */
+.field-wrapper.empty-field {
+    visibility: hidden;
+}
+
+/* Standard Lightning Input Styling */
+.field-wrapper lightning-input,
+.field-wrapper lightning-combobox {
+    --slds-c-input-color-border: #747474;
+    --slds-c-input-color-border-focus: #1589ee;
+    --slds-c-input-radius-border: 0.5rem; /* Made more curved */
+    --slds-c-input-shadow-focus: 0 0 0 1px #1589ee inset;
+    --slds-c-input-spacing-block: 0.625rem; /* Increased padding to make inputs look smaller */
+    --slds-c-input-spacing-inline: 0.875rem; /* Increased horizontal padding */
+}
+
+/* Increase label font size */
+.field-wrapper lightning-input::part(label),
+.field-wrapper lightning-combobox::part(label) {
+    font-size: 1rem; /* Increased label size more */
+    font-weight: 500;
+}
+
+/* Alternative approach for label sizing if ::part doesn't work */
+.field-wrapper .slds-form-element__label {
+    font-size: 1rem !important; /* Increased label size more */
+    font-weight: 500 !important;
+}
+
+/* Error message styling */
+.field-error-message {
+    color: #c23934;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Success and Error States */
+.field-success lightning-input {
+    --slds-c-input-color-border: #04844b;
+}
+
+.field-error lightning-input,
+.field-error lightning-combobox {
+    --slds-c-input-color-border: #c23934;
+}
+
+/* Button Container - Salesforce Standard */
+.button-container {
+    padding-top: 1rem;
+  /* border-top: 1px solid #dddbda; */
+}
+
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center; /* Centered the buttons */
+    align-items: center;
+}
+
+/* Standard Button Styles with reduced radius and increased padding */
+.btn-cancel {
+    --slds-c-button-neutral-color-background: #ffffff;
+    --slds-c-button-neutral-color-border: #747474;
+    --slds-c-button-text-color: #014486;
+    --slds-c-button-radius-border: 0.325rem; /* Minimum radius */
+    --slds-c-button-spacing-block-start: 0.75rem; /* Increased padding */
+    --slds-c-button-spacing-block-end: 0.75rem;
+    --slds-c-button-spacing-inline-start: 1rem;
+    --slds-c-button-spacing-inline-end: 1rem;
+}
+
+.btn-create {
+    --slds-c-button-brand-color-background: #0176d3;
+    --slds-c-button-brand-color-background-hover: #1a86da;
+    --slds-c-button-radius-border: 0.325rem; /* Minimum radius */
+    --slds-c-button-spacing-block-start: 0.75rem; /* Increased padding */
+    --slds-c-button-spacing-block-end: 0.75rem;
+    --slds-c-button-spacing-inline-start: 1rem;
+    --slds-c-button-spacing-inline-end: 1rem;
+}
+
+/* Loading State */
+.loading-overlay {
+    position: relative;
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content {
+    text-align: center;
+    color: #706e6b;
+}
+
+.loading-text {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 0 0.5rem;
+    }
+    
+    .form-content {
+        padding: 1rem;
+    }
+    
+    .field-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem; /* Reduced spacing for mobile too */
+    }
+    
+    .button-group {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+    
+    .btn-cancel,
+    .btn-create {
+        width: 100%;
+    }
+
+    /* Adjust header for smaller screens to stack items vertically */
+    .form-header {
+        flex-direction: column; 
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-header h2 {
+        margin: 1rem 0; /* Add vertical space around title */
+    }
+
+    .header-logo.left-logo,
+    .header-logo.right-logo {
+        margin: 0.5rem 0; /* Adjust margins for stacked logos */
+    }
+}
+
+/* Fix spacing for dropdown fields */
+/* Removed min-height to allow natural sizing and consistent grid spacing */
+/* [data-field="gender"] {
+    min-height: 4.5rem;
+} */

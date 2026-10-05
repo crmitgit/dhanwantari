@@ -1,0 +1,11 @@
+<svg viewBox="0 0 500 200">
+            <path id="curve"
+                  d="M 50 150 Q 250 10 450 150"
+                  fill="transparent" />
+
+            <text font-size="50" fill="green" text-anchor="middle">
+                <textPath href="#curve" startOffset="50%">
+                    Powered by CRMIT
+                </textPath>
+            </text>
+        </svg>

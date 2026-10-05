@@ -1,0 +1,28 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="RecordData" type="Object"/>
+
+    <!-- Hidden div for injecting custom style -->
+    <aura:html tag="style">
+        .slds-modal__content .slds-p-around--medium {
+            max-width: 100% !important;
+            width: 100% !important;
+        	height: 100% !important;
+            max-height:100% !important;
+        }
+        .slds-modal__footer {
+            display: none !important;
+        }
+        
+        @media (min-width: 48em) {
+            .slds-modal__container {
+				width:75% !important;
+                height: 105vh;
+        		max-width: 100% !important;
+            }
+        }
+    </aura:html>
+
+    <!-- LWC Wrapper -->
+    <c:encounterSummary encounterName="{!v.recordId}" onclose="{!c.handleClose}" />
+</aura:component>

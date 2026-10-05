@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_Manual_Consent__c</fullName>
+    <label>Reason for Manual Consent / मैन. कारण</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Emergency situation</fullName>
+                <default>false</default>
+                <label>Emergency situation / आपातकालीन स्थिति</label>
+            </value>
+            <value>
+                <fullName>Patient illiterate / unable to use digital consent</fullName>
+                <default>false</default>
+                <label>Patient illiterate / unable to use digital consent / रोगी अशिक्षित है / डिजिटल सहमति का उपयोग करने में असमर्थ है</label>
+            </value>
+            <value>
+                <fullName>Patient consent obtained earlier in person</fullName>
+                <default>false</default>
+                <label>Patient consent obtained earlier in person / रोगी की सहमति पूर्व में व्यक्तिगत रूप से प्राप्त की गई थी</label>
+            </value>
+            <value>
+                <fullName>Patient does not have a phone</fullName>
+                <default>false</default>
+                <label>Patient does not have a phone/मरीज के पास फोन नहीं है</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

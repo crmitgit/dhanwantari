@@ -1,0 +1,25 @@
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    min-height: 140px;
+    position: relative;
+}
+
+/* 👇 isolate spinner */
+.spinner-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+/* 👇 force text ABOVE stacking issues */
+.loading-text {
+    position: relative;
+    z-index: 2;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #444;
+}

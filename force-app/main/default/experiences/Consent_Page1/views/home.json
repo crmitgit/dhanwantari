@@ -1,0 +1,46 @@
+{
+  "appPageId" : "54ca096e-f3a4-43ab-b08f-2edca09e11e0",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "269d237e-54c5-4ecf-b194-1ca97f6792a5",
+  "label" : "Home",
+  "regions" : [ {
+    "id" : "3d261316-a84f-4b4f-ae2f-d88368e47fa2",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:patientConsentPortal",
+      "id" : "9bea0d72-21c9-4532-b234-e9141fa15597",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "24cee577-0bf1-4c44-9983-e456791ba4ef",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "b267c592-48ec-4590-a671-35931fc05fc3",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Home"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9771882b-4f03-42ce-921e-e9ec8c334461",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1b792bc4-c5e6-46da-acef-079ab6eb101c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "home"
+}

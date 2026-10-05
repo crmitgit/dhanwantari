@@ -1,0 +1,368 @@
+<template>
+    <div class="scrim" role="dialog" aria-modal="true" aria-label="Referral validation" onclick={handleScrimClick}>
+        <template if:true={isLoading}>
+            <div class="loading-sheet">
+                <lightning-spinner alternative-text="Loading referral / रेफरल लोड हो रहा है" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasFacts}>
+            <div class="sheet">
+                <!-- ============ rail ============ -->
+                <aside class="rail">
+                    <div class="id"><b>Referral validation</b>{referral.name}</div>
+
+                    <div class="verdict">
+                        <div class="eyebrow">Record strength</div>
+                        <div class={verdictClass}>{confidence}</div>
+                        <div class="scoreline">{scoreLine}</div>
+                        <p class="meaning">How well the PHWC record supports this referral. It is not a recommendation to accept the patient; clinical decisions stay with the treating doctor.</p>
+                        <template if:true={hasCaps}>
+                            <div class="caps">
+                                <span class="caps-h">{capHeading}</span>
+                                <template for:each={capLines} for:item="cap">
+                                    <span key={cap.key} class="cap">{cap.text}</span>
+                                </template>
+                            </div>
+                        </template>
+                        <p class="said">{verdictSummary}</p>
+                        <template if:true={isFailed}>
+                            <template if:false={ai}>
+                                <p class="said warn">The written explanation could not be prepared: {failureText} The level and score above are unaffected.</p>
+                            </template>
+                        </template>
+                    </div>
+
+                    <div class="scale" aria-label="Record strength level">
+                        <template for:each={scale} for:item="lv">
+                            <div key={lv.key} class={lv.cls}><span class="sq"></span>{lv.key}<span class="tail">{lv.tail}</span></div>
+                        </template>
+                    </div>
+
+                    <h6>Weighted score</h6>
+                    <div class="dims">
+                        <template for:each={dimensions} for:item="d">
+                            <div key={d.key} class="d"><span class={d.sq}></span><span class="k">{d.label}</span><span class="v">{d.value}</span></div>
+                        </template>
+                    </div>
+
+                    <h6>Fit for this hospital <span class="unscored">not scored</span></h6>
+                    <div class="dims">
+                        <template for:each={fitRows} for:item="r">
+                            <div key={r.key} class="d" title={r.detail}><span class={r.sq}></span><span class="k">{r.label}</span><span class="v">{r.value}</span></div>
+                        </template>
+                    </div>
+
+                    <h6>Items to verify <span class="unscored">not scored</span></h6>
+                    <div class="dims">
+                        <template if:true={hasFlags}>
+                            <template for:each={flagRows} for:item="f">
+                                <div key={f.key} class="d" title={f.detail}><span class={f.sq}></span><span class="k">{f.title}</span></div>
+                            </template>
+                        </template>
+                        <template if:false={hasFlags}>
+                            <div class="d"><span class="sq g"></span><span class="k">None found</span></div>
+                        </template>
+                    </div>
+
+                    <h6>Case</h6>
+                    <div class="facts">
+                        <template for:each={caseFacts} for:item="f">
+                            <div key={f.k} class="f"><span class="k">{f.k}</span><span class={f.cls}>{f.v}</span></div>
+                        </template>
+                    </div>
+
+                    <div class="bottom">
+                        <p class="note">Built from the referral, the PHWC consultation records, investigations and documents shared under consent. Clinical decisions and package selection stay with the treating physician and the PM-JAY coordinator.</p>
+                        <div class="run">{runLine}</div>
+                    </div>
+                </aside>
+
+                <!-- ============ main ============ -->
+                <section class="main">
+                    <div class="mhead">
+                        <div>
+                            <h2>{patient.name}</h2>
+                            <div class="line">{headerLine}</div>
+                        </div>
+                        <div class="right">
+                            <span class={liveClass}><span class="sq"></span>{liveLabel}</span>
+                            <button class="x" aria-label="Close" onclick={handleClose}>×</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs" role="tablist">
+                        <template for:each={tabs} for:item="t">
+                            <button key={t.id} class={t.cls} role="tab" aria-selected={t.selected} data-tab={t.id} onclick={handleTab}>
+                                {t.label}
+                                <template if:true={t.hasCnt}><span class="cnt">{t.cnt}</span></template>
+                            </button>
+                        </template>
+                    </div>
+
+                    <div class="body">
+                        <!-- Referral -->
+                        <template if:true={showReferral}>
+                            <p class="lede">{referralLede}</p>
+
+                            <div class="cols">
+                                <div>
+                                    <h3>Patient</h3>
+                                    <div class="under">{patientUnder}</div>
+                                    <div class="pairs">
+                                        <template for:each={patientPairs} for:item="p">
+                                            <div key={p.k} class="p"><span class="k">{p.k}</span><span class={p.cls}>{p.v}</span></div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3>Referring facility</h3>
+                                    <div class="under">{facilityUnder}</div>
+                                    <div class="pairs">
+                                        <template for:each={facilityPairs} for:item="p">
+                                            <div key={p.k} class="p"><span class="k">{p.k}</span><span class={p.cls}>{p.v}</span></div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="band">Items to verify <span class="unscored">{flagSummary}. Record checks modelled on NHA PM-JAY triggers, not scored. Most have routine explanations.</span></div>
+                            <template if:true={hasFlags}>
+                                <template for:each={flagRows} for:item="f">
+                                    <div key={f.key} class="gut">
+                                        <div class={f.keyCls}><span class={f.sq}></span>{f.label}</div>
+                                        <div>
+                                            <h4>{f.title}</h4>
+                                            <p>{f.detail}</p>
+                                            <div class="aside">{f.basis}</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasFlags}>
+                                <p class="empty">No items to verify were found in the record.</p>
+                            </template>
+
+                            <div class="band">Fit for this hospital <span class="unscored">facts from the records, not scored</span></div>
+                            <div class="pairs wide">
+                                <template for:each={fitPairs} for:item="p">
+                                    <div key={p.k} class="p"><span class="k">{p.k}</span><span class={p.cls}>{p.v}</span></div>
+                                </template>
+                            </div>
+
+                            <div class="band">What the PHWC thinks is going on</div>
+                            <div class="pairs wide">
+                                <template for:each={picturePairs} for:item="p">
+                                    <div key={p.k} class="p"><span class="k">{p.k}</span><span class={p.cls}>{p.v}</span></div>
+                                </template>
+                            </div>
+
+                            <template if:true={hasOtherReferrals}>
+                                <div class="band">Other referrals for this patient</div>
+                                <div class="pairs wide">
+                                    <template for:each={otherReferrals} for:item="o">
+                                        <div key={o.name} class="p"><span class="k">{o.name}</span><span class="v">{o.line}</span></div>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+
+                        <!-- Visits -->
+                        <template if:true={showVisits}>
+                            <p class="lede">{visitsLede}</p>
+                            <template if:true={hasVisits}>
+                                <div class="band">Vitals across the visits</div>
+                                <div class="table-wrap">
+                                    <table class="vt">
+                                        <thead>
+                                            <tr><th>Visit</th><th>Blood pressure</th><th>Pulse</th><th>SpO₂</th><th>Temperature</th><th>Weight</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={visitRows} for:item="v">
+                                                <tr key={v.ref} class={v.rowCls}>
+                                                    <td>{v.shortDate}</td><td>{v.bpText}</td><td>{v.pulseText}</td><td>{v.spo2Text}</td><td>{v.tempText}</td><td>{v.weightText}</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="band">Visit by visit</div>
+                                <div class="visits">
+                                    <template for:each={visitRows} for:item="v">
+                                        <div key={v.ref} class="visit">
+                                            <div class="when"><b>{v.dateLabel}</b>{v.label}</div>
+                                            <div>
+                                                <h4>{v.headline}</h4>
+                                                <template if:true={v.showComplaints}><p>{v.complaints}</p></template>
+                                                <template if:true={v.findings}><p><span class="lbl">Findings.</span> {v.findings}</p></template>
+                                                <template if:true={v.hasPlan}><div class="plan"><b>Plan.</b> {v.plan}</div></template>
+                                                <template if:true={v.hasMeds}><div class="plan"><b>Prescribed.</b> {v.medications}</div></template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+
+                        <!-- Checks -->
+                        <template if:true={showChecks}>
+                            <p class="lede">{checksLede}</p>
+
+                            <template for:each={scoreAreas} for:item="a">
+                                <div key={a.key} class="area">
+                                    <div class="area-h">
+                                        <span class={a.keyCls}><span class={a.sq}></span>{a.label}</span>
+                                        <span class="area-pts">{a.total}</span>
+                                    </div>
+                                    <template for:each={a.rows} for:item="it">
+                                        <div key={it.key} class={it.cls}>
+                                            <span class="mark" aria-hidden="true">{it.mark}</span>
+                                            <div class="item-body">
+                                                <div class="item-label">{it.label}</div>
+                                                <div class="item-detail">{it.detail}</div>
+                                            </div>
+                                            <span class="item-pts">{it.value}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template if:true={hasCaps}>
+                                <div class="band">Caps</div>
+                                <div class="callout">
+                                    <p>{capHeading}</p>
+                                    <template for:each={capLines} for:item="cap">
+                                        <p key={cap.key}>{cap.text}</p>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <div class="band">Clinical notes <span class="unscored">not scored, AI reading of the record</span></div>
+                            <template if:true={hasAiChecks}>
+                                <template if:true={clinicalNote}>
+                                    <div class="gut">
+                                        <div class={clinicalNote.keyCls}><span class={clinicalNote.sq}></span>Clinical fit</div>
+                                        <div><h4>{clinicalNote.title}</h4><p>{clinicalNote.text}</p></div>
+                                    </div>
+                                </template>
+                                <template for:each={checkRows} for:item="c">
+                                    <div key={c.key} class="gut">
+                                        <div class={c.keyCls}><span class={c.sq}></span>{c.label}</div>
+                                        <div>
+                                            <h4>{c.title}</h4>
+                                            <p>{c.detail}</p>
+                                            <template if:true={c.hasAside}><div class="aside">{c.aside}</div></template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasAiChecks}>
+                                <div class="waiting">
+                                    <template if:true={isPending}><lightning-spinner alternative-text="Running checks" size="small" class="inline-spinner"></lightning-spinner></template>
+                                    <p>{liveLabel}. Clinical notes appear here as soon as they are ready.</p>
+                                </div>
+                            </template>
+                        </template>
+
+                        <!-- Evidence -->
+                        <template if:true={showEvidence}>
+                            <p class="lede">{evidenceLede}</p>
+                            <div class="band">What was shared</div>
+                            <template if:true={hasEvidence}>
+                                <template for:each={evidenceRows} for:item="e">
+                                    <div key={e.ref} class="gut">
+                                        <div class={e.keyCls}><span class={e.sq}></span>{e.label}</div>
+                                        <div>
+                                            <div class="hrow"><h4>{e.title}</h4><span class="right">{e.right}</span></div>
+                                            <template if:true={e.note}><p>{e.note}</p></template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasEvidence}>
+                                <p class="empty">No documents or diagnostic results were shared with this referral.</p>
+                            </template>
+
+                            <template if:true={hasDiagnostics}>
+                                <div class="band">Diagnostic results</div>
+                                <div class="table-wrap">
+                                    <table class="labs">
+                                        <thead><tr><th>Test</th><th>Date</th><th>Result</th></tr></thead>
+                                        <tbody>
+                                            <template for:each={diagnosticRows} for:item="d">
+                                                <tr key={d.ref}><td>{d.title}</td><td>{d.dateLabel}</td><td class={d.resultCls}>{d.resultText}</td></tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
+
+                            <template if:true={hasDocumentChecks}>
+                                <div class="band">What the document checks found</div>
+                                <template for:each={documentChecks} for:item="c">
+                                    <div key={c.key} class="gut">
+                                        <div class={c.keyCls}><span class={c.sq}></span>{c.label}</div>
+                                        <div><h4>{c.title}</h4><p>{c.detail}</p></div>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+
+                        <!-- Requests -->
+                        <template if:true={showRequests}>
+                            <p class="lede">{requestsLede}</p>
+                            <div class="band">Requested services</div>
+                            <template if:true={hasRequests}>
+                                <template for:each={requestRows} for:item="r">
+                                    <div key={r.ref} class="gut">
+                                        <div class={r.keyCls}><span class={r.sq}></span>{r.label}</div>
+                                        <div>
+                                            <div class="hrow"><h4>{r.title}</h4><span class="right">{r.meta}</span></div>
+                                            <template if:true={r.note}><p>{r.note}</p></template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasRequests}>
+                                <p class="empty">No services or investigations were requested with this referral.</p>
+                            </template>
+                            <template if:true={requestsCallout}>
+                                <div class="callout"><p>{requestsCallout}</p></div>
+                            </template>
+                        </template>
+
+                        <!-- What to do -->
+                        <template if:true={showActions}>
+                            <template if:true={ai}>
+                                <p class="lede">{actionsLede}</p>
+                                <div class="band">Before the episode is opened for claim</div>
+                                <div class="todo">
+                                    <template for:each={actionRows} for:item="a">
+                                        <div key={a.key} class="t">
+                                            <div class="owner"><b>{a.owner}</b>{a.when}</div>
+                                            <div><h4>{a.title}</h4><p>{a.detail}</p></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={ai}>
+                                <div class="waiting">
+                                    <template if:true={isPending}><lightning-spinner alternative-text="Running checks" size="small" class="inline-spinner"></lightning-spinner></template>
+                                    <p>{liveLabel}. Follow-up actions appear here as soon as the checks finish.</p>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+
+                    <div class="foot">
+                        <div class="acts">
+                            <button class="btn ln" onclick={handleRerun} disabled={rerunDisabled}>{rerunLabel}</button>
+                        </div>
+                        <button class="btn go" onclick={handleClose}>Close / बंद करें</button>
+                    </div>
+                </section>
+            </div>
+        </template>
+    </div>
+</template>

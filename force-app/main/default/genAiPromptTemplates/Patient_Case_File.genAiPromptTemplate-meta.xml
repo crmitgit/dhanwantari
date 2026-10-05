@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>tR5+AQkhjBG72GzyazxK7xk6LUuxK3ftRqPIZDhhJY0=_2</activeVersionIdentifier>
+    <developerName>Patient_Case_File</developerName>
+    <masterLabel>Patient Case File</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>I am a physician assistant at a Primary Health and Wellness Center (PHWC), referring a patient to a secondary or tertiary care facility under the Ayushman Bharat scheme for further evaluation and management.
+Using the clinical history compiled from multiple past encounters, generate a clear, cohesive, and medically appropriate care summary. This summary will be shared with an empanelled hospital and is intended to provide the receiving care team with a concise understanding of the patient’s background, clinical evolution, and the rationale for referral.
+Present the patient’s medical journey in a single paragraph, emphasizing the progression of symptoms, relevant medical history, medication prescribed and any diagnostic tests already requested. Focus on synthesizing only the most relevant and actionable information that would support the receiving specialist in planning the next steps of care.
+Do not use any headings or labels. The summary must read as a continuous clinical narrative, written from a medical perspective in upto 100 words. Be very clear and precise. 
+
+Patient Details:
+Patient&apos;s Age: {!$Input:account.Age__c}
+Gender: {!$Input:account.Gender__c}
+
+Clinical Encounters Data:
+{!$Input:clinicalEncountersSummary}
+
+{!$RecordSnapshot:account.snapshot}{!$RecordSnapshot:account.snapshot}{!$RecordSnapshot:account.snapshot}{!$Input:clinicalEncountersSummary}{!$Input:clinicalEncountersSummary}{!$Input:clinicalEncountersSummary}
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>account</apiName>
+            <definition>SOBJECT://Account</definition>
+            <masterLabel>account</masterLabel>
+            <referenceName>Input:account</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>clinicalEncountersSummary</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>clinicalEncountersSummary</masterLabel>
+            <referenceName>Input:clinicalEncountersSummary</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:account.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:account</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>tR5+AQkhjBG72GzyazxK7xk6LUuxK3ftRqPIZDhhJY0=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>I am a physician assistant at a Primary Health and Wellness Center (PHWC), referring a patient to a secondary or tertiary care facility under the Ayushman Bharat scheme for further evaluation and management.
+Using the clinical history compiled from multiple past encounters, generate a clear, cohesive, and medically appropriate care summary. This summary will be shared with an empanelled hospital and is intended to provide the receiving care team with a concise understanding of the patient’s background, clinical evolution, and the rationale for referral.
+Present the patient’s medical journey in a single paragraph, emphasizing the progression of symptoms, relevant medical history, medication prescribed and any diagnostic tests already requested. Focus on synthesizing only the most relevant and actionable information that would support the receiving specialist in planning the next steps of care.
+Do not use any headings or labels. The summary must read as a continuous clinical narrative, written from a medical perspective in upto 100 words. Be very clear and precise. 
+
+Patient Details:
+Patient&apos;s Age: {!$Input:account.Age__c}
+Gender: {!$Input:account.Gender__c}
+
+Clinical Encounters Data:
+{!$Input:clinicalEncountersSummary}
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>account</apiName>
+            <definition>SOBJECT://Account</definition>
+            <masterLabel>account</masterLabel>
+            <referenceName>Input:account</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>clinicalEncountersSummary</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>clinicalEncountersSummary</masterLabel>
+            <referenceName>Input:clinicalEncountersSummary</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>tR5+AQkhjBG72GzyazxK7xk6LUuxK3ftRqPIZDhhJY0=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Status_Revert_From_Completed</fullName>
+    <active>false</active>
+    <description>Prevents users from changing status once it is marked as Completed</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL(PRIORVALUE(Status), &quot;Completed&quot;),
+  NOT(ISPICKVAL(Status, &quot;Completed&quot;))
+)</errorConditionFormula>
+    <errorMessage>&quot;The Status field cannot be changed once it is marked as Completed.&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,183 @@
+<template>
+    <template if:true={isModalOpen}>
+        <div class="modal-backdrop">
+            <!-- LOADING SPINNER -->
+            <template if:true={isLoading}>
+                <div class="spinner-overlay">
+                    <lightning-spinner size="medium">
+                    </lightning-spinner>
+                </div>
+            </template>
+
+            <div class="modal-container">
+
+                <!-- Close Button -->
+                <!-- <div class="close-button">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        variant="bare"
+                        alternative-text="Close"
+                        onclick={closeModal}>
+                    </lightning-button-icon>
+                </div> -->
+
+                <!-- HEADER -->
+                <div class="gov-header">
+                    <!-- <img src={pmjayLogo} class="gov-logo-left" alt="PMJAY" /> -->
+
+                    <div class="gov-header-title">
+                        Ayurveda AI Medication Assistant<br />
+                        <span>आयुष औषधि मार्गदर्शन</span>
+                    </div>
+
+                    <!-- <img src={governmentLogo} class="gov-logo-right" alt="Government of India" /> -->
+                </div>
+
+                <!-- BODY -->
+                <div class="modal-body">
+
+                    <!-- DISCLAIMER -->
+                    <div class="gov-disclaimer">
+                        <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                        <div>
+                            <b>Disclaimer & Compliance Advisory / अस्वीकरण एवं अनुपालन परामर्श</b>
+                            <p>
+                                This system provides AI-assisted guidance based on Ayurveda principles.
+                                It is intended only to support clinical decision-making and does not replace
+                                professional medical judgment.
+                            </p>
+                            <p class="hindi">
+                                यह प्रणाली आयुष (आयुर्वेद) सिद्धांतों पर आधारित एआई-सहायता प्रदान करती है।
+                                यह चिकित्सकीय निर्णय का स्थान नहीं लेती।
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- CLINICAL FACTORS -->
+                    <template if:true={filteredConsiderations.length}>
+                        <div class="gov-section">
+                            <div class="gov-section-title1 clinical">
+                                Patient-Specific Clinical Factors / रोगी-विशिष्ट नैदानिक कारक
+                            </div>
+
+
+                            <div class="gov-info-box">
+                                Medication guidance is generated after evaluating patient-specific
+                                Ayurvedic clinical parameters. / रोगी-विशिष्ट आयुर्वेदिक नैदानिक कारकों के आधार पर औषधि
+                                सुझाव तैयार किए गए हैं।
+                                <!-- <div class="hindi">
+                                    
+                                </div> -->
+                            </div>
+
+                            <div class="gov-table-wrapper">
+                                <table class="gov-table">
+                                    <thead>
+                                        <tr>
+                                            <template for:each={filteredConsiderations} for:item="col">
+                                                <th key={col.label}>{col.label}</th>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template for:each={filteredConsiderations} for:item="col">
+                                                <td key={col.label}>{col.value}</td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- AI GUIDANCE -->
+                    <!-- <div class="gov-section ai-guidance">
+                        <div class="gov-section-title ai">
+                            AI-Generated Ayurvedic Guidance / एआई-आधारित आयुर्वेदिक मार्गदर्शन
+                        </div>
+
+                        <div class="gov-content-box">
+                            <div class="rich-text-content" data-id="aiSummaryContainer"></div>
+                        </div>
+                    </div> -->
+
+                    <!-- AI GUIDANCE -->
+                    <div class="gov-section ai-guidance">
+                        <div class="gov-section-title ai">
+                            AI-Generated Ayurvedic Guidance / एआई-आधारित आयुर्वेदिक मार्गदर्शन
+                        </div>
+
+                        <div class="gov-content-box">
+                            <!-- EMERGENCY ALERT - SHOWN ONLY IF EMERGENCY -->
+                            <!-- <div class="watermark-container">
+                                <img src={crmitLogo} alt="Watermark" class="watermark-image" />
+                            </div> -->
+                            <template if:true={isEmergency}>
+                                <div class="emergency-alert-inline">
+                                    <div class="emergency-content-inline">
+                                        <div class="emergency-title-inline">
+                                            ⚠️ EMERGENCY / आपातकाल ⚠️
+                                        </div>
+                                        <div class="emergency-message-inline">
+                                            {emergencyMessage}
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- NORMAL AI SUMMARY - SHOWN ONLY IF NOT EMERGENCY -->
+                            <template if:true={showNormalContent}>
+                                <div class="rich-text-content" data-id="aiSummaryContainer"></div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- FINAL ADVISORY -->
+                    <!-- <div class="gov-footer-advisory">
+                        Final medication decisions must be reviewed and approved by a registered
+                        AYUSH medical practitioner.
+                        <div class="hindi">
+                            अंतिम औषधि निर्णय पंजीकृत आयुष चिकित्सक द्वारा अनुमोदित होना अनिवार्य है।
+                        </div>
+                    </div> -->
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer sticky-footer">
+
+                    <!-- ADVISORY -->
+                    <div class="gov-footer-advisory footer-advisory">
+                        Final medication decisions must be reviewed and approved by a registered
+                        Ayurvedic medical practitioner.
+                        <div class="hindi">
+                            अंतिम औषधि निर्णय पंजीकृत आयुष चिकित्सक द्वारा अनुमोदित होना अनिवार्य है।
+                        </div>
+                    </div>
+
+                    <!-- ACTION -->
+                     <div class="footer-actions">
+                        <button
+                            class="bel-btn bel-btn-primary"
+                            onclick={handleBack}>
+                            Back / वापस जाएँ
+                        </button>
+
+                        <button
+                            class="bel-btn bel-btn-secondary"
+                            onclick={closeModal}>
+                            Close / बंद करें
+                        </button>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </template>
+</template>

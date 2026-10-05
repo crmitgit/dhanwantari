@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_From</fullName>
+    <active>false</active>
+    <errorConditionFormula>IF(ISNEW() = FALSE &amp;&amp; Prescription_Start_Date__c &lt; TODAY(),true,false)</errorConditionFormula>
+    <errorDisplayField>Afternoon__c</errorDisplayField>
+    <errorMessage>Start From cannot be in the past / आरंभ तिथि तिथि भूतकाल में नहीं हो सकती</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comments_required</fullName>
+    <active>true</active>
+    <description>Comments required whenever severity or diagnosis type changed to mention the reason</description>
+    <errorConditionFormula>AND(
+    OR(
+        ISCHANGED( Severity__c ),
+        ISCHANGED( Diagnosis_Type__c )
+    ),
+    ISBLANK( Comments__c )
+)</errorConditionFormula>
+    <errorDisplayField>Comments__c</errorDisplayField>
+    <errorMessage>Please provide comments when changing Severity or Diagnosis Type.
+/ गंभीरता या निदान प्रकार बदलते समय टिप्पणी देना आवश्यक है।</errorMessage>
+</ValidationRule>

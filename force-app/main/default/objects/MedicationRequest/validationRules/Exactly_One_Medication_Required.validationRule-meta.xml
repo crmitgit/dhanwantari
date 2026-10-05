@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exactly_One_Medication_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    AND(
+        ISBLANK(MedicationId),
+        ISBLANK(Ayurvedic_Medication__c)
+    ),
+    AND(
+        NOT(ISBLANK(MedicationId)),
+        NOT(ISBLANK(Ayurvedic_Medication__c))
+    )
+)</errorConditionFormula>
+    <errorMessage>Please enter a value in either Medication or Ayurvedic Medication. Only one field can contain a value.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,932 @@
+<template>
+    <template if:true={showMainContent}>
+        <div class="pmjay-portal-container">
+            <header class="pmjay-header">
+                <div class="pmjay-header-left">
+                    <img src={pmjayLogoUrl} alt="Ammar to verification Logo" class="left-logo" />
+                </div>
+                <div class="pmjay-header-center">
+                    <h1 class="pmjay-title">{portalHeaderTitle}</h1>
+                </div>
+                <div class="pmjay-header-right">
+                    <img src={Government_logoUrl} alt="National Health Authority Logo" class="right-logo" />
+                </div>
+            </header>
+
+            <!-- <template if:false={showInitialSelection}>
+                <template if:true={showPatientReport}>
+                    <div class="progress-stepper">
+                        <div class={step1Class}>
+                            <div class="circle">
+                                <template if:true={isStep1Complete}>
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                                </template>
+                                <template if:false={isStep1Complete}>1</template>
+                            </div>
+                            <span>Identify Yourself / अपना विवरण करें</span>
+                        </div>
+                        <div class={line1Class}></div>
+                        <div class={line2Class}></div>
+                    </div>
+                </template> -->
+<!-- 
+                <div class="progress-stepper" if:false={showPatientReport}>
+                    <div class={step1Class}>
+                        <div class="circle">
+                            <template if:true={isStep1Complete}>
+                                <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                            </template>
+                            <template if:false={isStep1Complete}>1</template>
+                        </div>
+                        <span>OTP verification / ओटीपी सत्यापन</span>
+                    </div>
+                    <div class={line1Class}></div>
+                    <div class={step2Class}>
+                        <div class="circle">
+                            <template if:true={isStep2Complete}>
+                                <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                            </template>
+                            <template if:false={isStep2Complete}>2</template>
+                        </div>
+                        <span>Identify Yourself / अपना विवरण करें</span>
+                    </div>
+                    <div class={line2Class}></div>
+
+                    <template if:true={isPatientCareTransitionFlow}>
+                        <div class={step3Class}>
+                            <div class="circle">
+                                <template if:true={isStep3Complete}>
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                                </template>
+                                <template if:false={isStep3Complete}>3</template>
+                            </div>
+                            <span>Patient Care Summary / रोगी देखभाल सारांश</span>
+                        </div>
+                        <div class={line3Class}></div>
+                        <div class={step4Class}>
+                            <div class="circle">
+                                <template if:true={isStep4Complete}>
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                                </template>
+                                <template if:false={isStep4Complete}>4</template>
+                            </div>
+                            <span>Refer back to PHWC / PHWC में वापस भेजें</span>
+                        </div>
+                    </template>
+
+                    <template if:true={isPatientReceivedFlow}>
+                        <div class={step3Class}>
+                            <div class="circle">
+                                <template if:true={isStep3Complete}>
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="step-tick"></lightning-icon>
+                                </template>
+                                <template if:false={isStep3Complete}>3</template>
+                            </div>
+                            <span>Patient Received / मरीज़ आ गया</span>
+                        </div>
+                    </template>
+                </div>
+            </template> -->
+
+            <div class="content-card" style={backgroundStyle}>
+                <template if:true={isLoggedIn}>
+                    <div class="session-header">
+                        <lightning-button-menu
+                            alternative-text="Hospital Menu"
+                            menu-alignment="right"
+                            class="hospital-menu"
+                            icon-name="standard:account"
+                        >
+                            <div class="hospital-info">
+                                <span class="hospital-label">
+                                    Empanelled Hospital / सूचीबद्ध अस्पताल
+                                </span>
+                                <span class="hospital-name">
+                                    {loggedInHospital}
+                                </span>
+                            </div>
+
+                            <lightning-menu-item
+                                label="Logout / लॉगआउट"
+                                value="logout"
+                                onclick={handleLogout}>
+                            </lightning-menu-item>
+                        </lightning-button-menu>
+                    </div>
+                </template>
+
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading / लोड हो रहा है" size="large"></lightning-spinner>
+                </template>
+
+                <template if:true={showInitialSelection}>
+                    <div class="main-selection-container">
+                         <div class="selection-card" onclick={handlePatientReportCard}>
+                            <div class="card-icon-container">
+                                <lightning-icon icon-name="utility:file" size="large" class="card-line-icon" alternative-text="Patient Health Records"></lightning-icon>
+                            </div>
+                            <h2 class="selection-card-title">Patient Health Records</h2>
+                            <p class="selection-card-description">Diagnostic results and clinical reports.</p>
+                            <button class="custom-button icon-button">
+                                <lightning-icon icon-name="utility:arrow_right" size="small" class="button-icon-right" variant="inverse"></lightning-icon>
+                            </button>
+                        </div>
+
+                        <div class="selection-card" onclick={handlePatientReceivedClick}>
+                            <div class="card-icon-container">
+                                <lightning-icon icon-name="utility:checkin" size="large" class="card-line-icon" alternative-text="Patient Received"></lightning-icon>
+                            </div>
+                            <h2 class="selection-card-title">Patient Received</h2>
+                            <p class="selection-card-description">Patient arrived at Empanelled Healthcare Provider</p>
+                            <button class="custom-button icon-button">
+                                <lightning-icon icon-name="utility:arrow_right" size="small" class="button-icon-right" variant="inverse"></lightning-icon>
+                            </button>
+                        </div>
+
+                        <div class="selection-card" onclick={handlePatientCareTransitionClick}>
+                            <div class="card-icon-container">
+                                <lightning-icon icon-name="utility:reply" size="large" class="card-line-icon" alternative-text="Patient Care Transition"></lightning-icon>
+                            </div>
+                            <h2 class="selection-card-title">Patient Care Transition</h2>
+                            <p class="selection-card-description">Refer patient back to PHWC</p>
+                            <button class="custom-button icon-button">
+                                <lightning-icon icon-name="utility:arrow_right" size="small" class="button-icon-right" variant="inverse"></lightning-icon>
+                            </button>
+                        </div>
+
+                        <!-- Referral Validation card hidden for now
+                        <div class="selection-card" onclick={handleReferralValidationClick}>
+                            <div class="card-icon-container">
+                                <span class="emoji-icon">🛡️</span> </div>
+                            <h2 class="selection-card-title">Referral Validation</h2>
+                            <p class="selection-card-description">Verify the incoming referral against PHWC records before admission.</p>
+                            <button class="custom-button icon-button">
+                                <lightning-icon icon-name="utility:arrow_right" size="small" class="button-icon-right" variant="inverse"></lightning-icon>
+                            </button>
+                        </div>
+                        -->
+
+                    </div>
+                </template>
+
+                <template if:true={showValidationSearch}>
+                    <div class="step-content colFlex" style="background:transparent;">
+                        <div class="step-content-inner">
+                            <p class="description-text description-color">
+                                Enter the 'RF-' prefixed referral ID to check it against the PHWC record before admission /
+                                भर्ती से पहले PHWC रिकॉर्ड से जांचने के लिए 'RF-' से शुरू होने वाली रेफरल आईडी दर्ज करें
+                            </p>
+                            <div class="search-input-group">
+                                <input type="text" name="validationReferralInput" value={validationReferralInput}
+                                    oninput={handleValidationInput} onkeydown={handleValidationKeyDown}
+                                    placeholder="Enter Referral ID / रेफरल आईडी दर्ज करें" class="custom-input search-input" />
+                                <button class="custom-button search-button" onclick={handleOpenValidation}>
+                                    Validate / जांचें
+                                </button>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                        </div>
+                    </div>
+                    <template if:true={validationReferralName}>
+                        <c-referral-validation-panel
+                            referral-name={validationReferralName}
+                            hospital-name={loggedInHospital}
+                            onclose={handleValidationClose}
+                            onvalidationerror={handleValidationError}>
+                        </c-referral-validation-panel>
+                    </template>
+                </template>
+
+                <template if:false={showInitialSelection}>
+                    <template if:true={isStep1}>
+                        <template if:true={showCityHospitalInput}>
+                            <div class="step-content">
+                                <div class="step-content-inner center" style={backgroundStyle}>
+                                    <p class="description-text description-color">Select your City and Hospital / अपना शहर और अस्पताल चुनें</p>
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <lightning-combobox
+                                                name="selectedCity"
+                                                label="City / शहर " value={selectedCity}
+                                                options={cityOptions}
+                                                onchange={handleInputChange}
+                                                onkeydown={handleKeyDown} placeholder="Select City"
+                                                class="custom-combobox curved-dropdown"
+                                                required
+                                                id="cityCombobox"
+                                            ></lightning-combobox>
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="hospitalCombobox" style="font-size: 12px; font-weight: 500; color: #343a40; margin-bottom: 4px;"></label>
+                                            <lightning-combobox
+                                                name="selectedHospital"
+                                                label="Empanelled Hospital / सूचीबद्ध अस्पताल " value={selectedHospital}
+                                                options={hospitalOptions}
+                                                onchange={handleInputChange}
+                                                onkeydown={handleKeyDown} placeholder="Select Hospital"
+                                                class="custom-combobox curved-dropdown"
+                                                required
+                                                id="hospitalCombobox"
+                                            ></lightning-combobox>
+                                        </div>
+                                    </div>
+                                    <div class="security-info-box">
+                                        <div class="info-text description-color">
+                                            <p><strong class="info-bold-text">Please Note / कृपया ध्यान दें</strong></p>
+                                            <p>An OTP will be sent to the hospital's registered Mobile Number. Ensure the number is accessible to complete verification. / अस्पताल के रजिस्टर्ड मोबाइल नंबर पर एक ओटीपी भेजा जाएगा। वेरिफाई करने के लिए, सुनिश्चित करें कि नंबर उपलब्ध हो।</p>
+                                        </div>
+                                    </div>
+                                    <div class="button-group">
+                                        <!-- <button class="custom-button secondary-button" onclick={handleGoBackToSelection}>Back / वापस जाएं</button> -->
+                                        <button class="custom-button primary-button" onclick={handleSendOtp}>
+                                            Enter OTP / ओटीपी डालें
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={showOtpInput}>
+                            <div class="step-content step2-content center" style={backgroundStyle}>
+                                <div class="step-content-inner">
+                                    <p class="description-text description-color">Enter the OTP sent to <strong class="description-color">{maskedPhoneNumber}</strong> / <strong class="description-color">{maskedPhoneNumber}</strong> पर भेजे गए OTP को दर्ज करें</p>
+                                    <div class="otp-input-container">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp1" value={otp1}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus} onpaste={handleOtpPaste}
+                                            maxlength="1" />
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp2" value={otp2}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus}
+                                            maxlength="1" />
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp3" value={otp3}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus}
+                                            maxlength="1" />
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp4" value={otp4}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus}
+                                            maxlength="1" />
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp5" value={otp5}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus}
+                                            maxlength="1" />
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="otp-input" name="otp6" value={otp6}
+                                            oninput={handleOtpInput} onkeydown={handleOtpKeydown} onfocus={handleOtpFocus}
+                                            maxlength="1" />
+                                    </div>
+                                    <p class="resend-otp-text description-color">Didn't receive the OTP? <a href="#" onclick={handleResendOtp}>Resend OTP / ओटीपी दोबारा भेजें</a></p>
+                                    <div class="button-group">
+                                        <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                                        <button class="custom-button primary-button" onclick={handleVerifyOtp}>Continue / आगे बढ़ें</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- <template if:true={isStep2}>
+                        <div class="step-content">
+                            <div class="step-content-inner" style={backgroundStyle}>
+                                <p class="description-text description-color">Please provide your Name and Employee ID / कृपया अपना नाम और कर्मचारी आईडी बताएं</p>
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label for="officerFullName" class="input-label">Full Name / पूरा नाम <span class="required-field-asterisk">*</span></label>
+                                        <input type="text" id="officerFullName" name="officerFullName" value={officerFullName} oninput={handleInputChange} onkeydown={handleKeyDown} placeholder="Your Full Name" class="custom-input" required data-field="officerFullName"/>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="officerEmployeeId" class="input-label">Employee ID / कर्मचारी आईडी <span class="required-field-asterisk">*</span></label>
+                                        <input type="text" id="officerEmployeeId" name="officerEmployeeId" value={officerEmployeeId} oninput={handleInputChange} onkeydown={handleKeyDown} placeholder="Your Employee ID" class="custom-input" required data-field="officerEmployeeId"/>
+                                    </div>
+                                </div>
+                                <div class="button-group">
+                                    <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                                    <button class="custom-button primary-button" onclick={handleContinue}>Continue / आगे बढ़ें</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template> -->
+                    
+                    <template if:true={isStep3Report}>
+                        <div class="step-content colFlex" style="background:transparent;">
+                            <div class="step-content-inner">
+                                <p class="description-text description-color">
+                                    Enter the 'RF-' prefixed referral ID Shared when the patient was referred to you by PHWC / 
+                                    'RF-' से शुरू होने वाली रेफरल आईडी दर्ज करें
+                                </p>
+
+                                <div class="search-input-group">
+                                    <input type="text" name="phwcReferralIdInput" value={phwcReferralIdInput} 
+                                        oninput={handleInputChange} onkeydown={handleKeyDown} 
+                                        placeholder="Enter Referral ID / रेफरल आईडी दर्ज करें" class="custom-input search-input" />
+                                    <button class="custom-button search-button" onclick={handleSearchReferral}>
+                                        Search / खोजें
+                                    </button>
+                                </div>
+                                <template if:true={isConsentGranted}>
+
+                                    <template if:true={isDataVisible}>   
+                                        <template if:true={isZipping}>
+                                            <lightning-spinner
+                                                alternative-text="Preparing ZIP..."
+                                                size="medium">
+                                            </lightning-spinner>
+                                        </template>
+                                        <div class="grid">
+                                    
+                                            <div class="accordion-section">
+                                                <div class="accordion-header">
+                                                    <h3>Patient Details / मरीज का विवरण</h3>
+                                                </div>
+                                                <div class="accordion-content1 gridCol2 info-display-grid">
+                                                    <div class="info-item">
+                                                        <label class="info-label">Full Name / पूरा नाम</label>
+                                                        <span class="info-value">{patientFullName}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Age / उम्र</label>
+                                                        <span class="info-value">{patientAge}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Gender / लिंग</label>
+                                                        <span class="info-value">{patientGender}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Phone Number / फोन नंबर</label>
+                                                        <span class="info-value">{patientPhone}</span>
+                                                    </div>      
+                                                </div>
+                                            </div>
+                                            <div class="accordion-section">
+                                                <div class="accordion-header">
+                                                    <h3>Patient Attendant Details / रोगी परिचारक का विवरण</h3>
+                                                </div>
+                                                <div class="accordion-content1 gridCol2 info-display-grid">
+                                                    <div class="info-item">
+                                                        <label class="info-label">Attendant Name / देखभालकर्ता का नाम</label>
+                                                        <span class="info-value">{attendantName}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Relation with Patient / मरीज से संबंध</label>
+                                                        <span class="info-value">{attendantRelation}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Attendant Phone / देखभालकर्ता का फोन नंबर</label>
+                                                        <span class="info-value">{attendantPhone}</span>
+                                                    </div>                              
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="accordion-section">
+                                                <div class="accordion-header">
+                                                    <h3>Referral Context / रेफरल संदर्भ</h3>
+                                                </div>
+
+
+                                                <div class="accordion-content1 gridCol2 info-display-grid">
+                                                    <div class="info-item">
+                                                        <label class="info-label">Referred Specialty / संदर्भित विशेषज्ञता</label>
+                                                        <span class="info-value">{recommendedSpeciality}</span>
+                                                    </div>
+
+                                                    <div class="info-item">
+                                                        <label class="info-label">Preliminary Diagnosis / प्रारंभिक निदान</label>
+                                                        <span class="info-value">{recommendedDiagnosis}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-section">
+                                                <div class="accordion-header">
+                                                    <h3>Referred By (PHWC Doctor) / संदर्भकर्ता (PHWC डॉक्टर)</h3>
+                                                </div>
+
+                                                <div class="accordion-content1 gridCol2 info-display-grid">
+                                                    <!-- <div class="info-item">
+                                                        <label class="info-label">Designation / पद</label>
+                                                        <span class="info-value">PHWC Medical Officer</span>
+                                                    </div> -->
+
+                                                    <div class="info-item">
+                                                        <label class="info-label">Referring PHWC / संदर्भित PHWC केंद्र</label>
+                                                        <span class="info-value">{phwcName}</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <label class="info-label">Referring Doctor / संदर्भित डॉक्टर का नाम</label>
+                                                        <span class="info-value">{drName}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="reports-table-container">
+                                            <div class="table-header-actions slds-grid slds-grid_align-end">
+                                                <template if:true={hasAnyFiles}>
+                                                    <button class="view-btn" style="margin: 10px 10px 0px 0px;" onclick={handleDownloadAll}>
+                                                        Download All (ZIP) / सभी डाउनलोड करें
+                                                    </button>
+                                                </template>
+                                            </div>
+                                            <template if:true={summaryFiles.length}>
+                                                <h3 class="table-title">Referral Summary / रेफरल सारांश</h3>
+                                                <table class="custom-table slds-m-bottom_large">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: left; padding-left: 35px;">Document Name / दस्तावेज़ का नाम</th>
+                                                            <th style="text-align: center;">Download / डाउनलोड</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody  class="responsive-table-body">
+                                                        <template for:each={summaryFiles} for:item="file">
+                                                            <tr key={file.Id}>
+                                                                <td>
+                                                                    <div class="file-name-cell">
+                                                                        <lightning-icon icon-name={file.iconName} size="small" class="slds-m-right_small"></lightning-icon>
+                                                                        <span>{file.Title}</span>
+                                                                    </div>
+                                                                </td>
+                                                                
+                                                                <td style="text-align: center;">
+                                                                    <button class="view-btn" data-id={file.Id} data-type={file.Type} data-name={file.Title} onclick={handleDownloadFile}>Download</button>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </template>
+                                            <template if:true={diagnosticFiles.length}>
+                                                <h3 class="table-title"> Diagnostic Reports / नैदानिक रिपोर्ट</h3>
+                                                <table class="custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: left; padding-left: 35px;">Report Name / रिपोर्ट का नाम</th>
+                                                            <th style="text-align: center;">Download / डाउनलोड</th>                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="responsive-table-body">
+                                                        <template for:each={diagnosticFiles} for:item="file">
+                                                            <tr key={file.Id}>
+                                                                <td>
+                                                                    <div class="file-name-cell">
+                                                                        <lightning-icon icon-name={file.iconName} size="small" class="slds-m-right_small"></lightning-icon>
+                                                                        <span>{file.Title}</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button class="view-btn" data-id={file.Id} data-type={file.Type} data-name={file.Title} onclick={handleDownloadFile}>Download</button>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={isConsentGranted}>
+                                    <div class="consent-warning-box">
+                                        <h3>🔒 Patient Consent Pending / रोगी की सहमति लंबित</h3>
+                                        <p>
+                                            Patient consent for sharing medical details has not been granted.
+                                            As per Government of India guidelines, empanelled hospitals cannot
+                                            view patient information without consent.
+                                        </p>
+                                        <p>
+                                            कृपया PHWC से संपर्क करें या रोगी की सहमति स्वीकृत होने की प्रतीक्षा करें।
+                                        </p>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="button-group">
+                                <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={isStep3}>
+                        <div class="step-content" style={backgroundStyle}>
+                            <div class="step-content-inner">
+                                <p class="description-text description-color">Enter the 'RF-' prefixed referral ID Shared when the patient was referred to you by PHWC / 'RF-' से शुरू होने वाली रेफरल आईडी दर्ज करें, जो PHWC ने रेफर करते समय दी थी</p>
+                                <div class="search-input-group">
+                                    <input type="text" name="phwcReferralIdInput" value={phwcReferralIdInput} oninput={handleInputChange} onkeydown={handleKeyDown} placeholder="Enter Referral ID / रेफरल आईडी दर्ज करें" class="custom-input search-input" />
+                                    <button class="custom-button search-button search-button-spacing" onclick={handleSearchReferral}>
+                                        Search / खोजें
+                                    </button>
+                                </div>
+                                <div class="accordion-section maxWidth800">
+                                    <div class="accordion-header">
+                                        <h3>Patient Details / मरीज का विवरण </h3>
+                                    </div>
+                                    <div class="accordion-content input-grid">
+                                        <div class="input-group">
+                                            <label for="patientFullName" class="input-label">Full Name / पूरा नाम</label>
+                                            <input type="text" id="patientFullName" name="patientFullName" value={patientFullName} class="custom-input" readonly={isPatientDetailsReadonly} oninput={handleInputChange} onkeydown={handleKeyDown} />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="patientAge" class="input-label">Age / उम्र</label>
+                                            <input type="number" id="patientAge" name="patientAge" value={patientAge} class="custom-input" readonly={isPatientDetailsReadonly} oninput={handleInputChange} onkeydown={handleKeyDown} />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="patientGender" class="input-label">Gender / लिंग</label>
+                                            <input type="text" id="patientGender" name="patientGender" value={patientGender} class="custom-input" readonly={isPatientDetailsReadonly} oninput={handleInputChange} onkeydown={handleKeyDown} />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="pmjayId" class="input-label">PMJAY ID / पीएमजेएवाई आईडी</label>
+                                            <input type="text" id="pmjayId" name="pmjayId" value={pmjayId} class="custom-input" readonly={isPatientDetailsReadonly} oninput={handleInputChange} onkeydown={handleKeyDown} />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="memberId" class="input-label">PMJAY Member ID / पीएमजेएवाई सदस्य आईडी</label>
+                                            <input type="text" id="memberId" name="memberId" value={memberId} class="custom-input" readonly={isPatientDetailsReadonly} oninput={handleInputChange} onkeydown={handleKeyDown} />
+                                        </div>
+                                        <template if:true={isPatientReceivedFlow}>
+                                            <div class="input-group">
+                                                <label for="receivedDateInput" class="input-label">Received Date / मरीज़ के आने की तारीख <span class="required-field-asterisk">*</span></label>
+                                                <input
+                                                    type="date"
+                                                    id="receivedDateInput"
+                                                    name="receivedDate"
+                                                    value={receivedDate}
+                                                    oninput={handleInputChange}
+                                                    onkeydown={handleKeyDown}
+                                                    placeholder="Select Date"
+                                                    class="custom-input"
+                                                />
+                                            </div>
+                                        </template>
+                                        <template if:true={isPatientCareTransitionFlow}>
+                                            <div class="input-group">
+                                                <label for="patientMrnId" class="input-label">Patient MRN ID (As seen in your HMS) / मरीज़ की एमआरएन आईडी (जैसा आपके HMS में दर्ज है) <span class="required-field-asterisk">*</span></label>
+                                                <input type="text" id="patientMrnId" name="patientMrnId" value={patientMrnId} oninput={handleInputChange} onkeydown={handleKeyDown} placeholder="Enter MRN ID" class="custom-input" required />
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <template if:true={isPatientReceivedFlow}>
+                                    <div class="button-group">
+                                        <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                                        <button class="custom-button primary-button" onclick={handleSubmitPatientReceivedDate}>Submit / जमा करें</button>
+                                    </div>
+                                </template>
+
+                                <template if:true={isPatientCareTransitionFlow}>
+                                    <div class="accordion-section maxWidth800">
+                                        <div class="accordion-header">
+                                            <h3>Diagnosis and Intervention Details / निदान और इलाज की जानकारी</h3>
+                                        </div>
+                                        <div class="accordion-content">
+                                            <div class="input-group full-width">
+                                                <label for="finalConfirmedDiagnosis" class="input-label">Final Confirmed Diagnosis: / अंतिम पुष्ट निदान:</label>
+                                                <textarea id="finalConfirmedDiagnosis" name="finalConfirmedDiagnosis" value={finalConfirmedDiagnosis} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea"></textarea> </div>
+                                            <div class="input-group full-width">
+                                                <label for="proceduresPerformed" class="input-label">Procedure(s) Performed: / किए गए उपचार:</label>
+                                                <textarea id="proceduresPerformed" name="proceduresPerformed" value={proceduresPerformed} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea"></textarea> </div>
+                                            <div class="input-group full-width">
+                                                <label for="dischargeSummary" class="input-label">Discharge Summary (if inpatient): / डिस्चार्ज समरी (अगर भर्ती थे):</label>
+                                                <textarea id="dischargeSummary" name="dischargeSummary" value={dischargeSummary} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea"></textarea> </div>
+                                            <div class="input-group full-width">
+                                                <label for="outcomesOfIntervention" class="input-label">Outcomes of the Intervention: / उपचार के परिणाम:</label>
+                                                <textarea id="outcomesOfIntervention" name="outcomesOfIntervention" value={outcomesOfIntervention} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea"></textarea> </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-section maxWidth800">
+                                        <div class="accordion-header">
+                                            <h3>Follow-up and Ongoing Care Plan / अनुवर्ती एवं सतत् देखभाल योजना</h3>
+                                        </div>
+                                        <div class="accordion-content ">
+                                            <div class="prescription-forms-container">
+                                                <c-prescription-forms is-transition-portal=true onmedicationlist={handleMedication}></c-prescription-forms>
+                                            </div>
+
+                                            <template if:true={showMedicationTable}>
+                                                <div class="medication-table-container">
+                                                    <h4>Prescribed Medications / दी गई दवाएं</h4>
+                                                    <div class="slds-scrollable_x">
+                                                        <table class="medication-display-table slds-table_cell-buffer slds-table_striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="med-col-medication">
+                                                                        <div class="slds-truncate" title="Medication Name">Medication Name / दवा का नाम</div>
+                                                                    </th>
+                                                                    <th class="med-col-dosage">
+                                                                        <div class="slds-truncate" title="Morning Dosage">Morning Dosage / सुबह की खुराक</div>
+                                                                    </th>
+                                                                    <th class="med-col-dosage">
+                                                                        <div class="slds-truncate" title="Afternoon Dosage">Afternoon Dosage / दोपहर की खुराक</div>
+                                                                    </th>
+                                                                    <th class="med-col-dosage">
+                                                                        <div class="slds-truncate" title="Evening Dosage">Evening Dosage / शाम की खुराक</div>
+                                                                    </th>
+                                                                    <th class="med-col-food">
+                                                                        <div class="slds-truncate" title="Before/After Food">Before/After Food / भोजन से पहले/बाद</div>
+                                                                    </th>
+                                                                    <th class="med-col-duration">
+                                                                        <div class="slds-truncate" title="Duration">Duration (Days) / कितने दिन (दिनों में)</div>
+                                                                    </th>
+                                                                    <th class="med-col-startdate">
+                                                                        <div class="slds-truncate" title="Start From">Start From / कब से शुरू करें</div>
+                                                                    </th>
+                                                                    <th class="med-col-instructions">
+                                                                        <div class="slds-truncate" title="Instructions">Instructions / निर्देश</div>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <template for:each={medicationListFromChild} for:item="medItem">
+                                                                    <tr key={medItem.id}>
+                                                                        <td data-label="Medication Name">
+                                                                            <div class="slds-truncate" title={medItem.selectedName}>{medItem.selectedName}</div>
+                                                                        </td>
+                                                                        <td data-label="Morning Dosage">
+                                                                            <div class="slds-truncate" title={medItem.morningDosage}>{medItem.morningDosage}</div>
+                                                                        </td>
+                                                                        <td data-label="Afternoon Dosage">
+                                                                            <div class="slds-truncate" title={medItem.afternoonDosage}>{medItem.afternoonDosage}</div>
+                                                                        </td>
+                                                                        <td data-label="Evening Dosage">
+                                                                            <div class="slds-truncate" title={medItem.eveningDosage}>{medItem.eveningDosage}</div>
+                                                                        </td>
+                                                                        <td data-label="Before/After Food">
+                                                                            <div class="slds-truncate" title={medItem.beforeAfterFood}>{medItem.beforeAfterFood}</div>
+                                                                        </td>
+                                                                        <td data-label="Duration (Days)">
+                                                                            <div class="slds-truncate" title={medItem.durationDays}>{medItem.durationDays}</div>
+                                                                        </td>
+                                                                        <td data-label="Start From">
+                                                                            <div class="slds-truncate" title={medItem.startFrom}>{medItem.startFrom}</div>
+                                                                        </td>
+                                                                        <td data-label="Instructions">
+                                                                            <div class="slds-truncate" title={medItem.instructions}>{medItem.instructions}</div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </template>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <div class="input-group full-width">
+                                                <label for="careInstructions" class="input-label">Care Instructions: <span class="required-field-asterisk"></span> / देखभाल के निर्देश: <span class="required-field-asterisk">*</span></label>
+                                                <textarea id="careInstructions" name="careInstructions" value={careInstructions} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea" required data-field="careInstructions"></textarea> </div>
+                                            <div class="input-group">
+                                                <label for="nextFollowupDate" class="input-label">Next Follow-up Date: / फॉलो-अप तिथि:</label>
+                                                <input type="date" id="nextFollowupDate" name="nextFollowupDate" value={nextFollowupDate} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-input" /> </div>
+                                            <div class="input-group full-width">
+                                                <label for="redFlagsToMonitor" class="input-label">Red Flags to Monitor: / निगरानी योग्य लक्षण:</label>
+                                                <textarea id="redFlagsToMonitor" name="redFlagsToMonitor" value={redFlagsToMonitor} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-textarea"></textarea> </div>
+                                            <div class="input-group full-width checkbox-group">
+                                                <label class="input-label">Any Further Referral Planned? / क्या आगे किसी और को रेफर करना है?</label>
+                                                <div class="radio-buttons">
+                                                    <input type="radio" id="referralYes" name="anyFurtherReferralPlanned" value="Yes" onchange={handleInputChange} onkeydown={handleKeyDown} checked={isReferralYes} /> <label for="referralYes">Yes / हाँ</label>
+                                                    <input type="radio" id="referralNo" name="anyFurtherReferralPlanned" value="No" onchange={handleInputChange} onkeydown={handleKeyDown} checked={isReferralNo} /> <label for="referralNo">No / नहीं</label>
+                                                </div>
+                                                <template if:true={showFurtherReferralTo}>
+                                                    <div class="input-group">
+                                                        <label for="furtherReferralTo" class="input-label">If yes, to: / अगर हाँ, तो किसको:</label>
+                                                        <input type="text" id="furtherReferralTo" name="furtherReferralTo" value={furtherReferralTo} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-input" /> </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-section maxWidth800">
+                                        <div class="accordion-header">
+                                            <h3>Treating Physician Details / डॉक्टर का नाम एवं पदनाम</h3>
+                                        </div>
+                                        <div class="accordion-content">
+                                            <div class="input-group full-width">
+                                                <label for="treatingPhysicianNameDesignation" class="input-label">Treating Physician Name & Designation: / इलाज करने वाले डॉक्टर का नाम और पद:</label>
+                                                <input type="text" id="treatingPhysicianNameDesignation" name="treatingPhysicianNameDesignation" value={treatingPhysicianNameDesignation} oninput={handleInputChange} onkeydown={handleKeyDown} class="custom-input" /> </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-section maxWidth800">
+                                        <div class="accordion-header">
+                                            <h3>Reports / संबंधित दस्तावेज़</h3>
+                                        </div>
+                                        <div class="accordion-content">
+                                            <div class="input-group full-width">
+                                                <label class="input-label">Attachments Included (tick): / साथ में अटैच किए गए दस्तावेज़ (टिक करें):</label>
+                                                <div class="checkbox-options-grid">
+                                                    <div class="checkbox-with-upload">
+                                                        <div class="checkbox-label-and-input">
+                                                            <input type="checkbox" id="labReports" name="isLabReportsChecked" onchange={handleInputChange} checked={isLabReportsChecked} onkeydown={handleKeyDown}/> <label for="labReports">Lab Reports / लैब रिपोर्ट</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="checkbox-with-upload">
+                                                        <div class="checkbox-label-and-input">
+                                                            <input type="checkbox" id="imagingReports" name="isImagingReportsChecked" onchange={handleInputChange} checked={isImagingReportsChecked} onkeydown={handleKeyDown}/> <label for="imagingReports">Imaging Reports / इमेजिंग रिपोर्ट</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="checkbox-with-upload">
+                                                        <div class="checkbox-label-and-input">
+                                                            <input type="checkbox" id="dischargeSummaryCheckbox" name="isDischargeSummaryChecked" onchange={handleInputChange} checked={isDischargeSummaryChecked} onkeydown={handleKeyDown}/> <label for="dischargeSummaryCheckbox">Discharge Summary / डिस्चार्ज समरी</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="checkbox-with-upload">
+                                                        <div class="checkbox-label-and-input">
+                                                            <input type="checkbox" id="prescriptions" name="isPrescriptionsChecked" onchange={handleInputChange} checked={isPrescriptionsChecked} onkeydown={handleKeyDown}/> <label for="prescriptions">Prescriptions / प्रिस्क्रिप्शन दस्तावेज़</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="checkbox-with-upload">
+                                                        <div class="checkbox-label-and-input">
+                                                            <input type="checkbox" id="otherAttachment" name="isOtherAttachmentChecked" onchange={handleInputChange} checked={isOtherAttachmentChecked} onkeydown={handleKeyDown}/> <label for="otherAttachment">Other / अन्य</label>
+                                                        </div>
+                                                        <template if:true={isOtherAttachmentChecked}>
+                                                            <input type="text" name="otherAttachmentDetails" value={otherAttachmentDetails} oninput={handleInputChange} onkeydown={handleKeyDown} placeholder="Specify other" class="custom-input other-input" />
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group full-width" style="margin-top: 15px;">
+                                                <lightning-input variant="label-hidden" type="file" multiple accept=".xlsx, .xls, .csv, .doc, .docx, .pdf" label="Upload Files" onchange={handleReferralFile}></lightning-input>
+                                                <p class="description-text description-color" style="text-align: left; margin-top: 5px;">
+                                                    Supported formats: .csv, .doc, .docx, .pdf ( Maximum 2.5 MB per file) / समर्थित फॉर्मेट: CSV, DOC, DOCX, PDF (अधिकतम 2.5 MB प्रति दस्तावेज़)।
+                                                </p>
+                                                <template if:true={referralFile.length}>
+                                                    <div class="uploaded-files-list">
+                                                        <strong>Uploaded Files ({referralFile.length}): / अपलोड की गई फाइलें ({referralFile.length}):</strong>
+                                                        <template for:each={referralFile} for:item="file">
+                                                            <p key={file.fileName}>
+                                                                {file.fileName}
+                                                                <lightning-icon icon-name="utility:close" size="xx-small" class="remove-icon" data-file-name={file.fileName} onclick={handleRemoveFile}></lightning-icon>
+                                                            </p>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="declaration-section">
+                                        <div class="declaration-header">
+                                            <h3>Declaration / घोषणा</h3>
+                                        </div>
+                                        <div class="declaration-content">
+                                            <input type="checkbox" id="declarationConsent" name="declarationConsent" onchange={handleInputChange} onkeydown={handleKeyDown} checked={declarationConsent} required/> <label for="declarationConsent">Consent taken from Patient/Attendant for sharing this information with the referred Health Care Provider. / यह जानकारी रेफर किए गए अस्पताल से साझा करने के लिए मरीज़/अटेंडेंट की सहमति ली गई है।</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="button-group">
+                                        <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                                        <button class="custom-button primary-button" onclick={handleCompleteCareTransition}>Complete Care Transition / देखभाल ट्रांज़िशन पूरा करें</button>
+                                    </div>
+                                </template>                                
+                            </div>
+                            <template if:true={isLoading}>
+                                <div class="full-page-overlay ">
+                                    <lightning-spinner alternative-text="Loading / लोड हो रहा है" size="large"></lightning-spinner>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={isStep4}>
+                        <div class="step-content">
+                            <div class="step-content-inner">
+                                <p class="description-text description-color">Final confirmation for Care Transition. / देखभाल ट्रांज़िशन के लिए आखिरी पुष्टि।</p>
+                                <p class="summary-detail"><strong>Hospital:</strong> {selectedHospital}</p>
+                                <p class="summary-detail"><strong>Officer:</strong> {officerFullName} ({officerEmployeeId})</p>
+                                <p class="summary-detail"><strong>Patient:</strong> {patientFullName} (Referral ID: {phwcReferralId})</p>
+
+                                <div class="summary-section">
+                                    <h4>Diagnosis & Intervention Summary: / बीमारी और इलाज का ब्यौरा:</h4>
+                                    <p><strong>Diagnosis:</strong> {finalConfirmedDiagnosis}</p>
+                                    <p><strong>Procedures Performed:</strong> {proceduresPerformed}</p>
+                                    <p><strong>Discharge Summary:</strong> {dischargeSummary}</p>
+                                    <p><strong>Outcomes:</strong> {outcomesOfIntervention}</p>
+                                </div>
+
+                                <div class="summary-section">
+                                    <h4>Care Plan Summary: / देखभाल योजना का ब्यौरा:</h4>
+                                    <p><strong>Care Instructions:</strong> {careInstructions}</p>
+                                    <p><strong>Next Follow-up Date:</strong> {nextFollowupDate}</p>
+                                    <p><strong>Red Flags:</strong> {redFlagsToMonitor}</p>
+                                    <p><strong>Further Referral Planned:</strong> {anyFurtherReferralPlanned} <template if:true={showFurtherReferralTo}>To: {furtherReferralTo}</template></p>
+                                </div>
+
+                                <template if:true={showMedicationTable}>
+                                    <div class="medication-table-container slds-m-top_medium">
+                                        <h4>Prescribed Medications / दी गई दवाएं</h4>
+                                        <div class="slds-scrollable_x">
+                                            <table class="medication-display-table slds-table_cell-buffer slds-table_striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="med-col-medication">
+                                                            <div class="slds-truncate" title="Medication Name">Medication Name / दवा का नाम</div>
+                                                        </th>
+                                                        <th class="med-col-dosage">
+                                                            <div class="slds-truncate" title="Morning Dosage">Morning Dosage / सुबह की खुराक</div>
+                                                        </th>
+                                                        <th class="med-col-dosage">
+                                                            <div class="slds-truncate" title="Afternoon Dosage">Afternoon Dosage / दोपहर की खुराक</div>
+                                                        </th>
+                                                        <th class="med-col-dosage">
+                                                            <div class="slds-truncate" title="Evening Dosage">Evening Dosage / शाम की खुराक</div>
+                                                        </th>
+                                                        <th class="med-col-food">
+                                                            <div class="slds-truncate" title="Before/After Food">Before/After Food / भोजन से पहले/बाद</div>
+                                                        </th>
+                                                        <th class="med-col-duration">
+                                                            <div class="slds-truncate" title="Duration">Duration (Days) / कितने दिन (दिनों में)</div>
+                                                        </th>
+                                                        <th class="med-col-startdate">
+                                                            <div class="slds-truncate" title="Start From">Start From / कब से शुरू करें</div>
+                                                        </th>
+                                                        <th class="med-col-instructions">
+                                                            <div class="slds-truncate" title="Instructions">Instructions / निर्देश</div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template for:each={medicationListFromChild} for:item="medItem">
+                                                        <tr key={medItem.id}>
+                                                            <td data-label="Medication Name">
+                                                                <div class="slds-truncate" title={medItem.selectedName}>{medItem.selectedName}</div>
+                                                            </td>
+                                                            <td data-label="Morning Dosage">
+                                                                <div class="slds-truncate" title={medItem.morningDosage}>{medItem.morningDosage}</div>
+                                                            </td>
+                                                            <td data-label="Afternoon Dosage">
+                                                                <div class="slds-truncate" title={medItem.afternoonDosage}>{medItem.afternoonDosage}</div>
+                                                            </td>
+                                                            <td data-label="Evening Dosage">
+                                                                <div class="slds-truncate" title={medItem.eveningDosage}>{medItem.eveningDosage}</div>
+                                                            </td>
+                                                            <td data-label="Before/After Food">
+                                                                <div class="slds-truncate" title={medItem.beforeAfterFood}>{medItem.beforeAfterFood}</div>
+                                                            </td>
+                                                            <td data-label="Duration (Days)">
+                                                                <div class="slds-truncate" title={medItem.durationDays}>{medItem.durationDays}</div>
+                                                            </td>
+                                                            <td data-label="Start From">
+                                                                <div class="slds-truncate" title={medItem.startFrom}>{medItem.startFrom}</div>
+                                                            </td>
+                                                            <td data-label="Instructions">
+                                                                <div class="slds-truncate" title={medItem.instructions}>{medItem.instructions}</div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <div class="summary-section">
+                                    <h4>Attachments Notes: / अटैचमेंट्स के नोट्स:</h4>
+                                    <p>{notes}</p>
+                                    <template if:true={uploadedAllFiles.length}>
+                                        <h4>Uploaded File Names: / अपलोड की गई फाइलों के नाम:</h4>
+                                        <ul>
+                                            <template for:each={uploadedAllFiles} for:item="file">
+                                                <li key={file.id}>{file.name}</li>
+                                            </template>
+                                        </ul>
+                                    </template>
+                                </div>
+
+                                <div class="summary-section">
+                                    <h4>Treating Physician Details: / इलाज करने वाले डॉक्टर की जानकारी:</h4>
+                                    <p>{treatingPhysicianNameDesignation}</p>
+                                </div>
+
+                                <div class="summary-section">
+                                    <h4>Declaration Consent: / घोषणा की सहमति:</h4>
+                                    <p>{displayDeclarationConsent}</p>
+                                </div>
+
+                                <div class="button-group">
+                                    <button class="custom-button secondary-button" onclick={handlePrevious}>Back / पीछे जाएं</button>
+                                    <button class="custom-button primary-button" onclick={handleCompleteCareTransition}>Confirm & Complete / पुष्टि करें और पूरा करें</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={showThankYouPage}>
+        <div class="pmjay-portal-container thank-you-full-page">
+            <div class="step-content thank-you-page">
+                <div class="step-content-inner" style={backgroundStyle}>
+                    <h2 class="thank-you-title">Thank You! / धन्यवाद!</h2>
+                    <p class="description-text description-color">
+                        <template if:true={isPatientCareTransitionFlow}>
+                            This patient's intervention details have been successfully shared with their PHWC. / इस मरीज़ के हस्तक्षेप से संबंधित विवरण सफलतापूर्वक उनके PHWC के साथ साझा कर दिए गए हैं
+                        </template>
+                        <template if:true={isPatientReceivedFlow}>
+                            This patient's arrival has been recorded successfully. /  इस मरीज़ के हस्तक्षेप से संबंधित विवरण सफलतापूर्वक उनके PHWC के साथ साझा कर दिए गए हैं   
+                            </template>
+                    </p>
+                    <button class="custom-button primary-button" onclick={handleReturnToLogin}>
+                        Return to Patient Care Portal / रोगी देखभाल पोर्टल पर वापस जाएँ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>JanAushadhiPharmacy_Community_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>JanAushadhiPharmacy Community URL</shortDescription>
+        <value>https://cr1769668480593.my.site.com/Janaushadhi/</value>
+    </labels>
+</CustomLabels>

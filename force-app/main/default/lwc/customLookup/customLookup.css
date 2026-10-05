@@ -1,0 +1,151 @@
+/* customLookupNew.css */
+
+/* Custom Lookup Container - Outer Wrapper */
+.custom-lookup {
+    position: relative; /* Essential for positioning the dropdown list */
+    width: 100%; /* Take full width of parent container */
+    font-family: 'Salesforce Sans', Arial, sans-serif; /* Consistent Salesforce font */
+}
+
+/* Input Container - The main input field's visual box */
+.lookup-container {
+    border: 1px solid #dddbda; /* Standard Salesforce input border color */
+    border-radius: 0.25rem; /* Standard Salesforce border radius */
+    background-color: white; /* White background for input field */
+    padding: 0 0.5rem; /* Padding inside the input container */
+    height: 2rem; /* Fixed height for consistency with other input fields */
+    display: flex; /* Use flexbox for internal alignment */
+    align-items: center; /* Vertically align items (text, clear button) */
+    transition: border 0.1s linear, background-color 0.1s linear; /* Smooth transition for hover/focus states */
+}
+
+/* Hover state for the input container */
+.lookup-container:hover {
+    border-color: #1b96ff; /* Salesforce blue on hover */
+    background-color: #f3f2f2; /* Light grey background on hover */
+}
+
+/* Focus state for the input container (when typing or selected) */
+.lookup-container:focus-within {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 3px #0176d3; /* Salesforce blue shadow on focus */
+    border-color: #1b96ff; /* Salesforce blue border on focus */
+}
+
+/* Style for lookup-container when a value IS selected (to make it 'unboxed') */
+.lookup-container.selected-mode {
+    /*  border: none; */
+    background-color: transparent; /* Make background transparent */
+    box-shadow: none; /* Remove any shadow */
+    padding: 0; /* Remove padding from container, padding will be on .selected-value */
+}
+
+/* Search Input Field */
+.search-input {
+    width: 100%; /* Take full width of its container */
+    border: none; /* No internal border */
+    outline: none; /* No outline on focus */
+    font-size: 0.8125rem; /* Standard Salesforce font size */
+    line-height: 1.5; /* Line height for text alignment */
+    padding: 0.5rem 0; /* Vertical padding to center text, no horizontal padding as container has it */
+    background: transparent; /* Transparent background */
+    color: #181818; /* Dark grey text color */
+    height: 100%; /* Fill the height of the lookup-container */
+}
+
+/* Placeholder text style */
+.search-input::placeholder {
+    color: #706e6b; /* Grey color for placeholder text */
+}
+
+/* Selected Value Display - Container for selected text and clear button */
+.selected-value {
+    display: flex; /* Use flexbox to align text and clear button */
+    align-items: center; /* Vertically align items */
+    width: 100%; /* Take full width of its parent (.lookup-container) */
+    padding: 0 0.5rem; /* Padding for the selected text and clear button */
+    height: 100%; /* Fill the height of the lookup-container */
+}
+
+/* Displayed Selected Value Text */
+.value {
+    white-space: nowrap; /* Prevent text from wrapping to a new line */
+    overflow: hidden; /* Hide any overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowing text */
+    font-size: 0.8125rem; /* Standard Salesforce font size */
+    color: #181818; /* Dark grey text color */
+    line-height: 1.5; /* Line height for consistent alignment */
+    flex-grow: 1; /* Allow text to grow and take available space */
+}
+
+/* Clear Button (the 'x') */
+.clear-btn {
+    background: none; /* No background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1rem; /* Size of the 'x' character */
+    padding: 0 0.25rem; /* Horizontal padding around the 'x' */
+    color: #706e6b; /* Grey color for the 'x' */
+    line-height: 1; /* Adjust line height for vertical centering */
+    flex-shrink: 0; /* Prevent the button from shrinking */
+    height: 100%; /* Fill the height of the .selected-value container */
+    display: flex; /* Use flexbox to center the 'x' visually */
+    align-items: center; /* Vertically center the 'x' */
+}
+
+/* Hover state for the clear button */
+.clear-btn:hover {
+    color: #080707; /* Darker color on hover */
+}
+
+/* Dropdown List - The container for search results */
+.dropdown-list {
+    position: absolute; /* Position relative to .custom-lookup */
+    width: 100%; /* Take full width of .custom-lookup */
+    max-height: 15rem; /* Maximum height before scrolling */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+    border: 1px solid #dddbda; /* Border for the dropdown */
+    border-radius: 0.25rem; /* Rounded corners */
+    background: white; /* White background */
+    z-index: 7000; /* High z-index to appear above other elements */
+    margin-top: 0.25rem; /* Small gap between input and dropdown */
+    padding: 0.25rem 0; /* Vertical padding inside the dropdown */
+    list-style: none; /* Remove default list bullet points */
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16); /* Subtle shadow */
+}
+
+/* Dropdown Item - Each individual search result in the list */
+.dropdown-item {
+    padding: 0.5rem 0.75rem; /* Padding inside each item */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex; /* Use flexbox to align icon and text */
+    align-items: center; /* Vertically align icon and text */
+    font-size: 0.8125rem; /* Standard Salesforce font size */
+}
+
+/* Hover state for dropdown items */
+.dropdown-item:hover {
+    background-color: #f3f2f2; /* Light grey background on hover */
+}
+
+/* Icon within dropdown item */
+.item-icon {
+    margin-right: 0.5rem; /* Spacing between icon and text */
+    --sds-c-icon-color-foreground: #706e6b; /* Salesforce Design System custom property for icon color */
+}
+
+/* Name text within dropdown item */
+.item-name {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis for overflowing text */
+    color: #181818; /* Dark grey text color */
+}
+
+/* Error State (optional, if you want to add error styling) */
+.lookup-container.has-error {
+    border-color: #ea001e; /* Red border for error */
+    box-shadow: 0 0 3px #ea001e; /* Red shadow for error */
+}* {
+    
+}

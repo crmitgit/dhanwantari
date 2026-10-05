@@ -1,0 +1,858 @@
+MedicineCollection/* Base Container */
+.medicine-collection-container {
+    /* min-height: 100vh; */
+    /* background: #FCF8E3; */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1rem;
+    margin: 0;
+    position: relative;
+}
+
+.screen {
+    /* min-height: calc(100vh - 2rem); */
+    display: flex;
+    flex-direction: column;
+    
+    background: white;
+    border-radius: 16px;
+box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.please-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    
+}
+
+
+.left-logo-image{
+    height: 90px;
+    width: auto;
+    transition: none !important;
+    transform: none !important;
+    padding-bottom: 8px;
+    }
+	
+
+/* Screen 1: Kendra Code */
+.kendra-screen {
+    padding: 0;
+}
+
+.header {
+    background: #FCF8E3;
+    color: black;
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    /* background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); */
+    border-radius: 0 0 50% 50%;
+}
+
+.logo-section {
+    color: black;
+}
+
+.app-logo {
+    margin-bottom: 1rem;
+    --sds-c-icon-color-foreground-default: white;
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.025em;
+}
+
+.app-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    font-weight: 400;
+    margin: 0;
+}
+
+.form-section {
+    padding: 3rem 2rem 2rem;
+    background: white;
+}
+
+.input-group {
+    margin-bottom: 2rem;
+}
+
+.input-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+    margin-left: 0.5rem;
+}
+
+.kendra-input {
+    --sds-c-input-radius-border: 9px;
+    --sds-c-input-sizing-min-height: 4rem;
+    --sds-c-input-text-font-size: 1.3rem;
+    --sds-c-input-color-background: #fafafa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+.kendra-input:focus-within {
+    --sds-c-input-sizing-border: 2px solid #2563eb;
+    --sds-c-input-color-background: white;
+    /* box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08); */
+}
+
+.info-box {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 1rem; */
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+}
+
+.info-icon {
+    --sds-c-icon-color-foreground-default: #2563eb;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.info-content p {
+    font-size: 0.9rem;
+    color: #1e40af;
+    line-height: 1.6;
+    margin: 0;
+}
+
+
+.custom-orange-button {
+    width: 100%;
+    max-width: 320px; /* Limit width for larger screens */
+    height: 2.8rem;
+    background: #ea580c;
+    border: 2px solid #ea580c;
+    border-radius: 8px;
+    color: white ;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0.5rem auto;
+    display: block;
+}
+
+.custom-orange-button:hover:not(:disabled) {
+    background: #fb923c;
+   
+    border-color: #ea580c;
+}
+
+.custom-orange-button:active:not(:disabled) {
+    background: #c2410c;
+    border-color: #c2410c;
+}
+
+.custom-orange-button:disabled {
+    background: #f9fafb;
+    color: #9ca3af;
+    border-color: #d1d5db;
+    cursor: not-allowed;
+}
+
+.custom-orange-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2);
+}
+
+.footer-text{
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    padding: 0.6rem;
+}
+
+/* Screen 2: OTP */
+.otp-screen {
+    padding: 0;
+}
+
+/* .otp-screen .header {
+    padding: 2rem 2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+} */
+ .otp {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+   
+ }
+
+.back-button {
+    --sds-c-button-color-background: rgba(255, 255, 255, 0.2);
+    --sds-c-button-color-border: rgba(255, 255, 255, 0.3);
+    --sds-c-icon-color-foreground-default: white;
+    border-radius: 12px;
+    width: 3rem;
+    height: 3rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    --sds-c-button-color-background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-2px);
+}
+
+.title-section {
+    flex: 1;
+    color: white;
+}
+
+.screen-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.screen-subtitle {
+    font-size: 1rem;
+    opacity: 0.95;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.otp-screen .form-section {
+    padding: 3rem 2rem 2rem;
+    background: white;
+    flex: 1;
+}
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+   
+}
+
+.otp-input {
+   width: 45px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.6em;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease-in-out;
+}
+
+
+.resend-section {
+    text-align: center;
+    margin-bottom: 0.7rem;
+    margin-top: 0.7rem;
+}
+
+.resend-text {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.resend-button {
+    --sds-c-button-text-color: #2563eb;
+    --sds-c-button-text-font-weight: 600;
+    padding: 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.resend-button:hover {
+    --sds-c-button-text-color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.secondary-button {
+    flex: 1;
+    --sds-c-button-sizing-min-height: 3.5rem;
+    --sds-c-button-text-font-size: 1.1rem;
+    --sds-c-button-radius-border: 12px;
+    --sds-c-button-color-background: #f8fafc;
+    --sds-c-button-text-color: #475569;
+    --sds-c-button-color-border: #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+    --sds-c-button-color-background: #f1f5f9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.button-group .primary-button {
+    flex: 2;
+}
+
+/* Screen 3: Prescription */
+
+.prescription-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Loading State */
+.loading-container {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loading-text {
+    margin-top: 15px;
+    color: #666;
+    font-size: 16px;
+}
+
+/* Error State */
+.error-container {
+    text-align: center;
+    padding: 60px 20px;
+    color: #d73a49;
+}
+
+.error-container h2 {
+    margin: 20px 0 10px 0;
+    font-size: 24px;
+}
+
+/* Header */
+.prescription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.clinic-info h1 {
+    margin: 0;
+    color: #333;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.clinic-subtitle {
+    margin: 5px 0 0 0;
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.prescription-date {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Doctor Section */
+.doctor-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-left: 4px solid #333;
+}
+
+.doctor-info h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.facility-name {
+    color: #333;
+    font-size: 16px;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.powered-by {
+    color: #888;
+    font-size: 12px;
+    margin: 10px 0 0 0;
+    font-style: italic;
+}
+
+.doctor-info p {
+    margin: 3px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Section Titles */
+.section-title {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e3e3e3;
+}
+
+/* Patient Section */
+.patient-section {
+    margin-bottom: 25px;
+    padding: 12px;
+    background: #FCF8E3;
+    border-radius: 6px;
+    border: 1px solid #e36414;
+}
+
+
+.patient-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* gap: 10px; */
+}
+
+.patient-field {
+    flex: 1;
+    /* min-width: 180px; */
+    display: flex;
+  
+    align-items: center;
+    padding: 6px 12px;
+    gap: 10px;
+    /* background: #ffffff; */
+    /* border-radius: 4px;
+    border: 1px solid #e8e8e8; */
+}
+
+.field-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.field-value {
+    color: #333;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Clinical Sections */
+.clinical-section, .care-section, .followup-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+}
+
+.clinical-content, .care-content {
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.diagnosis-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.diagnosis-item:last-child {
+    border-bottom: none;
+}
+
+.diagnosis-text {
+    color: #333;
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.diagnosis-type {
+    color: #666;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.followup-date {
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Prescription Table */
+.prescription-section {
+    margin-bottom: 30px;
+}
+
+.medication-table-container {
+    overflow-x: auto;
+    border-radius: 6px;
+    border: 1px solid #d8dde6;
+    background: #ffffff;
+}
+
+.medication-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.medication-table thead {
+    background: #f5f6f7;
+    color: black;
+}
+
+.medication-table th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    border-right: 1px solid #e3e3e3;
+    
+}
+
+.medication-table th:last-child {
+    border-right: none;
+}
+
+.med-name-col {
+    width: 30%;
+}
+
+.med-duration-col {
+    width: 14%;
+    text-align: right;
+
+}
+
+.med-dosage-col {
+    width: 34%;
+}
+.checkbox-col {
+    width: 22%;
+    
+}
+
+.allCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:3px;
+}
+
+
+
+.medication-row {
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.medication-row:hover {
+    background: #f8f9fa;
+}
+
+.medication-row:last-child {
+    border-bottom: none;
+}
+
+.medication-table td {
+    padding: 12px;
+    vertical-align: top;
+    color: #333;
+    border-right: 1px solid #f0f0f0;
+}
+
+.medication-table td:last-child {
+    border-right: none;
+}
+
+.med-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.med-duration {
+    text-align: right;
+    font-weight: 500;
+    color: #333;
+}
+
+.med-dosage {
+    line-height: 1.4;
+    color: #333;
+}
+
+.no-medication {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 2px dashed #d8dde6;
+}
+
+/* Footer */
+.prescription-footer {
+    margin-top: 20px;
+    
+}
+
+.footer-note {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.powered-by {
+    color: #888;
+    font-size: 12px;
+    margin: 10px 0 0 0;
+    font-style: italic;
+}
+
+/* Print Section */
+.print-section {
+    text-align: center;
+    
+}
+
+.print-button {
+    font-size: 16px;
+    padding: 12px 24px;
+}
+
+.prescription-content {
+   padding: 2rem 1.5rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .prescription-container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .prescription-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .patient-row {
+        flex-direction: column;
+        
+    }
+    
+    .patient-field {
+        min-width: auto;
+    }
+    
+    .medication-table-container {
+        font-size: 12px;
+    }
+    
+    .medication-table th,
+    .medication-table td {
+        padding: 8px 6px;
+    }
+    
+    .clinic-info h1 {
+        font-size: 20px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .medicine-collection-container {
+        padding: 0.5rem;
+        margin-top: 50px;
+    }
+    
+    .screen {
+        /* min-height: calc(100vh - 1rem); */
+        border-radius: 12px;
+    }
+    
+    .header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .app-title {
+        font-size: 2rem;
+    }
+    
+    .form-section,
+    .prescription-content {
+        padding: 2rem 1.5rem;
+    }
+    
+    .otp-container {
+        gap: 0.75rem;
+    }
+    
+    .otp-input { 
+        width: 3rem;
+        height: 3rem;
+        --sds-c-input-text-font-size: 1.25rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .medication-table {
+        font-size: 0.8rem;
+    }
+    
+
+    .custom-orange-button {
+        max-width: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .medicine-collection-container {
+        padding: 0.4rem;
+        margin-top: 10px;
+    }
+    .header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .app-title {
+        font-size: 1.75rem;
+    }
+    
+    .form-section,
+    .prescription-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .otp-container {
+        gap: 0.5rem;
+    }
+    
+    .otp-input {
+        width: 2.5rem;
+        height: 2.75rem;
+        --sds-c-input-text-font-size: 1.1rem;
+    }
+    
+    .info-box {
+        padding: 1.25rem;
+        flex-direction: column;
+        /* gap: 0.75rem; */
+    }
+    
+
+    .checkbox-col {
+        width: 110px;
+    }
+    
+    .checkbox-cell {
+        text-align: center;
+    }
+    
+    
+}
+
+/* Thank You Screen Styles */
+.thank-you-screen {
+    display: flex;
+    flex-direction: column;
+    min-height: 67vh;
+}
+
+.thank-you-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.success-icon {
+    margin-bottom: 1.5rem;
+}
+
+.success-icon lightning-icon {
+    width: 80px;
+}
+
+.success-title {
+    font-size: 1.4rem;
+    padding-left: 7px;
+    padding-right: 7px;
+    font-weight: bold;
+    color: #15803d;
+    margin-bottom: 1rem;
+}
+
+.success-message {
+    font-size: 1.1rem;
+    color: #374151;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    line-height: 1.6;
+}

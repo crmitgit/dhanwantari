@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>true</doesIncludeBosses>
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>MBBS Doctors</name>
+    <queueMembers>
+        <users>
+            <user>nitheesh.ganapathy@crmit.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>ClinicalEncounter</sobjectType>
+    </queueSobject>
+</Queue>

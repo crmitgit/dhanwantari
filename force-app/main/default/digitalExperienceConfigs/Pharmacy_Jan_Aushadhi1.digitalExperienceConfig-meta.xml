@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DigitalExperienceConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Pharmacy - Jan Aushadhi</label>
+    <site>
+        <urlPathPrefix>Janaushadhi</urlPathPrefix>
+    </site>
+    <space>site/Pharmacy_Jan_Aushadhi1</space>
+</DigitalExperienceConfig>

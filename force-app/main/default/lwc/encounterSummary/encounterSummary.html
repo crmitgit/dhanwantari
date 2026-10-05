@@ -1,0 +1,238 @@
+<!--
+  @description       : 
+  @author            : Karishma
+  @group             : 
+  @last modified on  : 28-07-2025
+  @last modified by  : Karishma
+-->
+<template>
+    <div class="encounter-summary-container">
+        <template if:true={isSending}>
+            <!-- Put it wherever you want the spinner to sit.
+             “variant=brand” makes it blue like Lightning toasts. -->
+            <div class="slds-spinner_container slds-is-fixed" style="z-index: 9000;">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+                <div style="font-weight: 700;color: black;font-size: 1.1rem;text-align: center;padding-top: 5rem;">
+                    {dynamicSpinnerMessage}
+                </div>
+            </div>
+        </template>
+        <template if:false={isSending}>
+            <div class="prescription-header">
+                <div class="left-info">
+                    <p><strong>{summary.doctorName}</strong></p>
+                    <p><strong>Ph:&nbsp;{summary.doctorPhone}</strong></p>
+                    <br>
+                    <p style="color: #0070d2;"><strong>Consultation Date:&nbsp;{summary.endDate}</strong></p>
+                </div>
+                <div class="logo-container">
+                    <img src={doctorLogoNew} alt="Consultation Logo" class="consultationn-logo" />
+                </div>
+                <div class="right-info">
+                    <p class="hospital-name">{summary.facilityName}</p>
+                    <p>{summary.location}</p>
+                    <img src={hospitalLogo} alt="Hospital Logo" class="hospital-logo" />
+                </div>
+            </div>
+        </template>
+        <hr class="horizontalLine" />
+
+        <div class="patientdetails-info">
+            <div class="pii-row">
+                <div><strong>{summary.patientName}({summary.age}Y/{summary.gender})</strong></div>
+                <div><strong>{summary.pid}</strong></div>
+                <div style="display: flex; align-items: center;">
+                    <lightning-icon icon-name="utility:call" size="x-small" alternative-text="Phone"
+                        class="slds-m-right_xx-small"></lightning-icon>
+                    <span><strong>{summary.phone}</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="patient-info">
+            <div class="info-row">
+                <div><strong>Height:</strong> {summary.height}</div>
+                <div><strong>Weight:</strong> {summary.weight}</div>
+                <div><strong>BP:</strong> {summary.bloodPressure}</div>
+            </div>
+            <div class="info-row">
+                <div><strong>Pulse:</strong> {summary.pulse}</div>
+                <div><strong>Temperature:</strong> {summary.temperature}</div>
+                <div><strong>SpO2 Level: </strong>{summary.spo2}</div>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="two-column">
+            <div><strong> Date:</strong> {summary.endDate}</div>
+                        <div class="right-info"><strong>Follow-Up Date: </strong>{summary.followUpDate}</div>
+        </div>
+
+         <div class="right-info">
+            <div><strong>Follow-Up Date: </strong>{summary.followUpDate}</div>
+        </div> -->
+
+
+        <div class="section-block">
+            <h3><strong>Medical History / चिकित्सीय इतिहास</strong></h3>
+            <p>{summary.medicalHistory}</p>
+        </div>
+
+        <div class="section-block">
+            <h3><strong>Chief Complaints / मुख्य शिकायतें</strong></h3>
+            <p>{summary.symptoms}</p>
+        </div>
+
+        <div class="section-block">
+            <h3><strong>Clinical Findings / नैदानिक निष्कर्ष</strong></h3>
+            <p>{summary.clinicalFindings}</p>
+        </div>
+
+
+        <div class="section-block">
+            <h3><strong>Diagnosis / निदान</strong></h3>
+            <template if:true={formattedDiagnosisList}>
+                <ul>
+                    <template for:each={formattedDiagnosisList} for:item="diag">
+                        <li key={diag.text}>
+                            <strong>{diag.type}:</strong> {diag.text}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template if:false={formattedDiagnosisList}>
+                <p>No diagnoses found.</p>
+            </template>
+        </div>
+
+
+
+
+        <div class="section-block">
+            <h3><strong>Investigations / परीक्षण</strong></h3>
+            <table class="symptoms-medhist-table">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">Test Name(s)</th>
+                        <th> Complete By</th>
+                        <th> Status </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={summary.csrs} for:item="csr">
+                        <tr key={csr.id}>
+                            <td>{csr.RequestedTest}</td>
+                            <td>{csr.RequestedCompletionDate}</td>
+                            <td>{csr.medStatus}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <template if:true={isCsrEmpty}>
+                <p>No clinical service requests found.</p>
+            </template>
+        </div>
+
+        <div class="section-block">
+            <h3><strong>Medication / दवाएं</strong></h3>
+            <table class="symptoms-medhist-table">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">Medication Name</th>
+                        <th>Duration (Days)</th>
+                        <th>Dosage</th>
+                        <th>Start Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={formattedMedications} for:item="med">
+                        <tr key={med.id}>
+                            <td>{med.name}</td>
+                            <td class="right-med">{med.duration}</td>
+                            <td>{med.dosage}</td>
+                            <td>{med.startDate}</td>
+                        </tr>
+                    </template>
+                </tbody>
+
+            </table>
+            <template if:true={isMedicationEmpty}>
+                <p>No medications found.</p>
+            </template>
+        </div>
+
+
+
+
+        <!-- <div class="section-block">
+            <h3><strong>Care Instructions</strong></h3>
+            <p style="white-space:pre-line;">{summary.careInstructions}</p>
+        </div> -->
+
+        <div class="section-block">
+            <h3><strong>Care Instructions / देखभाल निर्देश</strong></h3>
+            <p style="white-space:pre-line;">{formattedCareInstructions}</p>
+        </div>
+
+        <div class="section-block">
+            <h3 class="followup-heading">
+                <strong>Follow-Up Date / अनुवर्ती तिथि : </strong>
+                <span>{summary.followUpDate}</span>
+            </h3>
+        </div>
+
+        <div class="signature">
+            <template if:true={isApproved}>
+                <div class="signature-wrapper">
+                    <img src={doctorConsultationImage} alt="Consultation Logo" class="consultation-logo" />
+                    <img src={doctorSignatureImage} alt="Signature" class="signature-image" />
+                </div>
+                <p class="signature-date"><strong>{summary.endDate}</strong></p>
+                <div class="signature-line">______________________________</div>
+                <p style="margin-right: 16px; font-size: 1.0rem;">{summary.doctorName}</p>
+            </template>
+        </div>
+
+        <hr class="horizontalLine" />
+
+        <div class="footer">
+            <template if:true={canSendForApproval}>
+                <button class="sendForApproval" onclick={handleSendForApproval}>Send for Approval</button>
+            </template>
+            <template if:true={isPendingApproval}>
+                <button class="sendForApproval" disabled title="Waiting for the doctor's approval">Pending Approval</button>
+            </template>
+            <button class="close" onclick={handleClose}>Close</button>
+            <button class="print" onclick={handlePrint} disabled={isActionDisabled} title="Available only after Diagnosis Approval">Print</button>  
+            <button class="print" onclick={promptEmailConfirmation} disabled={isActionDisabled} title="Available only after Diagnosis Approval">Email</button>
+        </div>
+        <!-- Confirmation Modal -->
+        <template if:true={showConfirmModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="inline-modal-container">
+                    <div class="inline-modal">
+                        <div class="modal-header">
+                            <h2>Confirmation</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to send the prescription to the patient?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn cancel" onclick={cancelEmail}>Cancel</button>
+                            <button class="btn send" onclick={handleEmail}>Send</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" style="height: 85%;margin-top: 46px;opacity: 0.5;"></div>
+        </template>
+
+
+
+    </div>
+</template>

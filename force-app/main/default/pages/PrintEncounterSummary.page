@@ -1,0 +1,314 @@
+<apex:page controller="PrintEncounterController"
+    renderAs="pdf"
+    showHeader="false"
+    applyBodyTag="false"
+    applyHtmlTag="false"
+    sidebar="false">
+
+    <style>
+          
+        @page { size: A4 portrait; margin: 20mm; 
+        @top-center {
+            content: "Consultation Summary";
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 12px;
+            color: #666;
+        }
+    }
+        
+        .encounter-summary-container {
+            padding: 30px 40px 0;
+            border: 1px solid #ccc;
+            min-height: 700px;
+            box-sizing: border-box;
+        }
+
+        .prescription-header   { width: 100%; }
+        .prescription-header td{ vertical-align: top; padding: 0; }
+        .row{display: flex;flex-direction:row;
+    justify-content: space-between;
+    align-items: flex-start;}
+        .left-info  { width: 33%; font-size: 14px; }
+
+        .right-info { width: 33%; font-size: 14px; text-align: right; padding-right: 20px; }
+
+        .hospital-name { font-weight: bold; color: #2c3e50; margin: 0; }
+
+        .horizontalLine { border-top: 1px solid #ccc; margin: 1rem 0; }
+        .section-block  { margin-top: 10px; font-size: 14px;}
+
+        .patientdetails-info {
+            background:#fbddba;
+            border: 2px solid #a95807;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+        .patient-info {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+
+        .info-row            { width: 100%; display: table; table-layout: fixed; margin-bottom: 8px; }
+        .info-row > div      { display: table-cell; width: 33.3%; padding-right: 40px; }
+
+        .symptoms-medhist-table      { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .symptoms-medhist-table th,
+        .symptoms-medhist-table td   { padding: 8px 12px; border-bottom: 1px solid #ccc; text-align: left; }
+        .symptoms-medhist-table th   { background: #f9f9f9; font-weight: bold; }
+        .right-med                  { padding-left: 6.5rem; }
+
+        .signature      { margin-top: 1rem; text-align: center; }
+        .signature-line { margin-bottom: 0.5rem; }
+    </style>
+
+    <div class="encounter-summary-container">
+
+        <!-- Header -->
+       <table class="prescription-header" style="width:100%; border-collapse: collapse;">
+    <tr>
+        <td class="left-info" style="width:33%; font-size:16px;">
+            <p><strong>{!doctorName}</strong></p>
+            <p><strong>Ph:&nbsp;{!encounter.Prescribing_Doctor__r.Phone}</strong></p>
+            <p><strong>Consultation Date:&nbsp;{!formattedEndDate}</strong></p>
+        </td>
+        <td class="logo-cell" style="width:40%; text-align:center;">
+            <apex:image url="{!URLFOR($Resource.DoctorLogoNew)}" style="width:75px; height:auto;" />
+        </td>
+        <td class="right-info" style="width:33%; text-align:right; font-size:14px;">
+            <p><strong>{!encounter.Facility.Name}</strong></p>
+            <p>{!formattedAddress}</p>
+            <apex:image url="{!URLFOR($Resource.pmjayLogoNew)}" style="width:50px; height:auto;" />
+        </td>
+    </tr>
+</table>
+
+        <hr class="horizontalLine"/>
+        <div style="background-color: #fbddba;
+            border: 1px solid #a95807;
+            font-size: 14px;
+            margin-top: 15px;
+            border-radius: 8px;
+            padding: 0px;
+            width: 100%;
+            overflow: hidden;">
+            <table style="width:100%;border-spacing:0;">
+                <tr>
+                    <td style="padding:15px 20px;width:35%;font-size:16px;">
+                         <div><strong>{!patientName} ({!encounter.Patient.Age__c}Y/{!encounter.Patient.Gender__c})</strong></div>
+
+                    </td>
+                <td style="padding:15px 20px;width:27%;font-size:16px;">
+                          <div><strong>Patient ID:</strong> {!encounter.Patient.Patient_ID__c}</div>
+                    </td>
+                    <td style="padding:15px 20px;width:40%;font-size:16px;">
+                          <div><strong>Mobile No:</strong> {!encounter.Patient.Phone}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <table style="width:100%; background-color:#f9f9f9; border:1px solid #e0e0e0; font-size:14px; margin-top:15px; border-spacing:0;">
+            <tr>
+                <td style="width:38%; padding:10px;"><strong>Height:</strong> {!encounter.Height_in_cm__c} cm</td>
+                <td style="width:38%; padding:10px;"><strong>Weight:</strong> {!encounter.Weight_in_Kg__c} kg</td>
+                <td style="width:20%;padding:10px;"><strong>BP:</strong> {!encounter.Blood_Pressure__c}</td>
+            </tr>
+            <tr>
+                <td style="padding:10px;"><strong>Pulse:</strong> {!encounter.Pulse_Rate_in_BPM__c} BPM</td>
+                <td style="padding:10px;"><strong>Temperature:</strong> {!encounter.Body_Temperature__c} °F</td>
+                <td style="padding:10px;"><strong>SpO2:</strong> {!encounter.SpO2__c}%</td>
+            </tr>
+        </table>
+
+        <!-- Free text -->
+    <div class="section-block" style="font-size: 14px;">
+        <h3>
+            <strong>
+                <span>Medical History/ </span>
+                <span style="font-family: 'Arial Unicode MS';"> िचिकत्सीय इितहास     </span>
+            </strong>
+        </h3>
+        <p style="font-family: 'Arial Unicode MS';">{!encounter.Medical_History__c}</p>
+    </div>
+    <div class="section-block" style="font-size: 14px;">
+        <h3>
+            <strong>
+                <span>Chief Complaints/ </span>
+                <span style="font-family: 'Arial Unicode MS';"> मुख्य  िशकायतें  </span>
+            </strong>
+        </h3>
+        <p style="font-family: 'Arial Unicode MS';">{!encounter.Symptoms__c}</p>
+    </div>
+    
+    <div class="section-block" style="font-size: 14px;">
+        <h3>
+            <strong>
+                <span>Clinical Findings/ </span>
+                <span style="font-family: 'Arial Unicode MS';">नैदािनक िनष्कर्ष</span> 
+            </strong>
+        </h3>
+        <p style="font-family: 'Arial Unicode MS';">{!encounter.Clinical_Findings__c}</p>
+    </div>
+
+
+        <!-- Diagnosis -->
+    <div class="section-block" style="font-size: 14px;">
+        <h3>
+            <strong>
+                <span>Diagnosis/ </span>
+                <span style="font-family: 'Arial Unicode MS';">िनदान</span>
+            </strong>
+        </h3>
+        <apex:repeat value="{!diagnoses}" var="d">
+            <p>
+                <strong><span>{!d.Diagnosis_Type__c}</span></strong>: 
+                <span style="font-family: 'Arial Unicode MS';">
+                    {!d.Clinical_Diagnosis__c}
+                </span>
+            </p>
+        </apex:repeat>
+
+    </div>
+
+
+<div style="margin-top: 20px; font-size: 14px;">
+    <h3><strong>
+        <span>Medication/ </span>
+        <span style="font-family: 'Arial Unicode MS';">दवाएं</span>
+    </strong></h3>
+
+    <table style="width:100%; border-collapse: collapse; margin-top:10px; font-size:14px;">
+        <thead>
+            <tr style="background-color:#f9f9f9; font-weight:bold; border-bottom:1px solid #ccc;">
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Medication Name</th>
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Duration (Days)</th>
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Dosage</th>
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <apex:repeat value="{!medicationWrappers}" var="m">
+                <tr style="border-bottom:1px solid #ccc;">
+                    <td style="padding:8px 12px; text-align:left; font-family: 'Arial Unicode MS';">
+                        {!m.med.Medication.Name}
+                    </td>
+                    <td style="padding:8px 12px; text-align:center; font-family: 'Arial Unicode MS';">
+                        {!m.med.Duration_Days__c}
+                    </td>
+                    <td style="padding:8px 12px; text-align:left; font-family: 'Arial Unicode MS';">
+                        {!m.dosage}
+                    </td>
+                    <td style="padding:8px 12px; text-align:left; font-family: 'Arial Unicode MS';">
+                        <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!m.med.Prescription_Start_Date__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+
+    <apex:outputPanel rendered="{!ISBLANK(medicationWrappers)}">
+        <p>No medications found.</p>
+    </apex:outputPanel>
+</div>
+
+<!-- Investigations Ordered / कराए गए परीक्षण -->
+<div style="margin-top: 20px; font-size: 14px;">
+    <h3><strong>
+        <span>Investigations/ </span>
+        <span style="font-family: 'Arial Unicode MS';">परीक्षण</span>
+    </strong></h3>
+
+    <table style="width:100%; border-collapse: collapse; margin-top:10px; font-size:14px;">
+        <thead>
+            <tr style="background-color:#f9f9f9; font-weight:bold;">
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Test Name(s)</th>
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Complete By</th>
+                <th style="padding:8px 12px; text-align:left; border-bottom:1px solid #ccc;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <apex:repeat value="{!clinicalServices}" var="csr">
+                <tr>
+                    <td style="padding:8px 12px; font-family: 'Arial Unicode MS';">{!csr.Requested_Test__c}</td>
+                    <td style="padding:8px 12px; font-family: 'Arial Unicode MS';">
+                        <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!csr.Requested_Completion_Date__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="padding:8px 12px; font-family: 'Arial Unicode MS';">{!csr.Status}</td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+
+    <apex:outputPanel rendered="{!ISBLANK(clinicalServices)}">
+        <p>No clinical service requests found.</p>
+    </apex:outputPanel>
+</div>
+
+<!-- Care Instructions / देखभाल निर्देश -->
+<div class="section-block" style="font-size: 14px;">
+    <h3><strong>
+        <span>Care Instructions/ </span>
+        <span style="font-family: 'Arial Unicode MS';">देखभाल  िनर्देश</span>
+    </strong></h3>
+
+    <apex:repeat value="{!careInstructionsList}" var="inst">
+        <p style="font-family: 'Arial Unicode MS';">{!inst}</p>
+    </apex:repeat>
+</div>
+
+<!-- Follow‑Up -->
+<div style="margin-top: 30px;color: #0070d2;font-size: 1.25rem;font-weight: bold;margin-bottom: 0.5rem;">
+    <p><strong>
+        <span>Follow-Up Date/ </span>
+        <span style="font-family: 'Arial Unicode MS';">अनुवर्ती  ितिथ:</span>
+    </strong> {!formattedFollowUpDate}</p>
+</div>
+
+<!-- Signature -->
+ <table style="width:100%; margin-top: 40px;">
+        <tr>
+            <td style="text-align: right;">
+                <div style="text-align: center; display: inline-block; position: relative; width: 120px; height: 100%;margin-right:35px; padding-bottom: 0px;" >
+                    <apex:image url="{!signatureImageUrl}" rendered="{!NOT(ISBLANK(signatureImageUrl))}"
+                        alt="Signature"
+                        style="position:absolute;top:20%;left:0;width:100%;height:100%;pointer-events:none;" />
+    
+                        <!-- Stamp Image (reduced size, opacity 0.5) -->
+                        <apex:image url="{!URLFOR($Resource.DoctorLogoWithoutBg)}"
+                                    alt="Stamp"
+                                    style="margin-top: 15px;width: 50%;height:fit-content;" />   
+                        
+                      <p style="font-size: 16px;margin-top:-12px;">
+                            {!formattedEndDate}
+                       </p>
+                </div>
+                <!-- Line and Name -->
+                <div style="margin-top: -20px; padding: 0;">_______________________</div>
+                <p style="margin: 0px 35px 0 0; padding: 0;">{!doctorName}</p>
+            </td>
+        </tr>
+    </table>
+        
+<hr style="border: none; border-top: 1px solid #ddd; margin-top: 30px;" />
+
+
+
+    </div>
+</apex:page>

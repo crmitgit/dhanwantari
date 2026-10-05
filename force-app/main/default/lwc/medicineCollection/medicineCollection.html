@@ -1,0 +1,266 @@
+<template>
+    <div class="medicine-collection-container">
+        <!-- Screen 1: Enter Kendra Code -->
+        <template if:true={isKendraCodeScreen}>
+            <div class="screen kendra-screen">
+                <div class="header">
+                    <div class="logo-section">
+                        <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-logo-image" />
+                        <h1 class="app-title">Dhanwantari</h1>
+                        <p class="app-subtitle">Verify Jan Aushadhi Kendra</p>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="input-group">
+                        <label class="input-label">Enter Kendra Code</label>
+                        <lightning-input type="text" value={kendraCode} onchange={handleKendraCodeChange}
+                            placeholder="Enter your kendra code" class="kendra-input" variant="label-hidden">
+                        </lightning-input>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="please-note">
+                            <lightning-icon icon-name="utility:info" size="small" class="info-icon"></lightning-icon>
+
+                            <h4>Please Note</h4>
+                        </div>
+                        <div class="info-content">
+                            <p>An OTP will be sent to the Kendra's registered mobile number. Ensure the number is
+                                accessible to complete verification.</p>
+                        </div>
+                    </div>
+
+                    <button class="custom-orange-button" onclick={handleSendOTP} disabled={isKendraCodeEmpty}>
+                        Send OTP
+                    </button>
+                </div>
+                <p class="footer-text"> Powered by Dhanwantari • © CRMIT Solutions</p>
+            </div>
+        </template>
+
+        <!-- Screen 2: OTP Verification -->
+        <template if:true={isOTPScreen}>
+            <div class="screen otp-screen">
+                <div class="header">
+                    <div class="logo-section">
+                        <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-logo-image" />
+                        <h1 class="app-title">Dhanwantari</h1>
+                        <p class="app-subtitle">Verify Jan Aushadhi Kendra</p>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="">
+                        <div class="otp">
+                            <p class="screen-subtitle">Enter the 6-digit code sent to {maskedContactNumber}</p>
+                            <div class="otp-container">
+                                <template for:each={otpInputs} for:item="input" for:index="index">
+                                    <input key={input.id} 
+                                        type="text" 
+                                        maxlength="1" 
+                                        value={input.value}
+                                         inputmode="numeric"
+                                        pattern="[0-9]"
+                                        data-index={index} 
+                                        oninput={handleOTPChange} 
+                                        onkeydown={handleOTPKeydown}
+                                        onpaste={handleOTPPaste} 
+                                        class="otp-input"
+                                        autocomplete="one-time-code">
+                                </template>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="resend-section">
+                        <p class="resend-text">
+                            Didn't receive the code?
+                            <lightning-button variant="base" label="Resend OTP" onclick={handleResendOTP}
+                                class="resend-button">
+                            </lightning-button>
+                        </p>
+                    </div>
+
+                    <div class="button-group">
+                        <button onclick={handleVerifyOTP} disabled={isOTPIncomplete} class="custom-orange-button">
+                            Continue
+                        </button>
+                        <button onclick={handleBack} class="custom-orange-button" style="background: white; color: #ea580c ;">
+                            Back
+                        </button>
+                        
+                    </div>
+                </div>
+                <p class="footer-text"> Powered by Dhanwantari • © CRMIT Solutions</p>
+            </div>
+        </template>
+
+        <!-- Screen 3: Prescription Display -->
+        <template if:true={isPrescriptionScreen}>
+            <div class="screen prescription-screen">
+                <!-- Loading Spinner -->
+                <template if:true={isLoading}>
+                    <div class="loading-container">
+                        <lightning-spinner alternative-text="Loading prescription..." size="large"></lightning-spinner>
+                        <p class="loading-text">Loading prescription details...</p>
+                    </div>
+                </template>
+
+                <!-- Error State -->
+                <template if:true={error}>
+                    <div class="error-container">
+                        <lightning-icon icon-name="utility:error" variant="error" size="large"></lightning-icon>
+                        <h2>Unable to load prescription</h2>
+                        <p>Please check the prescription ID and try again.</p>
+                        <lightning-button variant="neutral" label="Back to Start" onclick={handleBackToStart}
+                            class="secondary-button">
+                        </lightning-button>
+                    </div>
+                </template>
+
+                <!-- Main Prescription Content -->
+                <template if:true={summary}>
+            <div class="prescription-content">
+                <!-- Header -->
+                <div class="prescription-header">
+                    <div class="clinic-info">
+                        <h1>{summary.facilityName}</h1>
+                        <p class="clinic-subtitle">Digital Prescription</p>
+                    </div>
+                    <div class="prescription-date">
+                        <p><strong>Date:</strong> {currentDate}</p>
+                    </div>
+                </div>
+
+                <!-- Patient Information -->
+                <div class="patient-section">
+                    <!-- <h3 class="section-title">Patient Information</h3> -->
+                    <div class="patient-details">
+                        <div class="patient-row">
+                            <div class="patient-field">
+                                <span class="field-label">Name:</span>
+                                <span class="field-value">{summary.patientName}</span>
+                            </div>
+                            <div class="patient-field">
+                                <span class="field-label">Age:</span>
+                                <span class="field-value">{summary.age} years</span>
+                            </div>
+                            <div class="patient-field">
+                                <span class="field-label">Gender:</span>
+                                <span class="field-value">{summary.gender}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescription Table -->
+                <div class="prescription-section">
+                    <h3 class="section-title">Prescription / दवाएं</h3>
+                    
+                    <template if:false={isMedicationEmpty}>
+    <div class="medication-table-container">
+        <table class="medication-table">
+            <thead>
+                <tr>
+                    <th class="checkbox-col">
+                        <div class="allCell">
+                        All
+                        <input type="checkbox" onchange={handleSelectAll} checked={isAllSelected} style ="margin-right: 5px;">
+                         </div>
+                    </th>
+                    <th class="med-name-col">Medication Name</th>
+                    <th class="med-duration-col">Duration (Days)</th>
+                    <th class="med-dosage-col">Dosage Instructions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={formattedMedications} for:item="med">
+                    <tr key={med.id} class="medication-row">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" 
+                                   data-id={med.id}
+                                   onchange={handleMedicationSelect}>
+                            
+                        </td>
+                        <td class="med-name">{med.name}</td>
+                        <td class="med-duration">{med.duration}</td>
+                        <td class="med-dosage">{med.dosage}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        
+    </div>
+</template>
+                    
+                    <template if:true={isMedicationEmpty}>
+                        <div class="no-medication">
+                            <p>No medications prescribed.</p>
+                        </div>
+                    </template>
+                </div>
+
+                 <div class="print-section no-print">
+                    <button 
+                        onclick={handleFulfill}
+                        class="custom-orange-button">
+                        Fulfilled
+                    </button>
+                </div>
+
+                <!-- Footer -->
+                <div class="prescription-footer">
+                    <div class="footer-note">
+                        <p>This is a digitally generated prescription. Please follow the dosage instructions carefully.</p>
+                        <p class="powered-by">Powered by Dhanwantari • © CRMIT Solutions</p>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+               
+            </div>
+        </template>
+            </div>
+        </template>
+            <!-- Screen 4: Thank You Screen -->
+<template if:true={isThankYouScreen}>
+    <div class="screen thank-you-screen">
+        <div class="header">
+            <div class="logo-section">
+                <img src={leftCornerImageUrl} alt="PMJAY Logo" class="left-logo-image" />
+                <h1 class="app-title">Dhanwantari</h1>
+                <!-- <p class="app-subtitle">Verify Jan Aushadhi Kendra</p> -->
+            </div>
+        </div>
+
+        <div class="thank-you-content">
+            <div class="success-icon">
+                <lightning-icon icon-name="utility:success" variant="success" size="large"></lightning-icon>
+            </div>
+            
+            <h2 class="success-title">Medication Fulfilled Successfully!</h2>
+            <p class="success-message">
+                Thank you for using Dhanwantari. The selected medications have been successfully fulfilled .
+            </p>
+        </div>
+        
+        <p class="footer-text">Powered by Dhanwantari • © CRMIT Solutions</p>
+    </div>
+</template>
+
+
+        <!-- Loading Overlay for API calls -->
+        <template if:true={showLoadingOverlay}>
+            <div class="loading-overlay">
+                <div class="loading-content">
+                    <lightning-spinner size="medium"></lightning-spinner>
+                    <p>{loadingMessage}</p>
+                </div>
+            </div>
+        </template>
+
+
+    </div>
+</template>

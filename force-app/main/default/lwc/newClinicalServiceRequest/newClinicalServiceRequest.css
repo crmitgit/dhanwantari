@@ -1,0 +1,97 @@
+/*.modal-open {
+    overflow: hidden !important; /* Prevent background scroll 
+    position: fixed;
+    width: 120%;
+    height: 120%;
+    top: 0;
+    left: 0;
+    z-index: 1000;  Ensure it's on top 
+}
+
+/* Modal container with responsive layout 
+.custom-modal .slds-modal__container {
+    width: 95vw;
+    max-width: 600px; /* Prevent it from being too wide on desktop 
+    max-height: 90vh;
+    overflow-y: auto;
+
+    margin: 5% auto 0 auto; /* Vertically and horizontally center it 
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Rounded pill buttons 
+.rounded-button {
+    border-radius: 2rem;
+    padding: 0.5rem 1.25rem;
+}
+
+/* Footer buttons layout 
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+ For very small mobile screens 
+@media screen and (max-width: 480px) {
+    .custom-modal .slds-modal__container {
+        width: 95vw;
+        margin-top: 15%;
+        padding: 1rem;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+*/
+
+.rounded-button {
+    border-radius: 1.5rem;
+    padding: 0.5rem 1.25rem;
+}
+.field-section {
+    /* subtle card look */
+    border: 1px solid #d8dde6;   /* matches SLDS token “$color-border” */
+    border-radius: 0.25rem;      /* SLDS small radius */
+    padding: 1rem 1.25rem;       /* breathing room inside the box */
+    background: #fff;            /* guarantee white background */
+}
+
+/* optional – gives each row a little space on narrow screens */
+.field-section .slds-col {
+    margin-bottom: 1rem;
+}
+
+
+.modal-open {
+    overflow: hidden;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+
+.custom-modal .slds-modal__container {
+    width: 90vw;
+    max-width: 1000px;
+    max-height: 85vh;
+
+    margin: 5vh auto 0 auto; /* lowered placement */
+    overflow-y: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.info-section {
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    background-color: #f4f6f9;
+    padding: 1rem;
+}

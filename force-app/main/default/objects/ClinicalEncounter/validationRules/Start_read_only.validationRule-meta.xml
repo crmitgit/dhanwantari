@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_read_only</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(ISBLANK(StartDate)) &amp;&amp; ISCHANGED(StartDate)</errorConditionFormula>
+    <errorDisplayField>StartDate</errorDisplayField>
+    <errorMessage>Start Date cannot be modified once set / प्रारंभ तिथि एक बार सेट होने के बाद बदली नहीं जा सकती।</errorMessage>
+</ValidationRule>

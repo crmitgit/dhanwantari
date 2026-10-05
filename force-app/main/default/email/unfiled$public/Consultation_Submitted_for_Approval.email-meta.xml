@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notify physician when consultation is sent for approval</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Consultation Submitted for Approval</name>
+    <style>none</style>
+    <subject>Your Consultation Has Been Submitted for Approval</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

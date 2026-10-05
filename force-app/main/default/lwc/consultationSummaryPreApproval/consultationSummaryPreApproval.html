@@ -1,0 +1,508 @@
+<!--
+  @description       : 
+  @author            : Karishma
+  @group             : 
+  @last modified on  : 23-07-2025
+  @last modified by  : Karishma
+-->
+<template>
+    <template if:true={spinnerStatus}>
+        <div class="slds-spinner_container slds-is-fixed">
+            <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+        </div>
+    </template>
+    <template if:true={isShowPopup}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={hideModalBox}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Consultation Summary /
+                        परामर्श विवरण</h2>
+                </header>
+
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={isSending}>
+                        <div class="slds-spinner_container slds-is-fixed" style="z-index: 9000;">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                            <div
+                                style="font-weight: 700;color: black;font-size: 1.1rem;text-align: center;padding-top: 5rem;">
+                                Sending Approval. Kindly wait...
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={isSending}>
+                        <div class="prescription-header">
+                            <div class="left-info">
+                                <p><strong>{summary.doctorName}</strong></p>
+                                <p><strong>Ph:&nbsp;{summary.doctorPhone}</strong></p>
+                                <br>
+                                <p style="color: #0070d2;"><strong>Consultation Date:&nbsp;{summary.endDate}</strong>
+                                </p>
+                            </div>
+                            <div class="logo-container">
+                                <img src={doctorLogoNew} alt="Consultation Logo" class="consultationn-logo" />
+                            </div>
+                            <div class="right-info">
+                                <p class="hospital-name">{summary.facilityName}</p>
+                                <p>{summary.location}</p>
+                                <img src={hospitalLogo} alt="Hospital Logo" class="hospital-logo" />
+                            </div>
+                        </div>
+                    </template>
+                    <hr class="horizontalLine" />
+
+                    <div class="patientdetails-info">
+                        <div class="pii-row">
+                            <div><strong>{summary.patientName}({summary.age}Y/{summary.gender})</strong></div>
+                            <div><strong>{summary.pid}</strong></div>
+                            <div style="display: flex; align-items: center;">
+                                <lightning-icon icon-name="utility:call" size="x-small" alternative-text="Phone"
+                                    class="slds-m-right_xx-small"></lightning-icon>
+                                <span><strong>{summary.phone}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <div class="info-row">
+                            <div><strong>Height:</strong> {summary.height}</div>
+                            <div><strong>Weight:</strong> {summary.weight}</div>
+                            <div><strong>BP:</strong> {summary.bloodPressure}</div>
+                        </div>
+                        <div class="info-row">
+                            <div><strong>Pulse:</strong> {summary.pulse}</div>
+                            <div><strong>Temperature:</strong> {summary.temperature}</div>
+                            <div><strong>SpO2 Level: </strong>{summary.spo2}</div>
+                        </div>
+                    </div>
+                    <div class="section-block">
+                        <h3><strong>Medical History / चिकित्सीय इतिहास</strong></h3>
+                        <p>{summary.medicalHistory}</p>
+                    </div>
+
+                    <div class="section-block">
+                        <h3><strong>Chief Complaints / मुख्य शिकायतें</strong></h3>
+                        <p>{summary.symptoms}</p>
+                    </div>
+
+                    <!-- new changes -Krati  -->
+
+                    <div class="section-block">
+
+                        <!-- HEADER -->
+                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small marginclass">
+                            <h3>
+                                <strong>Clinical Findings / नैदानिक निष्कर्ष</strong>
+                            </h3>
+
+                            <!-- EDIT ICON -->
+                            <lightning-button-icon
+                                icon-name="utility:edit"
+                                alternative-text="Edit"
+                                title="Edit"
+                                onclick={handleEditClinical}>
+                            </lightning-button-icon>
+                        </div>
+
+                        <!-- VIEW MODE -->
+                        <template if:false={isClinicalEdit}>
+                            <p>{summary.clinicalFindings}</p>
+                        </template>
+
+                        <!-- EDIT MODE -->
+                        <template if:true={isClinicalEdit}>
+
+                            <lightning-textarea
+                                value={editedClinicalFindings}
+                                onchange={handleClinicalChange}
+                                rows="4">
+                            </lightning-textarea>
+
+                            <div class="slds-m-top_small slds-text-align_right">
+                                <lightning-button
+                                    label="Cancel"
+                                    onclick={handleCancelClinical}>
+                                </lightning-button>
+
+                                <lightning-button
+                                    variant="brand"
+                                    label="Save"
+                                    onclick={handleSaveClinicalFindings}
+                                    class="slds-m-left_small">
+                                </lightning-button>
+                            </div>
+
+                        </template>
+
+                    </div>
+
+                    <div class="section-block">
+                        <div class="slds-grid slds-m-bottom_x-small marginclass">
+
+                        <h3 class="slds-grow">
+                            <strong>Diagnosis / निदान</strong>
+                        </h3>
+
+                        <lightning-button-icon
+                            icon-name="utility:edit"
+                            alternative-text="Edit"
+                            title="Edit"
+                            onclick={handleEditDiagnosis}>
+                        </lightning-button-icon>
+
+                    </div>
+
+                        <!-- ✅ VIEW MODE -->
+                        <!-- VIEW MODE -->
+                        <template if:false={isDiagnosisEdit}>
+
+                            <template if:true={hasDiagnosis}>
+                                <ul>
+                                    <template for:each={formattedDiagnosisList} for:item="diag">
+                                        <li key={diag.text}>
+                                            <strong>{diag.type}:</strong> {diag.text}
+                                        </li>
+                                    </template>
+                                </ul>
+                            </template>
+
+                            <template if:false={hasDiagnosis}>
+                                <p>No diagnoses found.</p>
+                            </template>
+
+                        </template>
+
+                        <!-- ✅ EDIT MODE -->
+                        <template if:true={isDiagnosisEdit}>
+                            <lightning-textarea
+                                value={editedDiagnosis}
+                                onchange={handleDiagnosisChange}>
+                            </lightning-textarea>
+                            
+                            <div class="slds-m-top_small slds-text-align_right">
+                                <lightning-button
+                                    label="Cancel"
+                                    onclick={handleCancelDiagnosis}>
+                                </lightning-button>
+
+                                <lightning-button
+                                    variant="brand"
+                                    label="Save"
+                                    onclick={handleSaveDiagnosis}
+                                    class="slds-m-left_small">
+                                </lightning-button>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="section-block">
+                        <h3><strong>Investigations / परीक्षण</strong></h3>
+                        <table class="symptoms-medhist-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">Test Name(s)</th>
+                                    <th> Complete By</th>
+                                    <th> Status </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={summary.csrs} for:item="csr">
+                                    <tr key={csr.id}>
+                                        <td>{csr.RequestedTest}</td>
+                                        <td>{csr.RequestedCompletionDate}</td>
+                                        <td>{csr.medStatus}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <template if:true={isCsrEmpty}>
+                            <p>No clinical service requests found.</p>
+                        </template>
+                    </div>
+
+                    <div class="section-block">
+                        <h3><strong>Medication / दवाएं</strong></h3>
+                        <table class="symptoms-medhist-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Medication Name</th>
+
+                                    <th style="width: 10%;" class="duration-header">
+                                        <div class="wrap-text">
+                                            Duration<br/>(Days)
+                                        </div>
+                                    </th>
+
+                                    <th style="width: 32%;">Dosage</th>
+                                    <th style="width: 15%;">Start Date</th>
+                                    <th style="width: 10%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={medicationList} for:item="med">
+                                    <tr key={med.id}>
+                                        <td>{med.medicationName}</td>
+                                        <td class="duration-cell">{med.duration}</td>
+                                        <td class="dosage-cell">
+                                            <template for:each={med.timingList} for:item="t">
+                                                <div key={t.label} class="dosage-row">
+                                                    <span class="time">{t.label}</span>
+                                                    <span class="dash">-</span>
+                                                    <span class="dose">{t.dose}</span>
+                                                    <span class="dash">-</span>
+                                                    <span class="food">{t.food}</span>
+                                                </div>
+                                            </template>
+                                        </td>
+                                        <td>{med.startDate}</td>
+                                        <td class="action-cell">
+                                             <div class="action-buttons">
+                                            <lightning-button-icon class="slds-m-right_small" icon-name="utility:edit"
+                                                alternative-text="Edit" title="Edit" name={med.index} data-name={med.id}
+                                                onclick={handleEditRow}></lightning-button-icon>
+                                            <lightning-button-icon class="slds-m-right_small" icon-name="utility:delete"
+                                                alternative-text="Remove" title="Remove" name={med.medicationName}
+                                                data-name={med.id} onclick={removeRow}></lightning-button-icon>
+                                             </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <lightning-button variant="brand" label="Add Medication"
+                            onclick={addMedicationRow}></lightning-button>
+
+                        <template if:true={isMedicationEmpty}>
+                            <p>No medications found.</p>
+                        </template>
+                    </div>
+
+                    <div class="section-block">
+
+                        <!-- HEADER -->
+                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small marginclass">
+                            <h3>
+                                <strong>Care Instructions / देखभाल निर्देश</strong>
+                            </h3>
+
+                            <!-- EDIT ICON -->
+                            <lightning-button-icon
+                                icon-name="utility:edit"
+                                alternative-text="Edit"
+                                title="Edit"
+                                onclick={handleEditCare}>
+                            </lightning-button-icon>
+                        </div>
+
+                        <!-- VIEW MODE -->
+                        <template if:false={isCareEdit}>
+                            <p>{formattedCareInstructions}</p>
+                        </template>
+
+                        <!-- EDIT MODE -->
+                        <template if:true={isCareEdit}>
+
+                            <lightning-textarea
+                                value={editedCareInstructions}
+                                onchange={handleCareChange}
+                                rows="4">
+                            </lightning-textarea>
+
+                            <div class="slds-m-top_small slds-text-align_right">
+                                <lightning-button
+                                    label="Cancel"
+                                    onclick={handleCancelCare}>
+                                </lightning-button>
+
+                                <lightning-button
+                                    variant="brand"
+                                    label="Save"
+                                    onclick={handleSaveCareInstructions}
+                                    class="slds-m-left_small">
+                                </lightning-button>
+                            </div>
+
+                        </template>
+
+                    </div>
+
+                    <div class="section-block">
+                        <h3 class="marginclass"><strong>Doctor Comments / चिकित्सक टिप्पणी</strong></h3>
+
+                        <lightning-textarea                            
+                            value={doctorComment}
+                            onchange={handleCommentChange}
+                            placeholder="Add comments (optional)">
+                        </lightning-textarea>
+                    </div>
+
+
+                    <!-- <div class="section-block">
+                        <h3 class="followup-heading">
+                            <strong>Follow-Up Date / अनुवर्ती तिथि : </strong>
+                            <span>{summary.followUpDate}</span>
+                        </h3>
+                    </div> -->
+
+                    <div class="section-block">
+                        <h3 class="followup-heading marginclass">
+                            <strong>Follow-Up Date / अनुवर्ती तिथि :</strong>
+                        </h3>
+
+                        <lightning-input
+                            type="date"
+                            value={followUpDate}
+                            onchange={handleFollowUpChange}>
+                        </lightning-input>
+                    </div>
+
+                    <!-- <div class="signature">
+                        <div class="signature-wrapper">
+                            <img src={consultationLogo} alt="Consultation Logo" class="consultation-logo" />
+                            <img src={signature} alt="Signature" class="signature-image" />
+                        </div>
+                        <p class="signature-date"><strong>{summary.endDate}</strong></p>
+
+                        <div class="signature-line">______________________________</div>
+                        <p style="margin-right: 16px; font-size: 1.0rem;">{summary.doctorName}</p>
+                    </div> -->
+
+
+                    <hr class="horizontalLine" />
+
+                    <!-- 
+                    <div class="footer">
+                        <button class="print" onclick={handleSendForApproval}>Send for Approval</button>
+                        <button class="close" onclick={handleClose}>Close</button>
+                        <button class="print" onclick={handlePrint}>Print</button>
+                        <button class="print" onclick={promptEmailConfirmation}>Email</button>
+                    </div> -->
+                </div>
+
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Close</button>
+                    <button class="slds-button slds-button_brand" onclick={handleSendForApproval}>Approve</button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <div class="encounter-summary-container">
+            <!-- Confirmation Modal -->
+            <template if:true={showConfirmModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="inline-modal-container">
+                        <div class="inline-modal">
+                            <div class="modal-header">
+                                <h2>Confirmation</h2>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to send the prescription to the patient?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn cancel" onclick={cancelEmail}>Cancel</button>
+                                <button class="btn send" onclick={handleEmail}>Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" style="height: 85%;margin-top: 46px;opacity: 0.5;"></div>
+            </template>
+        </div>
+    </template>
+    <template if:true={showEditModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeModals}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">
+                        {medicationHeading}
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-edit-form object-api-name="MedicationRequest" record-id={selectedMedicationRowId}
+                        onload={dataLoaded} onsubmit={handleSubmit} onsuccess={handleSaveSuccess} onerror={handleError}
+                        oncancel={closeModals}>
+                        <lightning-messages></lightning-messages>
+                        <lightning-input-field field-name="MedicationId" required></lightning-input-field>
+                        <lightning-input-field field-name="Duration_Days__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Prescription_Start_Date__c" value={addMedicationStartDate} required></lightning-input-field>
+                        <label class="slds-form-element__label" style="font-weight:600;">
+                            Dosage Timings
+                        </label>
+                        <lightning-input 
+                            type="checkbox"
+                            label="Morning"
+                            checked={morning}
+                            onchange={handleCheckboxChange}
+                            data-field="To_be_taken_in_morning__c">
+                        </lightning-input>
+
+                        <lightning-input 
+                            type="checkbox"
+                            label="Afternoon"
+                            checked={afternoon}
+                            onchange={handleCheckboxChange}
+                            data-field="To_be_taken_in_afternoon__c">
+                        </lightning-input>
+
+                        <lightning-input 
+                            type="checkbox"
+                            label="Night"
+                            checked={night}
+                            onchange={handleCheckboxChange}
+                            data-field="To_be_taken_in_night__c">
+                        </lightning-input>
+                        <lightning-input-field field-name="Dosage_Strength__c" required ></lightning-input-field>
+                        <lightning-input-field field-name="BF_AF__c" required></lightning-input-field>
+                        <template if:true={isAddMedication}>
+                            <lightning-input-field field-name="PatientId" value={summary.patientId} disabled></lightning-input-field>
+                            <lightning-input-field field-name="ClinicalEncounterId" value={encounterName} disabled></lightning-input-field>
+                        </template>
+
+                        <div class="slds-m-top_medium">
+                            <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+                            <lightning-button label="Cancel" onclick={closeModals}
+                                class="slds-m-left_small"></lightning-button>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showDeleteModal}>
+        <div class="custom-backdrop">
+            <div class="custom-modal">
+                <h2 class="slds-text-heading_medium slds-text-align_center">Delete Confirmation</h2>
+                <!-- <div class="custom-header">
+                    <h2>Delete Confirmation</h2>
+                </div> -->
+                <div class="custom-body">
+                    <p><strong>{deleteMedicationName}</strong> - Are you sure you want to delete this?<br />
+                        Deleting here will permanently remove it from the prescription.</p>
+                </div>
+                <div class="custom-footer">
+                    <button class="delete-button" onclick={handleDelete}>Delete</button>
+                    <button class="cancel-button" onclick={clodeDeleteModal}>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>
